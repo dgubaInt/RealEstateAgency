@@ -1,0 +1,51 @@
+﻿@using RealEstateAgencyMVC.Areas.Admin.Models
+@model List<UserViewModel>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="div-center">
+    <p>Here you can manage users:</p>
+</div>
+<div class="div-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">User Name</th>
+                <th scope="col">User Role</th>
+                <th scope="col">Email</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                @foreach (var user in Model)
+                {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.UserRole</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @if (user.IsLockedOut is false)
+                        {
+                            <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser">Edit</a>
+                            <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UserLockout" asp-route-id="@user.UserId">
+                                <input name="Id" value="@user.UserId" hidden/>
+                                <button type="submit" class="btn btn-danger">Lock out</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser">Edit</a>
+                            <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="RemoveLockout" asp-route-id="@user.UserId">
+                                <input name="Id" value="@user.UserId" hidden />
+                                <button type="submit" class="btn btn-danger">Unlock out</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+                }
+        </tbody>
+    </table>
+</div>

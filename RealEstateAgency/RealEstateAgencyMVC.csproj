@@ -22,4 +22,8 @@
     <ProjectReference Include="..\RealEstateAgency.Service\RealEstateAgency.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+  </ItemGroup>
+
 </Project>

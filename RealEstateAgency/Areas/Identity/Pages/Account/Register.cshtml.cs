@@ -33,8 +33,7 @@ namespace RealEstateAgencyMVC.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -74,6 +73,7 @@ namespace RealEstateAgencyMVC.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [Display(Name = "User name")]
+            [StringLength(20, ErrorMessage = $"{nameof(UserName)} must be between 3 and 20", MinimumLength = 3)]
             public string UserName { get; set; }
 
             [Required]
