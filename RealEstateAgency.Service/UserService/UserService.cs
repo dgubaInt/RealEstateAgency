@@ -38,9 +38,9 @@ namespace RealEstateAgency.Service.UserService
             return await _userRepository.GetById(id);
         }
 
-        public Task<bool> Update(IdentityUser user)
+        public async Task<bool> Update(IdentityUser user)
         {
-            throw new NotImplementedException();
+            return await _userRepository.Update(user);
         }
 
         public async Task<bool> UnLockout(IdentityUser user)

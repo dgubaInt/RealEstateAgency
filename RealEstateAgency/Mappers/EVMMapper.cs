@@ -13,7 +13,20 @@ namespace RealEstateAgencyMVC.Mappers
             _userManager = userManager;
         }
 
-        public async Task<List<UserViewModel>> EVMMapAll(IEnumerable<IdentityUser> users)
+        public async Task<EditUserViewModel> MapToEditUserVM(IdentityUser user)
+        {
+                var editUserViewModel = new EditUserViewModel
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    UserRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty,
+                    Email = user.Email
+                };
+
+            return editUserViewModel;
+        }
+
+        public async Task<List<UserViewModel>> MapToUserVMAll(IEnumerable<IdentityUser> users)
         {
             var viewModels = new List<UserViewModel>();
 
@@ -32,6 +45,19 @@ namespace RealEstateAgencyMVC.Mappers
             }
 
             return viewModels;
+        }
+
+        public IdentityUser MapEditUserVMToIdentity(IdentityUser user, EditUserViewModel editUserViewModel)
+        {
+            user.UserName = editUserViewModel.UserName;
+            user.NormalizedUserName = editUserViewModel.UserName.ToUpper();
+            user.Email = editUserViewModel.Email;
+            user.NormalizedEmail = editUserViewModel.Email.ToUpper();
+
+            PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
+            user.PasswordHash = passwordHasher.HashPassword(user, editUserViewModel.Password);
+
+            return user;
         }
     }
 }

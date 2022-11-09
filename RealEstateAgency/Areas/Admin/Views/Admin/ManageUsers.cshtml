@@ -27,9 +27,9 @@
                     <td>@user.UserRole</td>
                     <td>@user.Email</td>
                     <td>
+                        <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser"asp-route-id="@user.UserId">Edit</a>
                         @if (user.IsLockedOut is false)
                         {
-                            <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser">Edit</a>
                             <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UserLockout" asp-route-id="@user.UserId">
                                 <input name="Id" value="@user.UserId" hidden/>
                                 <button type="submit" class="btn btn-danger">Lock out</button>
@@ -37,7 +37,6 @@
                         }
                         else
                         {
-                            <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser">Edit</a>
                             <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="RemoveLockout" asp-route-id="@user.UserId">
                                 <input name="Id" value="@user.UserId" hidden />
                                 <button type="submit" class="btn btn-danger">Unlock out</button>

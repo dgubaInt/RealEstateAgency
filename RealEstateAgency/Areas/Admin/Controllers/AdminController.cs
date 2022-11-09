@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Areas.Admin.Models;
 using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IUserService _userService;
@@ -16,15 +18,38 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _userService = userService;
             _eVMMapper = eVMMapper;
         }
-
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ManageUsers()
         {
             var users = await _userService.GetAll();
 
-            var userViewModels = await _eVMMapper.EVMMapAll(users);
+            var userViewModels = await _eVMMapper.MapToUserVMAll(users);
                 
             return View(userViewModels);
+        }
+
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await _userService.GetById(id);
+
+            var editUserViewModel = await _eVMMapper.MapToEditUserVM(user);
+
+            return View(editUserViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel editUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userService.GetById(editUserViewModel.UserId);
+                if (user is not null)
+                {
+                    user = _eVMMapper.MapEditUserVMToIdentity(user, editUserViewModel);
+                }
+                await _userService.Update(user);
+            }
+
+            return RedirectToAction(nameof(ManageUsers));
         }
 
         [HttpPost]

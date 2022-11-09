@@ -10,6 +10,8 @@ namespace RealEstateAgencyMVC.Mappers
 {
     public interface IEVMMapper
     {
-        Task<List<UserViewModel>> EVMMapAll(IEnumerable<IdentityUser> users);
+        Task<List<UserViewModel>> MapToUserVMAll(IEnumerable<IdentityUser> users);
+        Task<EditUserViewModel> MapToEditUserVM(IdentityUser users);
+        IdentityUser MapEditUserVMToIdentity(IdentityUser user, EditUserViewModel editUserViewModel);
     }
 }
