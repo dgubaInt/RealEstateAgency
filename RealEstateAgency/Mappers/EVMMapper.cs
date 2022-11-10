@@ -120,5 +120,25 @@ namespace RealEstateAgencyMVC.Mappers
 
             return addUserViewModel;
         }
+
+        public AddRoleViewModel MapUsersToAddRoleVM(AddRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUser)
+        {
+            if (identityUser is not null)
+            {
+                foreach (var user in identityUser)
+                {
+                    var userToRoleViewModel = new UserToRoleViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        IsSelected = false
+                    };
+
+                    addRoleViewModel.UsersToRole.Add(userToRoleViewModel);
+                }
+            }
+
+            return addRoleViewModel;
+        }
     }
 }

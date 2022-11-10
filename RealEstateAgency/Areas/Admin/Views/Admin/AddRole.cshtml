@@ -1,0 +1,41 @@
+﻿@model RealEstateAgencyMVC.Areas.Admin.Models.AddRoleViewModel
+
+@{
+    ViewData["Title"] = "AddRole";
+}
+
+<div class="div-flex-center">
+    <h1>AddRole</h1>
+    <hr />
+</div>
+<div class="div-flex-center">
+    <div class="col-md-4">
+        <form method="post" asp-action="AddRole">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="d-block">
+                <label asp-for="RoleName" class="form-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="d-block">
+                @for (int i = 0; i < Model.UsersToRole.Count(); i++)
+                {
+                    <input type="hidden" asp-for="@Model.UsersToRole[i].UserId" />
+                    <input type="hidden" asp-for="@Model.UsersToRole[i].UserName" />
+                    <input type="checkbox" asp-for="@Model.UsersToRole[i].IsSelected" />
+                    <label asp-for="@Model.UsersToRole[i].IsSelected">@Model.UsersToRole[i].UserName</label>
+                }
+            </div>
+            <div class="d-block">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="ManageUsers" class="btn btn-primary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

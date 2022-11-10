@@ -16,5 +16,6 @@ namespace RealEstateAgencyMVC.Mappers
         IdentityUser MapAddUserVMToIdentity(AddUserViewModel addUserViewModel);
         EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles);
         AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, List<IdentityRole> identityRoles);
+        AddRoleViewModel MapUsersToAddRoleVM(AddRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUser);
     }
 }

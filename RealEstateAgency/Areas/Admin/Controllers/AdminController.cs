@@ -6,6 +6,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgencyMVC.Areas.Admin.Models;
 using RealEstateAgencyMVC.Mappers;
+using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -14,12 +15,14 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly IEVMMapper _eVMMapper;
 
-        public AdminController(IUserService userService, IEVMMapper eVMMapper)
+        public AdminController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;
+            _roleService = roleService;
         }
         public async Task<IActionResult> ManageUsers()
         {
@@ -35,7 +38,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             var user = await _userService.GetById(id);
 
             var editUserViewModel = await _eVMMapper.MapToEditUserVM(user);
-            var roles = await _userService.GetRolesAsync();
+            var roles = await _roleService.GetRolesAsync();
 
             editUserViewModel = _eVMMapper.MapUserRolesToEditUserVM(editUserViewModel, roles);
 
@@ -61,7 +64,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     rolesToSet.Add(role.RoleName, role.IsSet);
                 }
 
-                await _userService.SetRolesAsync(user, rolesToSet);
+                await _roleService.SetRolesAsync(user, rolesToSet);
             }
 
             return RedirectToAction(nameof(ManageUsers));
@@ -70,7 +73,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         public async Task<IActionResult> AddUser()
         {
             var addUserViewModel = new AddUserViewModel();
-            var roles = await _userService.GetRolesAsync();
+            var roles = await _roleService.GetRolesAsync();
 
             addUserViewModel = _eVMMapper.MapUserRolesToAddUserVM(addUserViewModel, roles);
 
@@ -92,7 +95,42 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     rolesToSet.Add(role.RoleName, role.IsSet);
                 }
 
-                await _userService.SetRolesAsync(user, rolesToSet);
+                await _roleService.SetRolesAsync(user, rolesToSet);
+            }
+
+            return RedirectToAction(nameof(ManageUsers));
+        }
+
+        public async Task<IActionResult> AddRole()
+        {
+            var addRoleViewModel = new AddRoleViewModel();
+
+            var users = await _userService.GetAll();
+
+            addRoleViewModel = _eVMMapper.MapUsersToAddRoleVM(addRoleViewModel, users);
+
+            return View(addRoleViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(AddRoleViewModel addRoleViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _roleService.Add(new IdentityRole{ 
+                    Name = addRoleViewModel.RoleName, 
+                    NormalizedName = addRoleViewModel.RoleName.ToUpper()
+                });
+
+                foreach (var userToRole in addRoleViewModel.UsersToRole)
+                {
+                    if (userToRole.IsSelected)
+                    {
+                        var user = await _userService.GetById(userToRole.UserId);
+
+                        await _roleService.SetRoleAsync(user, addRoleViewModel.RoleName);
+                    }
+                }
             }
 
             return RedirectToAction(nameof(ManageUsers));
