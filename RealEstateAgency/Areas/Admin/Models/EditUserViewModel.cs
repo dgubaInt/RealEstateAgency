@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualStudio.Web.CodeGeneration.CommandLine;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Models
 {
@@ -9,24 +11,22 @@ namespace RealEstateAgencyMVC.Areas.Admin.Models
 
         [Required]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name ="User name")]
         public string UserName { get; set; }
 
-        [Required]
-        public string UserRole { get; set; }
+        public List<string> UserRoles { get; set; } = new List<string>();
+
+        public List<RoleViewModel> RoleViewModels { get; set; } = new List<RoleViewModel>();
 
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Passord")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
-        [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
     }
 }

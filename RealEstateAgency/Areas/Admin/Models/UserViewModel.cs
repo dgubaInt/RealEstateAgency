@@ -9,10 +9,8 @@ namespace RealEstateAgencyMVC.Areas.Admin.Models
 
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name ="User name")]
         public string UserName { get; set; }
-
-        [Required]
-        public string UserRole { get; set; }
 
         [Required]
         [EmailAddress]

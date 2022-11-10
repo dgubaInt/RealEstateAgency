@@ -13,5 +13,6 @@ namespace RealEstateAgencyMVC.Mappers
         Task<List<UserViewModel>> MapToUserVMAll(IEnumerable<IdentityUser> users);
         Task<EditUserViewModel> MapToEditUserVM(IdentityUser users);
         IdentityUser MapEditUserVMToIdentity(IdentityUser user, EditUserViewModel editUserViewModel);
+        EditUserViewModel MapUserRoles(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles);
     }
 }

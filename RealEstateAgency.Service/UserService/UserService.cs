@@ -5,16 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace RealEstateAgency.Service.UserService
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, RoleManager<IdentityRole> roleManager)
         {
             _userRepository = userRepository;
+            _roleManager = roleManager;
         }
 
         public Task<bool> Add(IdentityUser user)
@@ -47,6 +50,11 @@ namespace RealEstateAgency.Service.UserService
         {
             user.LockoutEnd = null;
             return await _userRepository.Update(user);
+        }
+
+        public async Task<List<IdentityRole>> GetRolesAsync()
+        {
+            return await _roleManager.Roles.ToListAsync();
         }
     }
 }

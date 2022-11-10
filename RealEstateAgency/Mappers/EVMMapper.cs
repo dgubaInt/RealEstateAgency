@@ -19,7 +19,7 @@ namespace RealEstateAgencyMVC.Mappers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    UserRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty,
+                    UserRoles = (List<string>) await _userManager.GetRolesAsync(user),
                     Email = user.Email
                 };
 
@@ -36,9 +36,8 @@ namespace RealEstateAgencyMVC.Mappers
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    UserRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? string.Empty,
                     Email = user.Email,
-                    IsLockedOut = (user.LockoutEnd is null) ? false : true
+                    IsLockedOut = user.LockoutEnd is not null
                 };
 
                 viewModels.Add(userViewModel);
@@ -53,11 +52,33 @@ namespace RealEstateAgencyMVC.Mappers
             user.NormalizedUserName = editUserViewModel.UserName.ToUpper();
             user.Email = editUserViewModel.Email;
             user.NormalizedEmail = editUserViewModel.Email.ToUpper();
-
-            PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
-            user.PasswordHash = passwordHasher.HashPassword(user, editUserViewModel.Password);
+            if (!string.IsNullOrWhiteSpace(editUserViewModel.Password))
+            {
+                PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
+                user.PasswordHash = passwordHasher.HashPassword(user, editUserViewModel.Password);
+            }
 
             return user;
+        }
+
+        public EditUserViewModel MapUserRoles(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles)
+        {
+            if (identityRoles is not null)
+            {
+                foreach (var role in identityRoles)
+                {
+                    var roleViewModel = new RoleViewModel
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        IsSet = editUserViewModel.UserRoles.Contains(role.Name)
+                    };
+
+                    editUserViewModel.RoleViewModels.Add(roleViewModel);
+                }
+            }
+
+            return editUserViewModel;
         }
     }
 }

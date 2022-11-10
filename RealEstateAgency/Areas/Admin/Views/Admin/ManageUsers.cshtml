@@ -5,15 +5,14 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<div class="div-center">
+<div class="div-flex-center">
     <p>Here you can manage users:</p>
 </div>
-<div class="div-center">
+<div class="div-flex-center">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">User Name</th>
-                <th scope="col">User Role</th>
                 <th scope="col">Email</th>
                 <th scope="col"></th>
             </tr>
@@ -24,7 +23,6 @@
                 {
                 <tr>
                     <td>@user.UserName</td>
-                    <td>@user.UserRole</td>
                     <td>@user.Email</td>
                     <td>
                         <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser"asp-route-id="@user.UserId">Edit</a>
