@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgencyMVC.Areas.Admin.Models;
 using RealEstateAgencyMVC.Mappers;
@@ -14,13 +15,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly IEVMMapper _eVMMapper;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AdminController(IUserService userService, IEVMMapper eVMMapper, SignInManager<IdentityUser> signInManager)
+        public AdminController(IUserService userService, IEVMMapper eVMMapper)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;
-            _signInManager = signInManager;
         }
         public async Task<IActionResult> ManageUsers()
         {
@@ -38,7 +37,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             var editUserViewModel = await _eVMMapper.MapToEditUserVM(user);
             var roles = await _userService.GetRolesAsync();
 
-            editUserViewModel = _eVMMapper.MapUserRoles(editUserViewModel, roles);
+            editUserViewModel = _eVMMapper.MapUserRolesToEditUserVM(editUserViewModel, roles);
 
             return View(editUserViewModel);
         }
@@ -56,22 +55,49 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 }
                 await _userService.Update(user);
 
+                var rolesToSet = new Dictionary<string, bool>();
                 foreach (var role in editUserViewModel.RoleViewModels)
                 {
-                    if (role.IsSet)
-                    {
-                        await _signInManager.UserManager.AddToRoleAsync(user, role.RoleName);
-                    }
-                    else
-                    {
-                        await _signInManager.UserManager.RemoveFromRoleAsync(user, role.RoleName);
-                    }
+                    rolesToSet.Add(role.RoleName, role.IsSet);
                 }
+
+                await _userService.SetRolesAsync(user, rolesToSet);
             }
 
             return RedirectToAction(nameof(ManageUsers));
         }
-        
+
+        public async Task<IActionResult> AddUser()
+        {
+            var addUserViewModel = new AddUserViewModel();
+            var roles = await _userService.GetRolesAsync();
+
+            addUserViewModel = _eVMMapper.MapUserRolesToAddUserVM(addUserViewModel, roles);
+
+            return View(addUserViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(AddUserViewModel addUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _eVMMapper.MapAddUserVMToIdentity(addUserViewModel);
+
+                await _userService.Add(user);
+
+                var rolesToSet = new Dictionary<string, bool>();
+                foreach (var role in addUserViewModel.RoleViewModels)
+                {
+                    rolesToSet.Add(role.RoleName, role.IsSet);
+                }
+
+                await _userService.SetRolesAsync(user, rolesToSet);
+            }
+
+            return RedirectToAction(nameof(ManageUsers));
+        }
+
         [HttpPost]
         public async Task<IActionResult> UserLockout([FromForm] string id)
         {

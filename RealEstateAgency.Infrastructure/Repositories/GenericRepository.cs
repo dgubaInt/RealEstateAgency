@@ -20,7 +20,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             _dbSet = _dbContext.Set<T>();
         }
 
-        public async Task<bool> Add(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
             try
             {
@@ -54,17 +54,17 @@ namespace RealEstateAgency.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetById(string id)
+        public async Task<T> GetByIdAsync(string id)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<bool> Update(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
             try
             {

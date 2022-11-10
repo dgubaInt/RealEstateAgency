@@ -1,22 +1,17 @@
-﻿@model RealEstateAgencyMVC.Areas.Admin.Models.EditUserViewModel
+﻿@model RealEstateAgencyMVC.Areas.Admin.Models.AddUserViewModel
 
 @{
-    ViewData["Title"] = "EditUser";
+    ViewData["Title"] = "AddUser";
 }
 
 <div class="div-flex-center">
-    <h1>EditUser</h1>
+    <h1>AddUser</h1>
     <hr />
 </div>
 <div class="div-flex-center">
     <div class="col-md-4">
-        <form method="post" asp-action="EditUser">
+        <form method="post" asp-action="AddUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div hidden>
-                <label asp-for="UserId" class="form-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
             <div class="d-block">
                 <label asp-for="UserName" class="form-label"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -38,9 +33,9 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="d-block">
-                @for(int i = 0; i < Model.RoleViewModels.Count(); i++)
+                @for (int i = 0; i < Model.RoleViewModels.Count(); i++)
                 {
-                    <input type="hidden" asp-for="@Model.RoleViewModels[i].RoleId"/>
+                    <input type="hidden" asp-for="@Model.RoleViewModels[i].RoleId" />
                     <input type="hidden" asp-for="@Model.RoleViewModels[i].RoleName" />
                     <input type="checkbox" asp-for="@Model.RoleViewModels[i].IsSet" />
                     <label asp-for="@Model.RoleViewModels[i].IsSet">@Model.RoleViewModels[i].RoleName</label>
@@ -55,5 +50,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

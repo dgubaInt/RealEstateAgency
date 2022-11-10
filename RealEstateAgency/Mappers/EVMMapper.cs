@@ -61,7 +61,27 @@ namespace RealEstateAgencyMVC.Mappers
             return user;
         }
 
-        public EditUserViewModel MapUserRoles(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles)
+        public IdentityUser MapAddUserVMToIdentity(AddUserViewModel addUserViewModel)
+        {
+            var user = new IdentityUser
+            {
+
+                UserName = addUserViewModel.UserName,
+                NormalizedUserName = addUserViewModel.UserName.ToUpper(),
+                Email = addUserViewModel.Email,
+                NormalizedEmail = addUserViewModel.Email.ToUpper()
+            };
+
+            if (!string.IsNullOrWhiteSpace(addUserViewModel.Password))
+            {
+                PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
+                user.PasswordHash = passwordHasher.HashPassword(user, addUserViewModel.Password);
+            }
+
+            return user;
+        }
+
+        public EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles)
         {
             if (identityRoles is not null)
             {
@@ -79,6 +99,26 @@ namespace RealEstateAgencyMVC.Mappers
             }
 
             return editUserViewModel;
+        }
+
+        public AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, List<IdentityRole> identityRoles)
+        {
+            if (identityRoles is not null)
+            {
+                foreach (var role in identityRoles)
+                {
+                    var roleViewModel = new RoleViewModel
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        IsSet = false
+                    };
+
+                    addUserViewModel.RoleViewModels.Add(roleViewModel);
+                }
+            }
+
+            return addUserViewModel;
         }
     }
 }
