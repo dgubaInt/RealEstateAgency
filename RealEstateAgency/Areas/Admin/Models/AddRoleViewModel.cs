@@ -6,6 +6,8 @@ namespace RealEstateAgencyMVC.Areas.Admin.Models
     public class AddRoleViewModel
     {
         [Required]
+        public string RoleId { get; set; }
+        [Required]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [Display(Name = "Role name")]
         public string RoleName { get; set; }

@@ -123,6 +123,7 @@ namespace RealEstateAgencyMVC.Mappers
 
         public AddRoleViewModel MapUsersToAddRoleVM(AddRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUser)
         {
+            addRoleViewModel.RoleId = Guid.NewGuid().ToString();
             if (identityUser is not null)
             {
                 foreach (var user in identityUser)

@@ -13,5 +13,6 @@ namespace RealEstateAgency.Core.Interfaces
         Task<bool> AddAsync(T entity);
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(string id);
+        Task<bool> DeleteAsync(T entity);
     }
 }

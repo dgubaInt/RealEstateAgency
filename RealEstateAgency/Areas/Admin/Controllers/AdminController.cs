@@ -17,12 +17,14 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IEVMMapper _eVMMapper;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AdminController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService)
+        public AdminController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService, UserManager<IdentityUser> userManager)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;
             _roleService = roleService;
+            _userManager = userManager;
         }
         public async Task<IActionResult> ManageUsers()
         {
@@ -48,6 +50,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(EditUserViewModel editUserViewModel)
         {
+
             if (ModelState.IsValid)
             {
                 var user = await _userService.GetById(editUserViewModel.UserId);
@@ -58,13 +61,16 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 }
                 await _userService.Update(user);
 
-                var rolesToSet = new Dictionary<string, bool>();
+                var userRoles = (List<string>)await _userManager.GetRolesAsync(user);
+
+                var updatedRoles = new List<Tuple<string, string, bool>>();
+
                 foreach (var role in editUserViewModel.RoleViewModels)
                 {
-                    rolesToSet.Add(role.RoleName, role.IsSet);
+                    updatedRoles.Add(new Tuple<string, string, bool>(role.RoleId, role.RoleName, role.IsSet));
                 }
 
-                await _roleService.SetRolesAsync(user, rolesToSet);
+                await _roleService.SetRolesAsync(user, updatedRoles, userRoles);
             }
 
             return RedirectToAction(nameof(ManageUsers));
@@ -92,7 +98,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var rolesToSet = new Dictionary<string, bool>();
                 foreach (var role in addUserViewModel.RoleViewModels)
                 {
-                    rolesToSet.Add(role.RoleName, role.IsSet);
+                    rolesToSet.Add(role.RoleId, role.IsSet);
                 }
 
                 await _roleService.SetRolesAsync(user, rolesToSet);
@@ -128,7 +134,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     {
                         var user = await _userService.GetById(userToRole.UserId);
 
-                        await _roleService.SetRoleAsync(user, addRoleViewModel.RoleName);
+                        await _roleService.SetRoleAsync(user, addRoleViewModel.RoleId);
                     }
                 }
             }

@@ -42,7 +42,20 @@ namespace RealEstateAgency.Infrastructure.Repositories
             {
                 var toDelete = await _dbSet.FindAsync(id);
 
-                _dbSet.Remove(toDelete);
+                return await DeleteAsync(toDelete); ;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            try
+            {
+                _dbSet.Remove(entity);
                 await _dbContext.SaveChangesAsync();
 
                 return true;

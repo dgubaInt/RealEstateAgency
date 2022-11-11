@@ -15,12 +15,14 @@ namespace RealEstateAgency.Service.RoleService
         private readonly IRoleRepository _roleRepository;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public RoleService(IRoleRepository roleRepository, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager)
+        public RoleService(IRoleRepository roleRepository, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager, IUserRoleRepository userRoleRepository)
         {
             _roleRepository = roleRepository;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<bool> Add(IdentityRole role)
@@ -33,11 +35,17 @@ namespace RealEstateAgency.Service.RoleService
             return await _roleManager.Roles.ToListAsync();
         }
 
-        public async Task<bool> SetRoleAsync(IdentityUser user, string role)
+        public async Task<bool> SetRoleAsync(IdentityUser user, string roleId)
         {
             try
             {
-                await _signInManager.UserManager.AddToRoleAsync(user, role);
+                var userRole = new IdentityUserRole<string>
+                {
+                    RoleId = roleId,
+                    UserId = user.Id
+                };
+
+                await _userRoleRepository.AddAsync(userRole);
 
                 return true;
             }
@@ -54,13 +62,76 @@ namespace RealEstateAgency.Service.RoleService
             {
                 foreach (var role in rolesToSet)
                 {
-                    if (role.Value is true)
+                    if (role.Value)
                     {
-                        await _signInManager.UserManager.AddToRoleAsync(user, role.Key);
+                        var userRole = new IdentityUserRole<string>
+                        {
+                            RoleId = role.Key,
+                            UserId = user.Id
+                        };
+
+                        await _userRoleRepository.AddAsync(userRole);
+                        //await _signInManager.UserManager.AddToRoleAsync(user, role.Key);
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> SetRolesAsync(IdentityUser user, List<Tuple<string, string, bool>> updatedRoles, List<string> userRoles)
+        {
+            try
+            {
+                var roles = await GetRolesAsync();
+                var userRolesDictionary = new Dictionary<string, bool>();
+                foreach (var role in roles)
+                {
+                    if (userRoles.Contains(role.Name))
+                    {
+                        userRolesDictionary.Add(role.Name, true);
                     }
                     else
                     {
-                        await _signInManager.UserManager.RemoveFromRoleAsync(user, role.Key);
+                        userRolesDictionary.Add(role.Name, false);
+                    }
+                }
+
+                var rolesToSet = new Dictionary<string, bool>();
+                foreach (var role in updatedRoles)
+                {
+                    foreach (var userRoleDictionaryItem in userRolesDictionary)
+                    {
+                        if (role.Item2 == userRoleDictionaryItem.Key)
+                        {
+                            if (role.Item3 != userRoleDictionaryItem.Value)
+                            {
+                                rolesToSet.Add(role.Item1, role.Item3);
+                            }
+                        }
+                    }
+                }
+                foreach (var role in rolesToSet)
+                {
+                    var userRole = new IdentityUserRole<string>
+                    {
+                        RoleId = role.Key,
+                        UserId = user.Id
+                    };
+
+                    if (role.Value is true)
+                    {
+                        await _userRoleRepository.AddAsync(userRole);
+                        //await _signInManager.UserManager.AddToRoleAsync(user, role.Key);
+                    }
+                    else
+                    {
+                        await _userRoleRepository.DeleteAsync(userRole);
+                        //await _signInManager.UserManager.RemoveFromRoleAsync(user, role.Key);
                     }
 
                 }
