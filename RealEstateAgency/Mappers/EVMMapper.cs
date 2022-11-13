@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgencyMVC.Areas.Admin.Models;
+using System.Data;
 
 namespace RealEstateAgencyMVC.Mappers
 {
@@ -26,7 +27,7 @@ namespace RealEstateAgencyMVC.Mappers
             return editUserViewModel;
         }
 
-        public async Task<List<UserViewModel>> MapToUserVMAll(IEnumerable<IdentityUser> users)
+        public List<UserViewModel> MapToUserVMAll(IEnumerable<IdentityUser> users, IEnumerable<IdentityUserRole<string>> userRoles)
         {
             var viewModels = new List<UserViewModel>();
 
@@ -37,10 +38,30 @@ namespace RealEstateAgencyMVC.Mappers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    IsLockedOut = user.LockoutEnd is not null
+                    IsLockedOut = user.LockoutEnd is not null,
+                    InRole = userRoles.Where(ur => ur.UserId == user.Id).Count() > 0
                 };
 
                 viewModels.Add(userViewModel);
+            }
+
+            return viewModels;
+        }
+
+        public List<RoleViewModel> MapToRoleVMAll(IEnumerable<IdentityRole> roles, IEnumerable<IdentityUserRole<string>> userRoles)
+        {
+            var viewModels = new List<RoleViewModel>();
+
+            foreach (var role in roles)
+            {
+                var roleViewModel = new RoleViewModel
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name,
+                    IsSet = userRoles.Where(ur => ur.RoleId == role.Id).Count() > 0
+                };
+
+                viewModels.Add(roleViewModel);
             }
 
             return viewModels;
@@ -81,7 +102,7 @@ namespace RealEstateAgencyMVC.Mappers
             return user;
         }
 
-        public EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, List<IdentityRole> identityRoles)
+        public EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, IEnumerable<IdentityRole> identityRoles)
         {
             if (identityRoles is not null)
             {
@@ -101,7 +122,7 @@ namespace RealEstateAgencyMVC.Mappers
             return editUserViewModel;
         }
 
-        public AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, List<IdentityRole> identityRoles)
+        public AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, IEnumerable<IdentityRole> identityRoles)
         {
             if (identityRoles is not null)
             {

@@ -1,0 +1,47 @@
+﻿@using RealEstateAgencyMVC.Areas.Admin.Models
+@model List<RoleViewModel>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="div-flex-center">
+    <p>Here you can manage roles:</p>
+</div>
+<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="Admin" asp-action="AddRole">
+    <i class="fas fa-plus"></i>
+    Add role
+</a>
+<div class="div-flex-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Role Name</th>
+                <th scope="col">Is set</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.RoleName</td>
+                    @if (role.IsSet)
+                    {
+                        <td>Yes</td>
+                    }
+                    else
+                    {
+                        <td>No</td>
+                    }
+                    <td>
+                        <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditRole" asp-route-id="@role.RoleId">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

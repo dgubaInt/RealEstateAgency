@@ -13,9 +13,9 @@ function toggleNav() {
     }
 }
 // get total height for <header>, including padding
-var headerEl = document.getElementById("navBar");
-var headerHeight = +headerEl.offsetHeight;
+var navBarEl = document.getElementById("navBar");
+var navBarHeight = +navBarEl.offsetHeight;
 
 // set margin-top to sideNav depending on <header> height
 var sideNav = document.getElementById("mySidenav");
-sideNav.style.marginTop = headerHeight - 10 + 'px';
+sideNav.style.marginTop = navBarHeight - 2 + 'px';

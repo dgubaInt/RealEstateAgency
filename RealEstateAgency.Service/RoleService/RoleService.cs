@@ -30,9 +30,14 @@ namespace RealEstateAgency.Service.RoleService
             return await _roleRepository.AddAsync(role);
         }
 
-        public async Task<List<IdentityRole>> GetRolesAsync()
+        public async Task<IEnumerable<IdentityRole>> GetAll()
         {
-            return await _roleManager.Roles.ToListAsync();
+            return await _roleRepository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<IdentityUserRole<string>>> GetAllUserRole()
+        {
+            return await _userRoleRepository.GetAllAsync();
         }
 
         public async Task<bool> SetRoleAsync(IdentityUser user, string roleId)
@@ -87,7 +92,7 @@ namespace RealEstateAgency.Service.RoleService
         {
             try
             {
-                var roles = await GetRolesAsync();
+                var roles = await GetAll();
                 var userRolesDictionary = new Dictionary<string, bool>();
                 foreach (var role in roles)
                 {

@@ -8,41 +8,62 @@
 <div class="div-flex-center">
     <p>Here you can manage users:</p>
 </div>
+<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="Admin" asp-action="AddUser">
+    <i class="fas fa-user-plus"></i>
+    Add user
+</a>
 <div class="div-flex-center">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">User Name</th>
                 <th scope="col">Email</th>
+                <th scope="col">In role</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            
-                @foreach (var user in Model)
+            @foreach (var user in Model)
+            {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                @if (user.InRole)
                 {
-                <tr>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser"asp-route-id="@user.UserId">Edit</a>
-                        @if (user.IsLockedOut is false)
-                        {
-                            <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UserLockout" asp-route-id="@user.UserId">
-                                <input name="Id" value="@user.UserId" hidden/>
-                                <button type="submit" class="btn btn-danger">Lock out</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="RemoveLockout" asp-route-id="@user.UserId">
-                                <input name="Id" value="@user.UserId" hidden />
-                                <button type="submit" class="btn btn-danger">Unlock out</button>
-                            </form>
-                        }
-                    </td>
-                </tr>
+                    <td>Yes</td>
                 }
+                else
+                {
+                    <td>No</td>
+                }
+                <td>
+                    <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser" asp-route-id="@user.UserId">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </a>
+                    @if (user.IsLockedOut is false)
+                    {
+                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UserLockout" asp-route-id="@user.UserId">
+                            <input name="Id" value="@user.UserId" hidden/>
+                            <button type="submit" class="btn btn-danger">
+                                <span class="fas fa-lock"></span>
+                                Lock out
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="RemoveLockout" asp-route-id="@user.UserId">
+                            <input name="Id" value="@user.UserId" hidden />
+                            <button type="submit" class="btn btn-danger">
+                                <span class="fas fa-lock-open"></span>
+                                Unlock out
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+            }
         </tbody>
     </table>
 </div>
