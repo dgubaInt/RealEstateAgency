@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Models
 {
-    public class AddRoleViewModel
+    public class AddEditRoleViewModel
     {
         [Required]
         public string RoleId { get; set; }

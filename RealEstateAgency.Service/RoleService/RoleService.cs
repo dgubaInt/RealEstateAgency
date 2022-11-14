@@ -35,19 +35,45 @@ namespace RealEstateAgency.Service.RoleService
             return await _roleRepository.GetAllAsync();
         }
 
+        public async Task<IdentityRole> GetById(string id)
+        {
+            return await _roleRepository.GetByIdAsync(id);
+        }
+
+        public async Task<bool> Update(IdentityRole role)
+        {
+            return await _roleRepository.UpdateAsync(role);
+        }
+
         public async Task<IEnumerable<IdentityUserRole<string>>> GetAllUserRole()
         {
             return await _userRoleRepository.GetAllAsync();
         }
 
-        public async Task<bool> SetRoleAsync(IdentityUser user, string roleId)
+        public Dictionary<string, bool> ManageUserRoles(IEnumerable<IdentityUserRole<string>> userRoles, Dictionary<string, bool> updatedUsers)
+        {
+            var userRoleDetails = new Dictionary<string, bool>();
+
+            foreach (var user in updatedUsers)
+            {
+                if ((user.Value == true && !(userRoles.Where(ur => ur.UserId == user.Key).Count() > 0)) ||
+                    (user.Value == false && userRoles.Where(ur => ur.UserId == user.Key).Count() > 0))
+                {
+                    userRoleDetails.Add(user.Key, user.Value);
+                }
+            }
+
+            return userRoleDetails;
+        }
+
+        public async Task<bool> AddRoleAsync(string userId, string roleId)
         {
             try
             {
                 var userRole = new IdentityUserRole<string>
                 {
                     RoleId = roleId,
-                    UserId = user.Id
+                    UserId = userId
                 };
 
                 await _userRoleRepository.AddAsync(userRole);
@@ -55,6 +81,21 @@ namespace RealEstateAgency.Service.RoleService
                 return true;
             }
             catch (Exception ex )
+            {
+
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveRoleAsync(IdentityUserRole<string> userRole)
+        {
+            try
+            {
+                await _userRoleRepository.DeleteAsync(userRole);
+
+                return true;
+            }
+            catch (Exception ex)
             {
 
                 return false;

@@ -142,12 +142,12 @@ namespace RealEstateAgencyMVC.Mappers
             return addUserViewModel;
         }
 
-        public AddRoleViewModel MapUsersToAddRoleVM(AddRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUser)
+        public AddEditRoleViewModel MapUsersToAddRoleVM(AddEditRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUsers)
         {
             addRoleViewModel.RoleId = Guid.NewGuid().ToString();
-            if (identityUser is not null)
+            if (identityUsers is not null)
             {
-                foreach (var user in identityUser)
+                foreach (var user in identityUsers)
                 {
                     var userToRoleViewModel = new UserToRoleViewModel
                     {
@@ -161,6 +161,37 @@ namespace RealEstateAgencyMVC.Mappers
             }
 
             return addRoleViewModel;
+        }
+
+        public AddEditRoleViewModel MapUsersToEditRoleVM(IEnumerable<IdentityUserRole<string>> userRoles, IdentityRole role, AddEditRoleViewModel editRoleViewModel, IEnumerable<IdentityUser> identityUsers)
+        {
+            editRoleViewModel.RoleId = role.Id;
+            editRoleViewModel.RoleName = role.Name;
+
+            if (identityUsers is not null)
+            {
+                foreach (var user in identityUsers)
+                {
+                    var userToRoleViewModel = new UserToRoleViewModel
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                        IsSelected = userRoles.Where(ur => ur.UserId == user.Id && ur.RoleId == role.Id).Count() > 0
+                    };
+
+                    editRoleViewModel.UsersToRole.Add(userToRoleViewModel);
+                }
+            }
+
+            return editRoleViewModel;
+        }
+
+        public IdentityRole MapAddEditRoleVMToIdentity(AddEditRoleViewModel editRoleViewModel, IdentityRole role)
+        {
+            role.Name = editRoleViewModel.RoleName;
+            role.NormalizedName = editRoleViewModel.RoleName.ToUpper();
+
+            return role;
         }
     }
 }
