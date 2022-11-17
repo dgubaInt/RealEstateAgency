@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateAgency.Infrastructure.Repositories
 {
-    public class UserRoleRepository : GenericRepository<IdentityUserRole<string>>, IUserRoleRepository
+    public class UserRoleRepository : GenericRepository<IdentityUserRole<Guid>>, IUserRoleRepository
     {
         public UserRoleRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealEstateAgency.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,15 @@ namespace RealEstateAgency.Core.Interfaces
 {
     public interface IRoleService
     {
-        Task<bool> Add(IdentityRole role);
-        Task<bool> SetRolesAsync(IdentityUser user, List<Tuple<string, string, bool>> updatedRoles, List<string> userRoles);
-        Task<bool> SetRolesAsync(IdentityUser user, Dictionary<string, bool> rolesToSet);
-        Task<bool> AddRoleAsync(string userId, string roleId);
-        Task<IEnumerable<IdentityRole>> GetAll();
-        Task<IEnumerable<IdentityUserRole<string>>> GetAllUserRole();
-        Task<IdentityRole> GetById(string id);
-        Task<bool> Update(IdentityRole role);
-        Dictionary<string, bool> ManageUserRoles(IEnumerable<IdentityUserRole<string>> userRoles, Dictionary<string, bool> updatedUsers);
-        Task<bool> RemoveRoleAsync(IdentityUserRole<string> userRole);
+        Task<bool> Add(IdentityRole<Guid> role);
+        Task<bool> SetRolesAsync(AgentUser user, List<Tuple<Guid, string, bool>> updatedRoles, List<string> userRoles);
+        Task<bool> SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet);
+        Task<bool> AddRoleAsync(Guid userId, Guid roleId);
+        Task<IEnumerable<IdentityRole<Guid>>> GetAll();
+        Task<IEnumerable<IdentityUserRole<Guid>>> GetAllUserRole();
+        Task<IdentityRole<Guid>> GetById(Guid id);
+        Task<bool> Update(IdentityRole<Guid> role);
+        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedUsers);
+        Task<bool> RemoveRoleAsync(IdentityUserRole<Guid> userRole);
     }
 }

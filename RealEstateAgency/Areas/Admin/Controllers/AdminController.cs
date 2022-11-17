@@ -17,9 +17,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IEVMMapper _eVMMapper;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AgentUser> _userManager;
 
-        public AdminController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService, UserManager<IdentityUser> userManager)
+        public AdminController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService, UserManager<AgentUser> userManager)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;
@@ -46,7 +46,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(roleViewModels);
         }
 
-        public async Task<IActionResult> EditUser(string id)
+        public async Task<IActionResult> EditUser(Guid id)
         {
             var user = await _userService.GetById(id);
 
@@ -74,11 +74,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
                 var userRoles = (List<string>)await _userManager.GetRolesAsync(user);
 
-                var updatedRoles = new List<Tuple<string, string, bool>>();
+                var updatedRoles = new List<Tuple<Guid, string, bool>>();
 
                 foreach (var role in editUserViewModel.RoleViewModels)
                 {
-                    updatedRoles.Add(new Tuple<string, string, bool>(role.RoleId, role.RoleName, role.IsSet));
+                    updatedRoles.Add(new Tuple<Guid, string, bool>(role.RoleId, role.RoleName, role.IsSet));
                 }
 
                 await _roleService.SetRolesAsync(user, updatedRoles, userRoles);
@@ -106,7 +106,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
                 await _userService.Add(user);
 
-                var rolesToSet = new Dictionary<string, bool>();
+                var rolesToSet = new Dictionary<Guid, bool>();
                 foreach (var role in addUserViewModel.RoleViewModels)
                 {
                     rolesToSet.Add(role.RoleId, role.IsSet);
@@ -134,7 +134,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _roleService.Add(new IdentityRole{
+                await _roleService.Add(new IdentityRole<Guid>{
                     Id = addRoleViewModel.RoleId,
                     Name = addRoleViewModel.RoleName, 
                     NormalizedName = addRoleViewModel.RoleName.ToUpper()
@@ -154,7 +154,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(ManageRoles));
         }
 
-        public async Task<IActionResult> EditRole(string id)
+        public async Task<IActionResult> EditRole(Guid id)
         {
             var role = await _roleService.GetById(id);
             var users = await _userService.GetAll();
@@ -182,7 +182,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
                 var userRoles = await _roleService.GetAllUserRole();
 
-                Dictionary<string, bool> userRoleDetails = new Dictionary<string, bool>();
+                Dictionary<Guid, bool> userRoleDetails = new Dictionary<Guid, bool>();
 
                 foreach (var userRole in editRoleViewModel.UsersToRole)
                 {
@@ -209,7 +209,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UserLockout([FromForm] string id)
+        public async Task<IActionResult> UserLockout([FromForm] Guid id)
         {
             var user = await _userService.GetById(id);
 
@@ -221,7 +221,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveLockout([FromForm] string id)
+        public async Task<IActionResult> RemoveLockout([FromForm] Guid id)
         {
             var user = await _userService.GetById(id);
 

@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RealEstateAgency.Core.Entities;
 using System.Reflection.Emit;
 
 namespace RealEstateAgency.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AgentUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -14,6 +15,8 @@ namespace RealEstateAgency.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             string admin_RoleId = "3d128fbb-2270-4b17-baf9-80a4eb7f9875";
             string admin_RoleConcurrencyStamp = "a4c871a1-73cf-428f-90f7-a273ccd4740c";
             string user_RoleId = "c368d1b0-d46a-4b51-b737-c016faa91e31";
@@ -22,44 +25,55 @@ namespace RealEstateAgency.Infrastructure.Data
             string admin_UserId = "7b9556cf-4db8-42c4-86bc-2abebc218ce9";
             string admin_UserConcurrencyStamp = "4f743e54-0a01-46e1-a1bf-6f013f406211";
 
-            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            builder.Entity<IdentityRole<Guid>>().HasData(new IdentityRole<Guid>
             {
                 Name = "admin",
                 NormalizedName = "ADMIN",
-                Id = admin_RoleId,
+                Id = Guid.Parse(admin_RoleId),
                 ConcurrencyStamp = admin_RoleConcurrencyStamp
             },
-            new IdentityRole
+            new IdentityRole<Guid>
             {
                 Name = "user",
                 NormalizedName = "USER",
-                Id = user_RoleId,
+                Id = Guid.Parse(user_RoleId),
                 ConcurrencyStamp = user_RoleConcurrencyStamp
             });
 
-            var adminUser = new IdentityUser
+            var adminUser = new AgentUser
             {
-                Id = admin_UserId,
+                Id = Guid.Parse(admin_UserId),
                 Email = "admin@gmail.com",
                 NormalizedEmail = "ADMIN@GMAIL.COM",
                 EmailConfirmed = false,
+                FirstName = "admin",
+                LastName = "admin",
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
-                ConcurrencyStamp = admin_UserConcurrencyStamp
+                ConcurrencyStamp = admin_UserConcurrencyStamp,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            PasswordHasher<IdentityUser> passwordHasher = new PasswordHasher<IdentityUser>();
+            PasswordHasher<AgentUser> passwordHasher = new PasswordHasher<AgentUser>();
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "Admin_00");
 
-            builder.Entity<IdentityUser>().HasData(adminUser);
+            builder.Entity<AgentUser>().HasData(adminUser);
 
-            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            builder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
             {
-                RoleId = admin_RoleId,
-                UserId = admin_UserId
+                RoleId = Guid.Parse(admin_RoleId),
+                UserId = Guid.Parse(admin_UserId)
             });
-
-            base.OnModelCreating(builder);
         }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Estate> Estates { get; set; }
+        public DbSet<EstateOption> EstateOptions { get; set; }
+        public DbSet<EstateCondition> EstateConditions { get; set; }
+        public DbSet<BuildingPlan> BuildingPlans { get; set; }
+        public DbSet<BuildingType> BuildingTypes { get; set; }
+        public DbSet<Map> Maps { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Zone> Zones { get; set; }
     }
 }

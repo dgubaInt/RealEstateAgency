@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateAgency.Core.Interfaces
 {
-    public interface IRoleRepository : IGenericRepository<IdentityRole>
+    public interface IRoleRepository : IGenericRepository<IdentityRole<Guid>>
     {
     }
 }

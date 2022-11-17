@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class Category
+    public class Zone
     {
         [Key]
-        public Guid CategoryId { get; set; }
+        public Guid ZoneId { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string CategoryName { get; set; }
+        [StringLength(30)]
+        public string ZoneName { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
 
-        [ForeignKey("ParentCategoryId")]
-        public virtual HashSet<Category> Categories { get; set; }
-        public virtual HashSet<Estate> Estates { get; set; }
+        [ForeignKey("ParentZoneId")]
+        public HashSet<Zone> Zones { get; set; }
+        public HashSet<Estate> Estates { get; set; }
 
-        public Category()
+        public Zone()
         {
-            Categories = new HashSet<Category>();
+            Zones = new HashSet<Zone>();
             Estates = new HashSet<Estate>();
         }
     }

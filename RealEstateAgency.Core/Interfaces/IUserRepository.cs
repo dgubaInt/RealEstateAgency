@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateAgency.Core.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<IdentityUser>
+    public interface IUserRepository : IGenericRepository<AgentUser>
     {
     }
 }

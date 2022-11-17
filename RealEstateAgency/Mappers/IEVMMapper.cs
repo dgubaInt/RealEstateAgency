@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealEstateAgency.Core.Entities;
 using RealEstateAgencyMVC.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,15 @@ namespace RealEstateAgencyMVC.Mappers
 {
     public interface IEVMMapper
     {
-        List<UserViewModel> MapToUserVMAll(IEnumerable<IdentityUser> users, IEnumerable<IdentityUserRole<string>> userRoles);
-        Task<EditUserViewModel> MapToEditUserVM(IdentityUser users);
-        IdentityUser MapEditUserVMToIdentity(IdentityUser user, EditUserViewModel editUserViewModel);
-        IdentityUser MapAddUserVMToIdentity(AddUserViewModel addUserViewModel);
-        EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, IEnumerable<IdentityRole> identityRoles);
-        AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, IEnumerable<IdentityRole> identityRoles);
-        AddEditRoleViewModel MapUsersToAddRoleVM(AddEditRoleViewModel addRoleViewModel, IEnumerable<IdentityUser> identityUser);
-        List<RoleViewModel> MapToRoleVMAll(IEnumerable<IdentityRole> roles, IEnumerable<IdentityUserRole<string>> userRoles);
-        AddEditRoleViewModel MapUsersToEditRoleVM(IEnumerable<IdentityUserRole<string>> userRoles, IdentityRole role, AddEditRoleViewModel editRoleViewModel, IEnumerable<IdentityUser> identityUsers);
-        IdentityRole MapAddEditRoleVMToIdentity(AddEditRoleViewModel editRoleViewModel, IdentityRole role);
+        List<UserViewModel> MapToUserVMAll(IEnumerable<AgentUser> users, IEnumerable<IdentityUserRole<Guid>> userRoles);
+        Task<EditUserViewModel> MapToEditUserVM(AgentUser user);
+        AgentUser MapEditUserVMToIdentity(AgentUser user, EditUserViewModel editUserViewModel);
+        AgentUser MapAddUserVMToIdentity(AddUserViewModel addUserViewModel);
+        EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, IEnumerable<IdentityRole<Guid>> identityRoles);
+        AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, IEnumerable<IdentityRole<Guid>> identityRoles);
+        AddEditRoleViewModel MapUsersToAddRoleVM(AddEditRoleViewModel addRoleViewModel, IEnumerable<AgentUser> identityUser);
+        List<RoleViewModel> MapToRoleVMAll(IEnumerable<IdentityRole<Guid>> roles, IEnumerable<IdentityUserRole<Guid>> userRoles);
+        AddEditRoleViewModel MapUsersToEditRoleVM(IEnumerable<IdentityUserRole<Guid>> userRoles, IdentityRole<Guid> role, AddEditRoleViewModel editRoleViewModel, IEnumerable<AgentUser> identityUsers);
+        IdentityRole<Guid> MapAddEditRoleVMToIdentity(AddEditRoleViewModel editRoleViewModel, IdentityRole<Guid> role);
     }
 }

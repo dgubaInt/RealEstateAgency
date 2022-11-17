@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealEstateAgency.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace RealEstateAgency.Core.Interfaces
 {
     public interface IUserService
     {
-        Task<bool> Add(IdentityUser user);
-        Task<bool> Lockout(IdentityUser user);
-        Task<bool> UnLockout(IdentityUser user);
-        Task<IEnumerable<IdentityUser>> GetAll();
-        Task<IdentityUser> GetById(string id);
-        Task<bool> Update(IdentityUser user);
+        Task<bool> Add(AgentUser user);
+        Task<bool> Lockout(AgentUser user);
+        Task<bool> UnLockout(AgentUser user);
+        Task<IEnumerable<AgentUser>> GetAll();
+        Task<AgentUser> GetById(Guid id);
+        Task<bool> Update(AgentUser user);
     }
 }

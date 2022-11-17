@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace RealEstateAgency.Infrastructure.Repositories
 {
-    public class UserRepository : GenericRepository<IdentityUser>, IUserRepository
+    public class UserRepository : GenericRepository<AgentUser>, IUserRepository
     {
         public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

@@ -36,7 +36,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }
