@@ -5,6 +5,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Infrastructure.Data;
 using RealEstateAgency.Infrastructure.Repositories;
+using RealEstateAgency.Service.CategoryService;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
 using RealEstateAgencyMVC.Mappers;
@@ -28,8 +29,10 @@ builder.Services.AddDefaultIdentity<AgentUser>(options => options.SignIn.Require
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IEVMMapper, EVMMapper>();
 
 builder.Services.AddControllersWithViews();

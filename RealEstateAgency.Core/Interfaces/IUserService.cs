@@ -10,11 +10,12 @@ namespace RealEstateAgency.Core.Interfaces
 {
     public interface IUserService
     {
-        Task<bool> Add(AgentUser user);
-        Task<bool> Lockout(AgentUser user);
-        Task<bool> UnLockout(AgentUser user);
-        Task<IEnumerable<AgentUser>> GetAll();
-        Task<AgentUser> GetById(Guid id);
-        Task<bool> Update(AgentUser user);
+        Task<bool> AddAsync(AgentUser user);
+        Task<bool> LockoutAsync(AgentUser user);
+        Task<bool> RemoveLockoutAsync(AgentUser user);
+        Task<IEnumerable<AgentUser>> GetAllAsync();
+        Task<AgentUser> GetByIdAsync(Guid id);
+        Task<bool> UpdateAsync(AgentUser user);
+        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedRoles);
     }
 }

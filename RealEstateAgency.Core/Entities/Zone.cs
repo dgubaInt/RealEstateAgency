@@ -19,14 +19,14 @@ namespace RealEstateAgency.Core.Entities
 
         [Required]
         public DateTime CreatedDate { get; set; }
+        public Guid? ParentZoneId { get; set; }
 
         [ForeignKey("ParentZoneId")]
-        public HashSet<Zone> Zones { get; set; }
+        public Zone ParentZone { get; set; }
         public HashSet<Estate> Estates { get; set; }
 
         public Zone()
         {
-            Zones = new HashSet<Zone>();
             Estates = new HashSet<Estate>();
         }
     }

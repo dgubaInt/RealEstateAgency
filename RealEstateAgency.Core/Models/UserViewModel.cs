@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RealEstateAgencyMVC.Areas.Admin.Models
+namespace RealEstateAgency.Core.Models
 {
     public class UserViewModel
     {

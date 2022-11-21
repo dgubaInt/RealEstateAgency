@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RealEstateAgency.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class SeedNewData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -380,17 +380,25 @@ namespace RealEstateAgency.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875"), "a4c871a1-73cf-428f-90f7-a273ccd4740c", "admin", "ADMIN" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("c368d1b0-d46a-4b51-b737-c016faa91e31"), "f67a998b-7268-4e31-ae32-370aaaf10efc", "user", "USER" });
+                values: new object[,]
+                {
+                    { new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875"), "a4c871a1-73cf-428f-90f7-a273ccd4740c", "admin", "ADMIN" },
+                    { new Guid("c368d1b0-d46a-4b51-b737-c016faa91e31"), "f67a998b-7268-4e31-ae32-370aaaf10efc", "user", "USER" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("7b9556cf-4db8-42c4-86bc-2abebc218ce9"), 0, "4f743e54-0a01-46e1-a1bf-6f013f406211", "admin@gmail.com", false, "admin", "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEE7NsE/hTCh0OO0sN6OGW4F3jNtHthaNB6eiDYrxNopi0RafnLu5s4n7pOGdLhhLtA==", null, false, "f1966768-cc24-46f3-a626-adedeb0eb974", false, "admin" });
+                values: new object[] { new Guid("7b9556cf-4db8-42c4-86bc-2abebc218ce9"), 0, "4f743e54-0a01-46e1-a1bf-6f013f406211", "admin@gmail.com", false, "admin", "admin", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAENBEb8CIxMt+UuVUiflMNaXjxNE+pfPmp/Ztb+0CJ2Sy+1U/k5dWiu/UrUew01GMeg==", null, false, "a409b1dd-2327-4f27-9d11-d768cb1414c0", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName", "CreatedDate", "ParentCategoryId" },
+                values: new object[,]
+                {
+                    { new Guid("0879b1f4-e775-42b7-8b65-9e9a4398af56"), "Rent", new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6195), null },
+                    { new Guid("574b5fcb-3c31-42bd-93fe-9cfe77bdc279"), "Buy", new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6235), null }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

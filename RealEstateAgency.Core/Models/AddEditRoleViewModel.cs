@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace RealEstateAgencyMVC.Areas.Admin.Models
+namespace RealEstateAgency.Core.Models
 {
     public class AddEditRoleViewModel
     {

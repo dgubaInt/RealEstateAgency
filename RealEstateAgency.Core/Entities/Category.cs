@@ -19,14 +19,14 @@ namespace RealEstateAgency.Core.Entities
 
         [Required]
         public DateTime CreatedDate { get; set; }
-
+        public Guid? ParentCategoryId { get; set; }
+        
         [ForeignKey("ParentCategoryId")]
-        public virtual HashSet<Category> Categories { get; set; }
+        public virtual Category? ParentCategory { get; set; }
         public virtual HashSet<Estate> Estates { get; set; }
 
         public Category()
         {
-            Categories = new HashSet<Category>();
             Estates = new HashSet<Estate>();
         }
     }

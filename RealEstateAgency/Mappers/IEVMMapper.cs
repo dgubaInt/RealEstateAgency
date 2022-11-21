@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RealEstateAgency.Core.Entities;
-using RealEstateAgencyMVC.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RealEstateAgency.Core.Models;
 
 namespace RealEstateAgencyMVC.Mappers
 {

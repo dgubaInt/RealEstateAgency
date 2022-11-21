@@ -47,7 +47,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             catch (Exception ex)
             {
 
-                return false;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -62,8 +62,7 @@ namespace RealEstateAgency.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-
-                return false;
+                throw new Exception(ex.Message);
             }
         }
 

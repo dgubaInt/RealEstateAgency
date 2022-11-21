@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgencyMVC.Areas.Admin.Models;
+using RealEstateAgency.Core.Models;
 using System.Data;
 
 namespace RealEstateAgencyMVC.Mappers

@@ -1,4 +1,4 @@
-﻿@using RealEstateAgencyMVC.Areas.Admin.Models
+﻿@using RealEstateAgency.Core.Models
 @model List<UserViewModel>
 
 @{
@@ -8,7 +8,7 @@
 <div class="div-flex-center">
     <p>Here you can manage users:</p>
 </div>
-<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="Admin" asp-action="AddUser">
+<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="User" asp-action="AddUser">
     <i class="fas fa-user-plus"></i>
     Add user
 </a>
@@ -37,13 +37,13 @@
                     <td>No</td>
                 }
                 <td>
-                    <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditUser" asp-route-id="@user.UserId">
+                    <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="User" asp-action="EditUser" asp-route-id="@user.UserId">
                         <i class="fas fa-edit"></i>
                         Edit
                     </a>
                     @if (user.IsLockedOut is false)
                     {
-                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UserLockout" asp-route-id="@user.UserId">
+                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="User" asp-action="UserLockout" asp-route-id="@user.UserId">
                             <input name="Id" value="@user.UserId" hidden/>
                             <button type="submit" class="btn btn-danger">
                                 <span class="fas fa-lock"></span>
@@ -53,9 +53,9 @@
                     }
                     else
                     {
-                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="Admin" asp-action="RemoveLockout" asp-route-id="@user.UserId">
+                        <form style="display: inline" method="post" asp-area="Admin" asp-controller="User" asp-action="RemoveLockout" asp-route-id="@user.UserId">
                             <input name="Id" value="@user.UserId" hidden />
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-success">
                                 <span class="fas fa-lock-open"></span>
                                 Unlock out
                             </button>

@@ -283,9 +283,9 @@ namespace RealEstateAgency.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE7NsE/hTCh0OO0sN6OGW4F3jNtHthaNB6eiDYrxNopi0RafnLu5s4n7pOGdLhhLtA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENBEb8CIxMt+UuVUiflMNaXjxNE+pfPmp/Ztb+0CJ2Sy+1U/k5dWiu/UrUew01GMeg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f1966768-cc24-46f3-a626-adedeb0eb974",
+                            SecurityStamp = "a409b1dd-2327-4f27-9d11-d768cb1414c0",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -351,6 +351,20 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = new Guid("0879b1f4-e775-42b7-8b65-9e9a4398af56"),
+                            CategoryName = "Rent",
+                            CreatedDate = new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6195)
+                        },
+                        new
+                        {
+                            CategoryId = new Guid("574b5fcb-3c31-42bd-93fe-9cfe77bdc279"),
+                            CategoryName = "Buy",
+                            CreatedDate = new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6235)
+                        });
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Estate", b =>
@@ -623,9 +637,11 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Category", b =>
                 {
-                    b.HasOne("RealEstateAgency.Core.Entities.Category", null)
-                        .WithMany("Categories")
+                    b.HasOne("RealEstateAgency.Core.Entities.Category", "ParentCategory")
+                        .WithMany()
                         .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Estate", b =>
@@ -700,9 +716,11 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Zone", b =>
                 {
-                    b.HasOne("RealEstateAgency.Core.Entities.Zone", null)
-                        .WithMany("Zones")
+                    b.HasOne("RealEstateAgency.Core.Entities.Zone", "ParentZone")
+                        .WithMany()
                         .HasForeignKey("ParentZoneId");
+
+                    b.Navigation("ParentZone");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.AgentUser", b =>
@@ -722,8 +740,6 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Category", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("Estates");
                 });
 
@@ -740,8 +756,6 @@ namespace RealEstateAgency.Infrastructure.Migrations
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Zone", b =>
                 {
                     b.Navigation("Estates");
-
-                    b.Navigation("Zones");
                 });
 #pragma warning restore 612, 618
         }

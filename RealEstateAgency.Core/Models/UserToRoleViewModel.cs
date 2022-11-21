@@ -1,4 +1,4 @@
-﻿namespace RealEstateAgencyMVC.Areas.Admin.Models
+﻿namespace RealEstateAgency.Core.Models
 {
     public class UserToRoleViewModel
     {

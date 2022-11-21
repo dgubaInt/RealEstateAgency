@@ -1,16 +1,16 @@
-﻿@model RealEstateAgencyMVC.Areas.Admin.Models.AddEditRoleViewModel
+﻿@model RealEstateAgency.Core.Models.AddEditRoleViewModel
 
 @{
-    ViewData["Title"] = "AddRole";
+    ViewData["Title"] = "EditRole";
 }
 
 <div class="div-flex-center">
-    <h1>AddRole</h1>
+    <h1>EditRole</h1>
     <hr />
 </div>
 <div class="div-flex-center">
     <div class="col-md-4">
-        <form method="post" asp-action="AddRole">
+        <form method="post" asp-action="EditRole">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div hidden>
                 <label asp-for="RoleId" class="form-label"></label>

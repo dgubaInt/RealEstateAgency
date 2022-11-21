@@ -64,6 +64,24 @@ namespace RealEstateAgency.Infrastructure.Data
                 RoleId = Guid.Parse(admin_RoleId),
                 UserId = Guid.Parse(admin_UserId)
             });
+
+            var rentCategory = new Category
+            {
+                CategoryId = Guid.NewGuid(),
+                CategoryName = "Rent",
+                CreatedDate = DateTime.Now,
+                ParentCategory = null
+            };
+
+            var buyCategory = new Category
+            {
+                CategoryId = Guid.NewGuid(),
+                CategoryName = "Buy",
+                CreatedDate = DateTime.Now,
+                ParentCategory = null
+            };
+
+            builder.Entity<Category>().HasData(rentCategory, buyCategory);
         }
 
         public DbSet<Category> Categories { get; set; }

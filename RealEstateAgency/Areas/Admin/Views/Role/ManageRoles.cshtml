@@ -1,4 +1,4 @@
-﻿@using RealEstateAgencyMVC.Areas.Admin.Models
+﻿@using RealEstateAgency.Core.Models
 @model List<RoleViewModel>
 
 @{
@@ -8,7 +8,7 @@
 <div class="div-flex-center">
     <p>Here you can manage roles:</p>
 </div>
-<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="Admin" asp-action="AddRole">
+<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="Role" asp-action="AddRole">
     <i class="fas fa-plus"></i>
     Add role
 </a>
@@ -35,7 +35,7 @@
                         <td>No</td>
                     }
                     <td>
-                        <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Admin" asp-action="EditRole" asp-route-id="@role.RoleId">
+                        <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Role" asp-action="EditRole" asp-route-id="@role.RoleId">
                             <i class="fas fa-edit"></i>
                             Edit
                         </a>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace RealEstateAgencyMVC.Areas.Admin.Models
+namespace RealEstateAgency.Core.Models
 {
     public class RoleViewModel
     {
