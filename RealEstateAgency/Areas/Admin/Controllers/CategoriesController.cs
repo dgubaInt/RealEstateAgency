@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.Category;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,46 +25,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var categories = await _categoryService.GetAllAsync();
+                var categories = (await _categoryService.GetAllAsync())
+                    .Select(category => category.ToDTO()).ToList();
 
-                var categoriesList = new List<CategoryDTO>();
-
-                foreach (var category in categories)
-                {
-                    categoriesList.Add(new CategoryDTO
-                    {
-                        CategoryId = category.CategoryId,
-                        CategoryName = category.CategoryName,
-                        ParentCategoryId = category.ParentCategoryId,
-                        Position = category.Position
-                    });
-                }
-                return Json(new { Result = "OK", Records = categoriesList, TotalRecordCount = categoriesList.Count });
+                return Json(new { Result = "OK", Records = categories, TotalRecordCount = categories.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/Categories/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDTO>> GetCategory(Guid id)
-        {
-            var category = await _categoryService.GetByIdAsync(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new CategoryDTO
-            {
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName,
-                ParentCategoryId = category.ParentCategoryId,
-                Position = category.Position
-            });
         }
 
         // POST: api/Categories
@@ -90,9 +60,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var category = await _categoryService.GetByIdAsync(categoryDTO.CategoryId);
                 if (category != null)
                 {
-                    category.CategoryName = categoryDTO.CategoryName;
-                    category.ParentCategoryId = categoryDTO.ParentCategoryId;
-                    category.Position = categoryDTO.Position;
+                    category.SetValues(categoryDTO);
                     await _categoryService.UpdateAsync(category);
                 }
 

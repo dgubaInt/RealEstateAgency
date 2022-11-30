@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.Zone;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,43 +25,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var zones = await _zoneService.GetAllAsync();
+                var zones = (await _zoneService.GetAllAsync())
+                    .Select(zone => zone.ToDTO()).ToList();
 
-                var zonesList = new List<ZoneDTO>();
-
-                foreach (var zone in zones)
-                {
-                    zonesList.Add(new ZoneDTO
-                    {
-                        ZoneId = zone.ZoneId,
-                        ZoneName = zone.ZoneName
-                    });
-                }
-
-                return Json(new { Result = "OK", Records = zonesList, TotalRecordCount = zonesList.Count });
+                return Json(new { Result = "OK", Records = zones, TotalRecordCount = zones.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/Zones/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ZoneDTO>> GetZone(Guid id)
-        {
-            var zone = await _zoneService.GetByIdAsync(id);
-
-            if (zone == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new ZoneDTO
-            {
-                ZoneId = zone.ZoneId,
-                ZoneName = zone.ZoneName
-            });
         }
 
         // POST: api/Zones
@@ -87,7 +60,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var zone = await _zoneService.GetByIdAsync(zoneDTO.ZoneId);
                 if (zone != null)
                 {
-                    zone.ZoneName = zoneDTO.ZoneName;
+                    zone.SetValues(zoneDTO);
                     await _zoneService.UpdateAsync(zone);
 
                 }

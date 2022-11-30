@@ -2,7 +2,7 @@
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 
-namespace RealEstateAgencyMVC.Mappers
+namespace RealEstateAgencyMVC.Mappers.UserRole
 {
     public interface IUserRoleMapper
     {

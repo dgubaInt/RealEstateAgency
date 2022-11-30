@@ -3,7 +3,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 using System.Data;
 
-namespace RealEstateAgencyMVC.Mappers
+namespace RealEstateAgencyMVC.Mappers.UserRole
 {
     public class UserRoleMapper : IUserRoleMapper
     {
@@ -16,15 +16,15 @@ namespace RealEstateAgencyMVC.Mappers
 
         public async Task<EditUserViewModel> MapToEditUserVM(AgentUser user)
         {
-                var editUserViewModel = new EditUserViewModel
-                {
-                    UserId = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    UserRoles = (List<string>) await _userManager.GetRolesAsync(user),
-                    Email = user.Email
-                };
+            var editUserViewModel = new EditUserViewModel
+            {
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                UserRoles = (List<string>)await _userManager.GetRolesAsync(user),
+                Email = user.Email
+            };
 
             return editUserViewModel;
         }
@@ -95,7 +95,8 @@ namespace RealEstateAgencyMVC.Mappers
                 UserName = addUserViewModel.UserName,
                 NormalizedUserName = addUserViewModel.UserName.ToUpper(),
                 Email = addUserViewModel.Email,
-                NormalizedEmail = addUserViewModel.Email.ToUpper()
+                NormalizedEmail = addUserViewModel.Email.ToUpper(),
+                SecurityStamp = Guid.NewGuid().ToString()
             };
 
             if (!string.IsNullOrWhiteSpace(addUserViewModel.Password))

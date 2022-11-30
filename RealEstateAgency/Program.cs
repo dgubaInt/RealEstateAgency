@@ -13,7 +13,7 @@ using RealEstateAgency.Service.EstateOptionService;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
 using RealEstateAgency.Service.ZoneService;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgencyMVC.Mappers.UserRole;
 
 var builder = WebApplication.CreateBuilder(args);
 

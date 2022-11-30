@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.EstateCondition;
+using RealEstateAgency.Core.DTOs.EstateOption;
+using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,43 +27,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var estateConditions = await _estateConditionService.GetAllAsync();
-
-                var estateConditionsList = new List<EstateConditionDTO>();
-
-                foreach (var estateCondition in estateConditions)
-                {
-                    estateConditionsList.Add(new EstateConditionDTO
-                    {
-                        EstateConditionId = estateCondition.EstateConditionId,
-                        EstateConditionName = estateCondition.EstateConditionName
-                    });
-                }
-
-                return Json(new { Result = "OK", Records = estateConditionsList, TotalRecordCount = estateConditionsList.Count });
+                var estateConditions = (await _estateConditionService.GetAllAsync())
+                    .Select(estateCondition => estateCondition.ToDTO()).ToList();
+                
+                return Json(new { Result = "OK", Records = estateConditions, TotalRecordCount = estateConditions.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/EstateConditions/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EstateConditionDTO>> GetEstateCondition(Guid id)
-        {
-            var estateCondition = await _estateConditionService.GetByIdAsync(id);
-
-            if (estateCondition == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new EstateConditionDTO
-            {
-                EstateConditionId = estateCondition.EstateConditionId,
-                EstateConditionName = estateCondition.EstateConditionName
-            });
         }
 
         // POST: api/EstateConditions
@@ -87,7 +62,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var estateCondition = await _estateConditionService.GetByIdAsync(estateConditionDTO.EstateConditionId);
                 if (estateCondition != null)
                 {
-                    estateCondition.EstateConditionName = estateConditionDTO.EstateConditionName;
+                    estateCondition.SetValues(estateConditionDTO);
                     await _estateConditionService.UpdateAsync(estateCondition);
 
                 }

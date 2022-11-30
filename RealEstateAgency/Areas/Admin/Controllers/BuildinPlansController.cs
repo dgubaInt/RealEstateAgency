@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.BuildingPlan;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,43 +25,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var buildingPlans = await _buildingPlanService.GetAllAsync();
+                var buildingPlans = (await _buildingPlanService.GetAllAsync())
+                    .Select(buildingPlan => buildingPlan.ToDTO()).ToList();
 
-                var buildingPlansList = new List<BuildingPlanDTO>();
-
-                foreach (var buildingPlan in buildingPlans)
-                {
-                    buildingPlansList.Add(new BuildingPlanDTO
-                    {
-                        BuildingPlanId = buildingPlan.BuildingPlanId,
-                        BuildingPlanName = buildingPlan.BuildingPlanName
-                    });
-                }
-
-                return Json(new { Result = "OK", Records = buildingPlansList, TotalRecordCount = buildingPlansList.Count });
+                return Json(new { Result = "OK", Records = buildingPlans, TotalRecordCount = buildingPlans.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/BuildingPlans/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BuildingPlanDTO>> GetBuildingPlan(Guid id)
-        {
-            var buildingPlan = await _buildingPlanService.GetByIdAsync(id);
-
-            if (buildingPlan == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new BuildingPlanDTO
-            {
-                BuildingPlanId = buildingPlan.BuildingPlanId,
-                BuildingPlanName = buildingPlan.BuildingPlanName
-            });
         }
 
         // POST: api/BuildingPlans
@@ -87,7 +60,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var buildingPlan = await _buildingPlanService.GetByIdAsync(buildingPlanDTO.BuildingPlanId);
                 if (buildingPlan != null)
                 {
-                    buildingPlan.BuildingPlanName = buildingPlanDTO.BuildingPlanName;
+                    buildingPlan.SetValues(buildingPlanDTO);
                     await _buildingPlanService.UpdateAsync(buildingPlan);
 
                 }

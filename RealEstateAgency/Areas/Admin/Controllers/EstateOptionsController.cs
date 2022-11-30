@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.EstateOption;
+using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,43 +26,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var estateOptions = await _estateOptionService.GetAllAsync();
+                var estateOptions = (await _estateOptionService.GetAllAsync())
+                    .Select(estateOption => estateOption.ToDTO()).ToList();
 
-                var estateOptionsList = new List<EstateOptionDTO>();
-
-                foreach (var estateOption in estateOptions)
-                {
-                    estateOptionsList.Add(new EstateOptionDTO
-                    {
-                        EstateOptionId = estateOption.EstateOptionId,
-                        EstateOptionName = estateOption.EstateOptionName
-                    });
-                }
-
-                return Json(new { Result = "OK", Records = estateOptionsList, TotalRecordCount = estateOptionsList.Count });
+                return Json(new { Result = "OK", Records = estateOptions, TotalRecordCount = estateOptions.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/EstateOptions/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EstateOptionDTO>> GetEstateOption(Guid id)
-        {
-            var estateOption = await _estateOptionService.GetByIdAsync(id);
-
-            if (estateOption == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new EstateOptionDTO
-            {
-                EstateOptionId = estateOption.EstateOptionId,
-                EstateOptionName = estateOption.EstateOptionName
-            });
         }
 
         // POST: api/EstateOptions
@@ -87,7 +61,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var estateOption = await _estateOptionService.GetByIdAsync(estateOptionDTO.EstateOptionId);
                 if (estateOption != null)
                 {
-                    estateOption.EstateOptionName = estateOptionDTO.EstateOptionName;
+                    estateOption.SetValues(estateOptionDTO);
                     await _estateOptionService.UpdateAsync(estateOption);
 
                 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.BuildingType;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -24,43 +25,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var buildingTypes = await _buildingTypeService.GetAllAsync();
+                var buildingTypes = (await _buildingTypeService.GetAllAsync())
+                    .Select(buildingType => buildingType.ToDTO()).ToList();
 
-                var buildingTypesList = new List<BuildingTypeDTO>();
-
-                foreach (var buildingType in buildingTypes)
-                {
-                    buildingTypesList.Add(new BuildingTypeDTO
-                    {
-                        BuildingTypeId = buildingType.BuildingTypeId,
-                        BuildingTypeName = buildingType.BuildingTypeName
-                    });
-                }
-
-                return Json(new { Result = "OK", Records = buildingTypesList, TotalRecordCount = buildingTypesList.Count });
+                return Json(new { Result = "OK", Records = buildingTypes, TotalRecordCount = buildingTypes.Count });
             }
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
-        }
-
-        // GET: api/BuildingTypes/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BuildingTypeDTO>> GetBuildingType(Guid id)
-        {
-            var buildingType = await _buildingTypeService.GetByIdAsync(id);
-
-            if (buildingType == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(new BuildingTypeDTO
-            {
-                BuildingTypeId = buildingType.BuildingTypeId,
-                BuildingTypeName = buildingType.BuildingTypeName
-            });
         }
 
         // POST: api/BuildingTypes
@@ -87,7 +60,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 var buildingType = await _buildingTypeService.GetByIdAsync(buildingTypeDTO.BuildingTypeId);
                 if (buildingType != null)
                 {
-                    buildingType.BuildingTypeName = buildingTypeDTO.BuildingTypeName;
+                    buildingType.SetValues(buildingTypeDTO);
                     await _buildingTypeService.UpdateAsync(buildingType);
 
                 }

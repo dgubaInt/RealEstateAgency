@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgencyMVC.Mappers.UserRole;
 using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
