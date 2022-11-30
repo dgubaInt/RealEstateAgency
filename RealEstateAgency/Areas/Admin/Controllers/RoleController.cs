@@ -14,9 +14,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
-        private readonly IEVMMapper _eVMMapper;
+        private readonly IUserRoleMapper _eVMMapper;
 
-        public RoleController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService)
+        public RoleController(IUserService userService, IUserRoleMapper eVMMapper, IRoleService roleService)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;

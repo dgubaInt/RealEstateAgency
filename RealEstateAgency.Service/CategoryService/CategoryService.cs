@@ -1,19 +1,14 @@
-﻿using RealEstateAgency.Core.DTOs;
+﻿using RealEstateAgency.Core.DTOs.Category;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateAgency.Service.CategoryService
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IGenericRepository<Category> _categoryRepository;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(IGenericRepository<Category> categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
@@ -28,7 +23,7 @@ namespace RealEstateAgency.Service.CategoryService
             return await _categoryRepository.GetByIdAsync(id);
         }
 
-        public async Task<Category> AddAsync(PostCategoryDTO postCategoryDTO)
+        public async Task<Category> AddAsync(CreateCategoryDTO postCategoryDTO)
         {
             try
             {
@@ -39,6 +34,7 @@ namespace RealEstateAgency.Service.CategoryService
                     CategoryId = Guid.NewGuid(),
                     CategoryName = postCategoryDTO.CategoryName,
                     ParentCategory = parentCategory,
+                    Position = postCategoryDTO.Position,
                     CreatedDate = DateTime.Now
                 }; 
                 await _categoryRepository.AddAsync(category);

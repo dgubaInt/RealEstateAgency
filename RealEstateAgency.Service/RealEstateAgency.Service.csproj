@@ -14,4 +14,8 @@
     <ProjectReference Include="..\RealEstateAgency.Core\RealEstateAgency.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EstateOptionService\" />
+  </ItemGroup>
+
 </Project>

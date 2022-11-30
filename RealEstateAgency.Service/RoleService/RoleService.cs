@@ -1,22 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateAgency.Service.RoleService
 {
     public class RoleService : IRoleService
     {
-        private readonly IRoleRepository _roleRepository;
-        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IGenericRepository<IdentityRole<Guid>> _roleRepository;
+        private readonly IGenericRepository<IdentityUserRole<Guid>> _userRoleRepository;
 
-        public RoleService(IRoleRepository roleRepository, IUserRoleRepository userRoleRepository)
+        public RoleService(IGenericRepository<IdentityRole<Guid>> roleRepository, IGenericRepository<IdentityUserRole<Guid>> userRoleRepository)
         {
             _roleRepository = roleRepository;
             _userRoleRepository = userRoleRepository;

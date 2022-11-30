@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
 using RealEstateAgencyMVC.Mappers;
@@ -16,9 +13,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
-        private readonly IEVMMapper _eVMMapper;
+        private readonly IUserRoleMapper _eVMMapper;
 
-        public UserController(IUserService userService, IEVMMapper eVMMapper, IRoleService roleService)
+        public UserController(IUserService userService, IUserRoleMapper eVMMapper, IRoleService roleService)
         {
             _userService = userService;
             _eVMMapper = eVMMapper;

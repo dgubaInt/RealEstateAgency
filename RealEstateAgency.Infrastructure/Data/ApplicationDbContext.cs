@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
-using System.Reflection.Emit;
 
 namespace RealEstateAgency.Infrastructure.Data
 {
@@ -70,7 +69,8 @@ namespace RealEstateAgency.Infrastructure.Data
                 CategoryId = Guid.NewGuid(),
                 CategoryName = "Rent",
                 CreatedDate = DateTime.Now,
-                ParentCategory = null
+                ParentCategory = null,
+                Position = 0
             };
 
             var buyCategory = new Category
@@ -78,7 +78,8 @@ namespace RealEstateAgency.Infrastructure.Data
                 CategoryId = Guid.NewGuid(),
                 CategoryName = "Buy",
                 CreatedDate = DateTime.Now,
-                ParentCategory = null
+                ParentCategory = null,
+                Position= 0
             };
 
             builder.Entity<Category>().HasData(rentCategory, buyCategory);

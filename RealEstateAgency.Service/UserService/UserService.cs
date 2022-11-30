@@ -1,11 +1,5 @@
 ﻿using RealEstateAgency.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Data;
 using RealEstateAgency.Core.Entities;
 
@@ -13,9 +7,9 @@ namespace RealEstateAgency.Service.UserService
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IGenericRepository<AgentUser> _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IGenericRepository<AgentUser> userRepository)
         {
             _userRepository = userRepository;
         }

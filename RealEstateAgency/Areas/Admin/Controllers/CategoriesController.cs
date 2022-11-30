@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RealEstateAgency.Core.DTOs;
-using RealEstateAgency.Core.Entities;
+using RealEstateAgency.Core.DTOs.Category;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgency.Service.CategoryService;
-using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -15,7 +9,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     [ApiController]
     [Area("Admin")]
     [Authorize(Roles = "admin")]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : Controller
     {
         private readonly ICategoryService _categoryService;
 
@@ -25,24 +19,31 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         }
 
         // GET: api/Categories
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategories()
+        [HttpPost, Route("[action]")]
+        public async Task<JsonResult> GetCategories()
         {
-            var categories = await _categoryService.GetAllAsync();
-
-            var categoriesList = new List<CategoryDTO>();
-
-            foreach (var category in categories)
+            try
             {
-                categoriesList.Add(new CategoryDTO
-                {
-                    CategoryId = category.CategoryId,
-                    CategoryName = category.CategoryName,
-                    ParentCategoryId = category.ParentCategoryId
-                });
-            }
+                var categories = await _categoryService.GetAllAsync();
 
-            return Ok(categoriesList);
+                var categoriesList = new List<CategoryDTO>();
+
+                foreach (var category in categories)
+                {
+                    categoriesList.Add(new CategoryDTO
+                    {
+                        CategoryId = category.CategoryId,
+                        CategoryName = category.CategoryName,
+                        ParentCategoryId = category.ParentCategoryId,
+                        Position = category.Position
+                    });
+                }
+                return Json(new { Result = "OK", Records = categoriesList, TotalRecordCount = categoriesList.Count });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
 
         // GET: api/Categories/{id}
@@ -60,58 +61,63 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
-                ParentCategoryId = category.ParentCategoryId
+                ParentCategoryId = category.ParentCategoryId,
+                Position = category.Position
             });
         }
 
         // POST: api/Categories
-        [HttpPost]
-        public async Task<ActionResult<CategoryDTO>> PostCategory([FromForm] PostCategoryDTO postCategoryDTO)
-        {
-            var category = await _categoryService.AddAsync(postCategoryDTO);
-            return CreatedAtAction(nameof(GetCategory), new { id = category.CategoryId}, new CategoryDTO { 
-                CategoryId = category.CategoryId,
-                CategoryName = category.CategoryName,
-                ParentCategoryId = category.ParentCategoryId
-            });
-        }
-
-        // PUT: api/Categories/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(Guid id, [FromBody] CategoryDTO categoryDTO)
-        {
-            if (id != categoryDTO.CategoryId)
-            {
-                return BadRequest();
-            }
-
-            var category = await _categoryService.GetByIdAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            category.CategoryName = categoryDTO.CategoryName;
-            category.ParentCategoryId = categoryDTO.ParentCategoryId;
-            await _categoryService.UpdateAsync(category);
-
-            return NoContent();
-        }
-
-        // DELETE: api/Categories/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTodoItem(Guid id)
+        [HttpPost, Route("[action]")]
+        public async Task<JsonResult> PostCategory([FromForm] CreateCategoryDTO postCategoryDTO)
         {
             try
             {
-                await _categoryService.DeleteAsync(id);
+                var category = await _categoryService.AddAsync(postCategoryDTO);
+                return Json(new { Result = "OK", Record = category });
             }
             catch (Exception ex)
             {
-                throw;
+                return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
 
-            return NoContent();
+        // PUT: api/Categories/{id}
+        [HttpPost, Route("[action]")]
+        public async Task<JsonResult> PutCategory([FromForm] CategoryDTO categoryDTO)
+        {
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(categoryDTO.CategoryId);
+                if (category != null)
+                {
+                    category.CategoryName = categoryDTO.CategoryName;
+                    category.ParentCategoryId = categoryDTO.ParentCategoryId;
+                    category.Position = categoryDTO.Position;
+                    await _categoryService.UpdateAsync(category);
+                }
+
+                return Json(new { Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        // DELETE: api/Categories/{id}
+        [HttpDelete("{id}"), Route("[action]")]
+        public async Task<JsonResult> DeleteCategory([FromForm] Guid categoryId)
+        {
+            try
+            {
+                await _categoryService.DeleteAsync(categoryId);
+                return Json(new { Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
     }
 }

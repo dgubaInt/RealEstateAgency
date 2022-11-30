@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace RealEstateAgency.Core.Models
+﻿namespace RealEstateAgency.Core.Models
 {
     public class UserViewModel
     {

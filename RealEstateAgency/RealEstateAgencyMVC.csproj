@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\jquery.jtable.js" />
+    <Content Remove="wwwroot\jquery.jtable.min.js" />
+    <Content Remove="wwwroot\jtable.2.4.0.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jTable" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />

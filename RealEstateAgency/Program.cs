@@ -5,11 +5,15 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Infrastructure.Data;
 using RealEstateAgency.Infrastructure.Repositories;
+using RealEstateAgency.Service.BuildingPlanService;
+using RealEstateAgency.Service.BuildingTypeService;
 using RealEstateAgency.Service.CategoryService;
+using RealEstateAgency.Service.EstateConditionService;
+using RealEstateAgency.Service.EstateOptionService;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
+using RealEstateAgency.Service.ZoneService;
 using RealEstateAgencyMVC.Mappers;
-using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,14 +30,17 @@ builder.Services.AddDefaultIdentity<AgentUser>(options => options.SignIn.Require
     .AddRoleStore<RoleStore<IdentityRole<Guid>, ApplicationDbContext, Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IEVMMapper, EVMMapper>();
+builder.Services.AddScoped<IBuildingPlanService, BuildingPlanService>();
+builder.Services.AddScoped<IBuildingTypeService, BuildingTypeService>();
+builder.Services.AddScoped<IEstateConditionService, EstateConditionService>();
+builder.Services.AddScoped<IEstateOptionService, EstateOptionService>();
+builder.Services.AddScoped<IZoneService, ZoneService>();
+builder.Services.AddScoped<IUserRoleMapper, UserRoleMapper>();
 
 builder.Services.AddControllersWithViews();
 

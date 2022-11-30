@@ -283,9 +283,9 @@ namespace RealEstateAgency.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENBEb8CIxMt+UuVUiflMNaXjxNE+pfPmp/Ztb+0CJ2Sy+1U/k5dWiu/UrUew01GMeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBJThn+Z3OaRlH+28qX7x46RDv1piH1eaxEBIKdAxUbsaG3P82pTToIScgO1qUo0Sw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a409b1dd-2327-4f27-9d11-d768cb1414c0",
+                            SecurityStamp = "fdfe980e-e158-48ac-adee-6f860f3253ee",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -346,6 +346,9 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
 
                     b.HasIndex("ParentCategoryId");
@@ -355,15 +358,17 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("0879b1f4-e775-42b7-8b65-9e9a4398af56"),
+                            CategoryId = new Guid("8f6b5907-f8e5-4413-b544-f264c939568f"),
                             CategoryName = "Rent",
-                            CreatedDate = new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6195)
+                            CreatedDate = new DateTime(2022, 11, 23, 10, 48, 28, 320, DateTimeKind.Local).AddTicks(2378),
+                            Position = 0
                         },
                         new
                         {
-                            CategoryId = new Guid("574b5fcb-3c31-42bd-93fe-9cfe77bdc279"),
+                            CategoryId = new Guid("10cd2eca-a8d1-4493-ab87-9905c5fc53d1"),
                             CategoryName = "Buy",
-                            CreatedDate = new DateTime(2022, 11, 21, 17, 13, 18, 445, DateTimeKind.Local).AddTicks(6235)
+                            CreatedDate = new DateTime(2022, 11, 23, 10, 48, 28, 320, DateTimeKind.Local).AddTicks(2417),
+                            Position = 0
                         });
                 });
 
