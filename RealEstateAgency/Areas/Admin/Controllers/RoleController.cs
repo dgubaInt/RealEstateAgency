@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
-using RealEstateAgencyMVC.Mappers.UserRole;
+using RealEstateAgencyMVC.Mappers.UserRoleMapper;
 using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
@@ -50,7 +51,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _roleService.AddAsync(new IdentityRole<Guid>
+                await _roleService.AddAsync(new Role
                 {
                     Id = addRoleViewModel.RoleId,
                     Name = addRoleViewModel.RoleName,

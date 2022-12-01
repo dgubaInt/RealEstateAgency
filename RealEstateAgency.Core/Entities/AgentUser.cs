@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RealEstateAgency.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class AgentUser : IdentityUser<Guid>
+    public class AgentUser : IdentityUser<Guid>, IBaseEntity
     {
         [Required]
         [StringLength(30)]

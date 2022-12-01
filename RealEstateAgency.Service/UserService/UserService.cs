@@ -36,7 +36,7 @@ namespace RealEstateAgency.Service.UserService
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedRoles)
+        public Dictionary<Guid, bool> ManageUserRoles(IEnumerable<UserRole> userRoles, Dictionary<Guid, bool> updatedRoles)
         {
             var userRoleDetails = new Dictionary<Guid, bool>();
 

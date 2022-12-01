@@ -29,7 +29,7 @@ namespace RealEstateAgency.Service.BuildingTypeService
             {
                 var buildingType = new BuildingType
                 {
-                    BuildingTypeId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     BuildingTypeName = postBuildingTypeDTO.BuildingTypeName,
                     CreatedDate = DateTime.Now
                 }; 

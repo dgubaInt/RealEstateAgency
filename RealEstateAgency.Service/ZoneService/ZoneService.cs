@@ -29,7 +29,7 @@ namespace RealEstateAgency.Service.ZoneService
             {
                 var zone = new Zone
                 {
-                    ZoneId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     ZoneName = postZoneDTO.ZoneName,
                     CreatedDate = DateTime.Now
                 };

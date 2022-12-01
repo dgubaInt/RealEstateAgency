@@ -29,7 +29,7 @@ namespace RealEstateAgency.Service.EstateOptionService
             {
                 var estateOption = new EstateOption
                 {
-                    EstateOptionId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     EstateOptionName = postEstateOptionDTO.EstateOptionName,
                     CreatedDate = DateTime.Now
                 };

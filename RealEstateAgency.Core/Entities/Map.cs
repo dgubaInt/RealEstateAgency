@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class Map
+    public class Map : IBaseEntity
     {
         [Key]
-        public Guid MapId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(50)]

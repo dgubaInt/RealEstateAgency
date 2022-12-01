@@ -57,7 +57,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var category = await _categoryService.GetByIdAsync(categoryDTO.CategoryId);
+                var category = await _categoryService.GetByIdAsync(categoryDTO.Id);
                 if (category != null)
                 {
                     category.SetValues(categoryDTO);

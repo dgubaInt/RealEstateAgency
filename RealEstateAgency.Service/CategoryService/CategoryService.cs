@@ -31,7 +31,7 @@ namespace RealEstateAgency.Service.CategoryService
 
                 var category = new Category
                 {
-                    CategoryId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     CategoryName = postCategoryDTO.CategoryName,
                     ParentCategory = parentCategory,
                     Position = postCategoryDTO.Position,

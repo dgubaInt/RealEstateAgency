@@ -24,61 +24,17 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("EstateEstateOption", b =>
                 {
-                    b.Property<Guid>("EstateOptionsEstateOptionId")
+                    b.Property<Guid>("EstateOptionsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EstatesEstateId")
+                    b.Property<Guid>("EstatesId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("EstateOptionsEstateOptionId", "EstatesEstateId");
+                    b.HasKey("EstateOptionsId", "EstatesId");
 
-                    b.HasIndex("EstatesEstateId");
+                    b.HasIndex("EstatesId");
 
                     b.ToTable("EstateEstateOption");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875"),
-                            ConcurrencyStamp = "a4c871a1-73cf-428f-90f7-a273ccd4740c",
-                            Name = "admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("c368d1b0-d46a-4b51-b737-c016faa91e31"),
-                            ConcurrencyStamp = "f67a998b-7268-4e31-ae32-370aaaf10efc",
-                            Name = "user",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -160,18 +116,17 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
 
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("7b9556cf-4db8-42c4-86bc-2abebc218ce9"),
-                            RoleId = new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875")
-                        });
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -283,9 +238,9 @@ namespace RealEstateAgency.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBJThn+Z3OaRlH+28qX7x46RDv1piH1eaxEBIKdAxUbsaG3P82pTToIScgO1qUo0Sw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOijXeZjq9clVz9e5W2z/BiOo6Xm/MMZibc82N+u49Sot7d7LqWLUG9uTwrsVVtB7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fdfe980e-e158-48ac-adee-6f860f3253ee",
+                            SecurityStamp = "a4f167e4-b5c2-4cb6-9aa4-5095cf8d63a4",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -293,7 +248,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.BuildingPlan", b =>
                 {
-                    b.Property<Guid>("BuildingPlanId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -305,14 +260,14 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BuildingPlanId");
+                    b.HasKey("Id");
 
                     b.ToTable("BuildingPlans");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.BuildingType", b =>
                 {
-                    b.Property<Guid>("BuildingTypeId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -324,14 +279,14 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BuildingTypeId");
+                    b.HasKey("Id");
 
                     b.ToTable("BuildingTypes");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -349,7 +304,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -358,23 +313,23 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("8f6b5907-f8e5-4413-b544-f264c939568f"),
+                            Id = new Guid("01ee81c3-acf7-4f08-85ef-44e4f56c53d5"),
                             CategoryName = "Rent",
-                            CreatedDate = new DateTime(2022, 11, 23, 10, 48, 28, 320, DateTimeKind.Local).AddTicks(2378),
+                            CreatedDate = new DateTime(2022, 12, 1, 16, 18, 7, 16, DateTimeKind.Local).AddTicks(5662),
                             Position = 0
                         },
                         new
                         {
-                            CategoryId = new Guid("10cd2eca-a8d1-4493-ab87-9905c5fc53d1"),
+                            Id = new Guid("e001ae6f-09c2-42e5-b078-eb5395a96e01"),
                             CategoryName = "Buy",
-                            CreatedDate = new DateTime(2022, 11, 23, 10, 48, 28, 320, DateTimeKind.Local).AddTicks(2417),
+                            CreatedDate = new DateTime(2022, 12, 1, 16, 18, 7, 16, DateTimeKind.Local).AddTicks(5700),
                             Position = 0
                         });
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Estate", b =>
                 {
-                    b.Property<Guid>("EstateId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -448,7 +403,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.Property<Guid>("ZoneId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("EstateId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AgentUserId");
 
@@ -469,7 +424,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.EstateCondition", b =>
                 {
-                    b.Property<Guid>("EstateConditionId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -481,14 +436,14 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("EstateConditionId");
+                    b.HasKey("Id");
 
                     b.ToTable("EstateConditions");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.EstateOption", b =>
                 {
-                    b.Property<Guid>("EstateOptionId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -500,14 +455,14 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("EstateOptionId");
+                    b.HasKey("Id");
 
                     b.ToTable("EstateOptions");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Map", b =>
                 {
-                    b.Property<Guid>("MapId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -524,14 +479,14 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("MapId");
+                    b.HasKey("Id");
 
                     b.ToTable("Maps");
                 });
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Photo", b =>
                 {
-                    b.Property<Guid>("PhotoId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -543,16 +498,60 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("PhotoId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EstateId");
 
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("RealEstateAgency.Core.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875"),
+                            ConcurrencyStamp = "a4c871a1-73cf-428f-90f7-a273ccd4740c",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("c368d1b0-d46a-4b51-b737-c016faa91e31"),
+                            ConcurrencyStamp = "f67a998b-7268-4e31-ae32-370aaaf10efc",
+                            Name = "user",
+                            NormalizedName = "USER"
+                        });
+                });
+
             modelBuilder.Entity("RealEstateAgency.Core.Entities.Zone", b =>
                 {
-                    b.Property<Guid>("ZoneId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -567,31 +566,49 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("ZoneId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ParentZoneId");
 
                     b.ToTable("Zones");
                 });
 
+            modelBuilder.Entity("RealEstateAgency.Core.Entities.UserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasDiscriminator().HasValue("UserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("7b9556cf-4db8-42c4-86bc-2abebc218ce9"),
+                            RoleId = new Guid("3d128fbb-2270-4b17-baf9-80a4eb7f9875"),
+                            Id = new Guid("00000000-0000-0000-0000-000000000000")
+                        });
+                });
+
             modelBuilder.Entity("EstateEstateOption", b =>
                 {
                     b.HasOne("RealEstateAgency.Core.Entities.EstateOption", null)
                         .WithMany()
-                        .HasForeignKey("EstateOptionsEstateOptionId")
+                        .HasForeignKey("EstateOptionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RealEstateAgency.Core.Entities.Estate", null)
                         .WithMany()
-                        .HasForeignKey("EstatesEstateId")
+                        .HasForeignKey("EstatesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("RealEstateAgency.Core.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -618,7 +635,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("RealEstateAgency.Core.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -29,7 +29,7 @@ namespace RealEstateAgency.Service.BuildingPlanService
             {
                 var buildingPlan = new BuildingPlan
                 {
-                    BuildingPlanId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     BuildingPlanName = postBuildingPlanDTO.BuildingPlanName,
                     CreatedDate = DateTime.Now
                 }; 

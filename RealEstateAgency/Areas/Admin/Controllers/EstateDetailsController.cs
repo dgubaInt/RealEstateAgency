@@ -5,9 +5,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
-    public class EstateController : Controller
+    public class EstateDetailsController : Controller
     {
-        public IActionResult Details()
+        public IActionResult Index()
         {
             return View();
         }

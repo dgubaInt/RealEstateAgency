@@ -5,14 +5,14 @@ namespace RealEstateAgency.Core.Interfaces
 {
     public interface IRoleService
     {
-        Task<bool> AddAsync(IdentityRole<Guid> role);
+        Task<bool> AddAsync(Role role);
         Task<bool> SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet);
         Task<bool> AddRoleAsync(Guid userId, Guid roleId);
-        Task<IEnumerable<IdentityRole<Guid>>> GetAllAsync();
-        Task<IEnumerable<IdentityUserRole<Guid>>> GetAllUserRoleAsync();
-        Task<IdentityRole<Guid>> GetByIdAsync(Guid id);
-        Task<bool> UpdateAsync(IdentityRole<Guid> role);
-        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedUsers);
-        Task<bool> RemoveRoleAsync(IdentityUserRole<Guid> userRole);
+        Task<IEnumerable<Role>> GetAllAsync();
+        Task<IEnumerable<UserRole>> GetAllUserRoleAsync();
+        Task<Role> GetByIdAsync(Guid id);
+        Task<bool> UpdateAsync(Role role);
+        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<UserRole> userRoles, Dictionary<Guid, bool> updatedUsers);
+        Task<bool> RemoveRoleAsync(UserRole userRole);
     }
 }

@@ -29,7 +29,7 @@ namespace RealEstateAgency.Service.EstateConditionService
             {
                 var estateCondition = new EstateCondition
                 {
-                    EstateConditionId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     EstateConditionName = postEstateConditionDTO.EstateConditionName,
                     CreatedDate = DateTime.Now
                 };

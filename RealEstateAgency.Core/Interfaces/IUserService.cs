@@ -11,6 +11,6 @@ namespace RealEstateAgency.Core.Interfaces
         Task<IEnumerable<AgentUser>> GetAllAsync();
         Task<AgentUser> GetByIdAsync(Guid id);
         Task<bool> UpdateAsync(AgentUser user);
-        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedRoles);
+        Dictionary<Guid, bool> ManageUserRoles(IEnumerable<UserRole> userRoles, Dictionary<Guid, bool> updatedRoles);
     }
 }

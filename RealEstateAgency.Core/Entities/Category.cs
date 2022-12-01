@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class Category
+    public class Category : IBaseEntity
     {
         [Key]
-        public Guid CategoryId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(50)]

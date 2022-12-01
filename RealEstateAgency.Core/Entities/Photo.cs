@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class Photo
+    public class Photo : IBaseEntity
     {
         [Key]
-        public Guid PhotoId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(100)]

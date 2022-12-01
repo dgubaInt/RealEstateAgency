@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Entities
 {
-    public class EstateCondition
+    public class EstateCondition : IBaseEntity
     {
         [Key]
-        public Guid EstateConditionId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(50)]

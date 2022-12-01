@@ -7,41 +7,41 @@ namespace RealEstateAgency.Service.RoleService
 {
     public class RoleService : IRoleService
     {
-        private readonly IGenericRepository<IdentityRole<Guid>> _roleRepository;
-        private readonly IGenericRepository<IdentityUserRole<Guid>> _userRoleRepository;
+        private readonly IGenericRepository<Role> _roleRepository;
+        private readonly IGenericRepository<UserRole> _userRoleRepository;
 
-        public RoleService(IGenericRepository<IdentityRole<Guid>> roleRepository, IGenericRepository<IdentityUserRole<Guid>> userRoleRepository)
+        public RoleService(IGenericRepository<Role> roleRepository, IGenericRepository<UserRole> userRoleRepository)
         {
             _roleRepository = roleRepository;
             _userRoleRepository = userRoleRepository;
         }
 
-        public async Task<bool> AddAsync(IdentityRole<Guid> role)
+        public async Task<bool> AddAsync(Role role)
         {
             return await _roleRepository.AddAsync(role);
         }
 
-        public async Task<IEnumerable<IdentityRole<Guid>>> GetAllAsync()
+        public async Task<IEnumerable<Role>> GetAllAsync()
         {
             return await _roleRepository.GetAllAsync();
         }
 
-        public async Task<IdentityRole<Guid>> GetByIdAsync(Guid id)
+        public async Task<Role> GetByIdAsync(Guid id)
         {
             return await _roleRepository.GetByIdAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(IdentityRole<Guid> role)
+        public async Task<bool> UpdateAsync(Role role)
         {
             return await _roleRepository.UpdateAsync(role);
         }
 
-        public async Task<IEnumerable<IdentityUserRole<Guid>>> GetAllUserRoleAsync()
+        public async Task<IEnumerable<UserRole>> GetAllUserRoleAsync()
         {
             return await _userRoleRepository.GetAllAsync();
         }
 
-        public Dictionary<Guid, bool> ManageUserRoles(IEnumerable<IdentityUserRole<Guid>> userRoles, Dictionary<Guid, bool> updatedUsers)
+        public Dictionary<Guid, bool> ManageUserRoles(IEnumerable<UserRole> userRoles, Dictionary<Guid, bool> updatedUsers)
         {
             var userRoleDetails = new Dictionary<Guid, bool>();
 
@@ -61,7 +61,7 @@ namespace RealEstateAgency.Service.RoleService
         {
             try
             {
-                var userRole = new IdentityUserRole<Guid>
+                var userRole = new UserRole
                 {
                     RoleId = roleId,
                     UserId = userId
@@ -78,7 +78,7 @@ namespace RealEstateAgency.Service.RoleService
             }
         }
 
-        public async Task<bool> RemoveRoleAsync(IdentityUserRole<Guid> userRole)
+        public async Task<bool> RemoveRoleAsync(UserRole userRole)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace RealEstateAgency.Service.RoleService
                 {
                     if (role.Value)
                     {
-                        var userRole = new IdentityUserRole<Guid>
+                        var userRole = new UserRole
                         {
                             RoleId = role.Key,
                             UserId = user.Id

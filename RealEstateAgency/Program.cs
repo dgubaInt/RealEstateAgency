@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
@@ -13,7 +13,8 @@ using RealEstateAgency.Service.EstateOptionService;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
 using RealEstateAgency.Service.ZoneService;
-using RealEstateAgencyMVC.Mappers.UserRole;
+using RealEstateAgencyMVC.Mappers.UserRoleMapper;
+using RealEstateAgency.Service.EstateService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<AgentUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole<Guid>>()
-    .AddUserStore<UserStore<AgentUser, IdentityRole<Guid>, ApplicationDbContext, Guid>>()
-    .AddRoleStore<RoleStore<IdentityRole<Guid>, ApplicationDbContext, Guid>>()
+    .AddRoles<Role>()
+    .AddUserStore<UserStore<AgentUser, Role, ApplicationDbContext, Guid>>()
+    .AddRoleStore<RoleStore<Role, ApplicationDbContext, Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IBuildingTypeService, BuildingTypeService>();
 builder.Services.AddScoped<IEstateConditionService, EstateConditionService>();
 builder.Services.AddScoped<IEstateOptionService, EstateOptionService>();
 builder.Services.AddScoped<IZoneService, ZoneService>();
+builder.Services.AddScoped<IEstateService, EstateService>();
 builder.Services.AddScoped<IUserRoleMapper, UserRoleMapper>();
 
 builder.Services.AddControllersWithViews();

@@ -13,7 +13,7 @@ namespace RealEstateAgencyMVC.Mappers
         public static BuildingTypeDTO ToDTO(this BuildingType buildingType)
         {
             return new BuildingTypeDTO { 
-                BuildingTypeId = buildingType.BuildingTypeId,
+                BuildingTypeId = buildingType.Id,
                 BuildingTypeName = buildingType.BuildingTypeName 
             };
         }
@@ -27,7 +27,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new BuildingPlanDTO
             {
-                BuildingPlanId = buildingType.BuildingPlanId,
+                BuildingPlanId = buildingType.Id,
                 BuildingPlanName = buildingType.BuildingPlanName
             };
         }
@@ -41,7 +41,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new EstateOptionDTO
             {
-                EstateOptionId = estateOption.EstateOptionId,
+                EstateOptionId = estateOption.Id,
                 EstateOptionName = estateOption.EstateOptionName
             };
         }
@@ -55,7 +55,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new EstateConditionDTO
             {
-                EstateConditionId = estateCondition.EstateConditionId,
+                EstateConditionId = estateCondition.Id,
                 EstateConditionName = estateCondition.EstateConditionName
             };
         }
@@ -69,7 +69,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new ZoneDTO
             {
-                ZoneId = zone.ZoneId,
+                ZoneId = zone.Id,
                 ZoneName = zone.ZoneName
             };
         }
@@ -83,7 +83,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new CategoryDTO
             {
-                CategoryId = category.CategoryId,
+                Id = category.Id,
                 CategoryName = category.CategoryName,
                 ParentCategoryId = category.ParentCategoryId,
                 Position = category.Position

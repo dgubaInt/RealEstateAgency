@@ -5,7 +5,7 @@ using RealEstateAgency.Core.Entities;
 
 namespace RealEstateAgency.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AgentUser, IdentityRole<Guid>, Guid>
+    public class ApplicationDbContext : IdentityDbContext<AgentUser, Role, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,14 +24,14 @@ namespace RealEstateAgency.Infrastructure.Data
             string admin_UserId = "7b9556cf-4db8-42c4-86bc-2abebc218ce9";
             string admin_UserConcurrencyStamp = "4f743e54-0a01-46e1-a1bf-6f013f406211";
 
-            builder.Entity<IdentityRole<Guid>>().HasData(new IdentityRole<Guid>
+            builder.Entity<Role>().HasData(new Role
             {
                 Name = "admin",
                 NormalizedName = "ADMIN",
                 Id = Guid.Parse(admin_RoleId),
                 ConcurrencyStamp = admin_RoleConcurrencyStamp
             },
-            new IdentityRole<Guid>
+            new Role
             {
                 Name = "user",
                 NormalizedName = "USER",
@@ -58,7 +58,7 @@ namespace RealEstateAgency.Infrastructure.Data
 
             builder.Entity<AgentUser>().HasData(adminUser);
 
-            builder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            builder.Entity<UserRole>().HasData(new UserRole
             {
                 RoleId = Guid.Parse(admin_RoleId),
                 UserId = Guid.Parse(admin_UserId)
@@ -66,7 +66,7 @@ namespace RealEstateAgency.Infrastructure.Data
 
             var rentCategory = new Category
             {
-                CategoryId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CategoryName = "Rent",
                 CreatedDate = DateTime.Now,
                 ParentCategory = null,
@@ -75,7 +75,7 @@ namespace RealEstateAgency.Infrastructure.Data
 
             var buyCategory = new Category
             {
-                CategoryId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CategoryName = "Buy",
                 CreatedDate = DateTime.Now,
                 ParentCategory = null,

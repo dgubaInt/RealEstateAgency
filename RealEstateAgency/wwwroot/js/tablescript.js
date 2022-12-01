@@ -11,7 +11,7 @@ $(document).ready(function () {
             deleteAction: '/api/Categories/DeleteCategory'
         },
         fields: {
-            categoryId: {
+            id: {
                 key: true,
                 list: false
             },
@@ -39,7 +39,7 @@ $(document).ready(function () {
                                     return;
                                 }
                                 debugger;
-                                options = data_success.records.map((category) => ({ DisplayText: category.categoryName, Value: category.categoryId }));
+                                options = data_success.records.map((category) => ({ DisplayText: category.categoryName, Value: category.id }));
                                 options.push({ DisplayText: "", Value: "" });
                             }
                         });
@@ -47,7 +47,7 @@ $(document).ready(function () {
                     }
                     else {
                         if (data.source == "edit") {
-                            return cachedCategoryOptions.filter(category => category.Value != data.record.categoryId);
+                            return cachedCategoryOptions.filter(category => category.Value != data.record.id);
                         }
                         else {
                             return cachedCategoryOptions;
@@ -75,7 +75,7 @@ $(document).ready(function () {
             deleteAction: '/api/BuildingPlans/DeleteBuildingPlan'
         },
         fields: {
-            buildingPlanId: {
+            id: {
                 key: true,
                 list: false
             },
@@ -99,7 +99,7 @@ $(document).ready(function () {
             deleteAction: '/api/BuildingTypes/DeleteBuildingType'
         },
         fields: {
-            buildingTypeId: {
+            id: {
                 key: true,
                 list: false
             },
@@ -123,7 +123,7 @@ $(document).ready(function () {
             deleteAction: '/api/EstateConditions/DeleteEstateCondition'
         },
         fields: {
-            estateConditionId: {
+            id: {
                 key: true,
                 list: false
             },
@@ -147,7 +147,7 @@ $(document).ready(function () {
             deleteAction: '/api/EstateOptions/DeleteEstateOption'
         },
         fields: {
-            estateOptionId: {
+            id: {
                 key: true,
                 list: false
             },
@@ -171,7 +171,7 @@ $(document).ready(function () {
             deleteAction: '/api/Zones/DeleteZone'
         },
         fields: {
-            zoneId: {
+            id: {
                 key: true,
                 list: false
             },

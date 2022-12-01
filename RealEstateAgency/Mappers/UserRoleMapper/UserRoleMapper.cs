@@ -3,7 +3,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 using System.Data;
 
-namespace RealEstateAgencyMVC.Mappers.UserRole
+namespace RealEstateAgencyMVC.Mappers.UserRoleMapper
 {
     public class UserRoleMapper : IUserRoleMapper
     {
@@ -29,7 +29,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return editUserViewModel;
         }
 
-        public List<UserViewModel> MapToUserVMAll(IEnumerable<AgentUser> users, IEnumerable<IdentityUserRole<Guid>> userRoles)
+        public List<UserViewModel> MapToUserVMAll(IEnumerable<AgentUser> users, IEnumerable<UserRole> userRoles)
         {
             var viewModels = new List<UserViewModel>();
 
@@ -50,7 +50,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return viewModels;
         }
 
-        public List<RoleViewModel> MapToRoleVMAll(IEnumerable<IdentityRole<Guid>> roles, IEnumerable<IdentityUserRole<Guid>> userRoles)
+        public List<RoleViewModel> MapToRoleVMAll(IEnumerable<Role> roles, IEnumerable<UserRole> userRoles)
         {
             var viewModels = new List<RoleViewModel>();
 
@@ -108,7 +108,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return user;
         }
 
-        public EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, IEnumerable<IdentityRole<Guid>> identityRoles)
+        public EditUserViewModel MapUserRolesToEditUserVM(EditUserViewModel editUserViewModel, IEnumerable<Role> identityRoles)
         {
             if (identityRoles is not null)
             {
@@ -128,7 +128,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return editUserViewModel;
         }
 
-        public AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, IEnumerable<IdentityRole<Guid>> identityRoles)
+        public AddUserViewModel MapUserRolesToAddUserVM(AddUserViewModel addUserViewModel, IEnumerable<Role> identityRoles)
         {
             if (identityRoles is not null)
             {
@@ -169,7 +169,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return addRoleViewModel;
         }
 
-        public AddEditRoleViewModel MapUsersToEditRoleVM(IEnumerable<IdentityUserRole<Guid>> userRoles, IdentityRole<Guid> role, AddEditRoleViewModel editRoleViewModel, IEnumerable<AgentUser> identityUsers)
+        public AddEditRoleViewModel MapUsersToEditRoleVM(IEnumerable<UserRole> userRoles, Role role, AddEditRoleViewModel editRoleViewModel, IEnumerable<AgentUser> identityUsers)
         {
             editRoleViewModel.RoleId = role.Id;
             editRoleViewModel.RoleName = role.Name;
@@ -192,7 +192,7 @@ namespace RealEstateAgencyMVC.Mappers.UserRole
             return editRoleViewModel;
         }
 
-        public IdentityRole<Guid> MapAddEditRoleVMToIdentity(AddEditRoleViewModel editRoleViewModel, IdentityRole<Guid> role)
+        public Role MapAddEditRoleVMToIdentity(AddEditRoleViewModel editRoleViewModel, Role role)
         {
             role.Name = editRoleViewModel.RoleName;
             role.NormalizedName = editRoleViewModel.RoleName.ToUpper();
