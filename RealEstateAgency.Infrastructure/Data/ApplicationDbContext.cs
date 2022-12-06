@@ -91,7 +91,6 @@ namespace RealEstateAgency.Infrastructure.Data
         public DbSet<EstateCondition> EstateConditions { get; set; }
         public DbSet<BuildingPlan> BuildingPlans { get; set; }
         public DbSet<BuildingType> BuildingTypes { get; set; }
-        public DbSet<Map> Maps { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Zone> Zones { get; set; }
     }

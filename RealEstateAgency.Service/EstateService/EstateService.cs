@@ -1,11 +1,5 @@
 ﻿using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgency.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RealEstateAgency.Service.EstateService
 {
@@ -24,7 +18,6 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.BuildingType,
                 e => e.Category,
                 e => e.EstateCondition,
-                e => e.Map,
                 e => e.Zone);
         }
 
@@ -36,8 +29,24 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.BuildingType,
                 e => e.Category,
                 e => e.EstateCondition,
-                e => e.Map,
                 e => e.Zone);
+        }
+
+        public async Task<bool> UpdateAsync(Estate estate)
+        {
+            return await _estateRepository.UpdateAsync(estate);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            try
+            {
+                return await _estateRepository.DeleteAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

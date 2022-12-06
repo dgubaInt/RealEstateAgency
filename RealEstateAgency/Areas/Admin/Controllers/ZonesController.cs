@@ -57,7 +57,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var zone = await _zoneService.GetByIdAsync(zoneDTO.ZoneId);
+                var zone = await _zoneService.GetByIdAsync(zoneDTO.Id);
                 if (zone != null)
                 {
                     zone.SetValues(zoneDTO);
@@ -76,11 +76,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/Zones/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<IActionResult> DeleteZone([FromForm] Guid zoneId)
+        public async Task<IActionResult> DeleteZone([FromForm] Guid id)
         {
             try
             {
-                await _zoneService.DeleteAsync(zoneId);
+                await _zoneService.DeleteAsync(id);
                 return Json(new { Result = "OK" });
             }
             catch (Exception ex)

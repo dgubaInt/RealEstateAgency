@@ -1,14 +1,15 @@
-﻿@model IEnumerable<RealEstateAgency.Core.Entities.Estate>
+﻿@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Index</h1>
+<div class="div-flex-center">
+    <p>Here you can manage estates:</p>
+</div>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-success" role="button" asp-action="Create"><i class="fas fa-plus"></i> Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -17,65 +18,13 @@
                 @Html.DisplayNameFor(model => model.EstateName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
+            
             <th>
-                @Html.DisplayNameFor(model => model.Tags)
+                @Html.DisplayNameFor(model => model.Agent)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BathRooms)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balconies)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParkingSpaces)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LivingArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KitchenArea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AgentUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BuildingPlan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BuildingType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Map)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstateCondition)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -86,69 +35,15 @@
                 @Html.DisplayFor(modelItem => item.EstateName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tags)
+                @Html.DisplayFor(modelItem => item.Agent)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BathRooms)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balconies)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParkingSpaces)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LivingArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KitchenArea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currency)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AgentUser.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuildingPlan.BuildingPlanName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuildingType.BuildingTypeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zone.ZoneName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Map.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstateCondition.EstateConditionName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-info" aria-hidden="true"></i> Details</a>
+                <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
             </td>
         </tr>
 }

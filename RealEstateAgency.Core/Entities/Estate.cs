@@ -74,10 +74,6 @@ namespace RealEstateAgency.Core.Entities
 
         [ForeignKey("ZoneId")]
         public virtual Zone Zone { get; set; }
-        public Guid MapId { get; set; }
-
-        [ForeignKey("MapId")]
-        public virtual Map Map { get; set; }
         public Guid EstateConditionId { get; set; }
 
         [ForeignKey("EstateConditionId")]

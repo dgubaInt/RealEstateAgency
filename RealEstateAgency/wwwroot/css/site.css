@@ -16,7 +16,6 @@ html {
 body {
     width: 100%;
     overflow-y: scroll;
-    margin-bottom: 60px;
 }
 
 .container {
@@ -98,9 +97,10 @@ body {
     padding: 20px;
 }
 
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-    padding: 10px;
+.estate-map {
+    height: 350px;
+    position: relative;
+    overflow: hidden;
 }
+
+.btn-

@@ -5,6 +5,7 @@ using RealEstateAgency.Core.DTOs.EstateCondition;
 using RealEstateAgency.Core.DTOs.EstateOption;
 using RealEstateAgency.Core.DTOs.Zone;
 using RealEstateAgency.Core.Entities;
+using RealEstateAgency.Core.Models;
 
 namespace RealEstateAgencyMVC.Mappers
 {
@@ -12,9 +13,10 @@ namespace RealEstateAgencyMVC.Mappers
     {
         public static BuildingTypeDTO ToDTO(this BuildingType buildingType)
         {
-            return new BuildingTypeDTO { 
-                BuildingTypeId = buildingType.Id,
-                BuildingTypeName = buildingType.BuildingTypeName 
+            return new BuildingTypeDTO
+            {
+                Id = buildingType.Id,
+                BuildingTypeName = buildingType.BuildingTypeName
             };
         }
 
@@ -27,7 +29,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new BuildingPlanDTO
             {
-                BuildingPlanId = buildingType.Id,
+                Id = buildingType.Id,
                 BuildingPlanName = buildingType.BuildingPlanName
             };
         }
@@ -41,7 +43,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new EstateOptionDTO
             {
-                EstateOptionId = estateOption.Id,
+                Id = estateOption.Id,
                 EstateOptionName = estateOption.EstateOptionName
             };
         }
@@ -55,7 +57,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new EstateConditionDTO
             {
-                EstateConditionId = estateCondition.Id,
+                Id = estateCondition.Id,
                 EstateConditionName = estateCondition.EstateConditionName
             };
         }
@@ -69,7 +71,7 @@ namespace RealEstateAgencyMVC.Mappers
         {
             return new ZoneDTO
             {
-                ZoneId = zone.Id,
+                Id = zone.Id,
                 ZoneName = zone.ZoneName
             };
         }
@@ -95,6 +97,133 @@ namespace RealEstateAgencyMVC.Mappers
             category.CategoryName = categoryDTO.CategoryName;
             category.ParentCategoryId = categoryDTO.ParentCategoryId;
             category.Position = categoryDTO.Position;
+        }
+
+        public static Estate ToEntity(this AddEstateViewModel addEstateViewModel)
+        {
+            var estate = new Estate
+            {
+                Id = Guid.NewGuid(),
+                EstateName = addEstateViewModel.EstateName,
+                Description = addEstateViewModel.Description,
+                Address = addEstateViewModel.Address,
+                Tags = addEstateViewModel.Tags,
+                Rooms = addEstateViewModel.Rooms,
+                BathRooms = addEstateViewModel.BathRooms,
+                Balconies = addEstateViewModel.Balconies,
+                ParkingSpaces = addEstateViewModel.ParkingSpaces,
+                TotalArea = addEstateViewModel.TotalArea,
+                LivingArea = addEstateViewModel.LivingArea,
+                KitchenArea = addEstateViewModel.KitchenArea,
+                Price = addEstateViewModel.Price,
+                Currency = addEstateViewModel.Currency,
+                CreatedDate = addEstateViewModel.CreatedDate,
+                CategoryId = addEstateViewModel.CategoryId,
+                AgentUserId = addEstateViewModel.AgentUserId,
+                BuildingPlanId = addEstateViewModel.BuildingPlanId,
+                BuildingTypeId = addEstateViewModel.BuildingTypeId,
+                ZoneId = addEstateViewModel.ZoneId,
+                EstateConditionId = addEstateViewModel.EstateConditionId
+            };
+
+            return estate;
+        }
+
+        public static Estate ToEntity(this EditEstateViewModel editEstateViewModel)
+        {
+            var estate = new Estate
+            {
+                Id = editEstateViewModel.Id,
+                EstateName = editEstateViewModel.EstateName,
+                Description = editEstateViewModel.Description,
+                Address = editEstateViewModel.Address,
+                Tags = editEstateViewModel.Tags,
+                Rooms = editEstateViewModel.Rooms,
+                BathRooms = editEstateViewModel.BathRooms,
+                Balconies = editEstateViewModel.Balconies,
+                ParkingSpaces = editEstateViewModel.ParkingSpaces,
+                TotalArea = editEstateViewModel.TotalArea,
+                LivingArea = editEstateViewModel.LivingArea,
+                KitchenArea = editEstateViewModel.KitchenArea,
+                Price = editEstateViewModel.Price,
+                Currency = editEstateViewModel.Currency,
+                CreatedDate = editEstateViewModel.CreatedDate,
+                CategoryId = editEstateViewModel.CategoryId,
+                AgentUserId = editEstateViewModel.AgentUserId,
+                BuildingPlanId = editEstateViewModel.BuildingPlanId,
+                BuildingTypeId = editEstateViewModel.BuildingTypeId,
+                ZoneId = editEstateViewModel.ZoneId,
+                EstateConditionId = editEstateViewModel.EstateConditionId
+            };
+
+            return estate;
+        }
+
+        public static EditEstateViewModel ToEditViewModel(this Estate estate)
+        {
+            return new EditEstateViewModel
+            {
+                Id = estate.Id,
+                EstateName = estate.EstateName,
+                Description = estate.Description,
+                Address = estate.Address,
+                Tags = estate.Tags,
+                Rooms = estate.Rooms,
+                BathRooms = estate.BathRooms,
+                Balconies = estate.Balconies,
+                ParkingSpaces = estate.ParkingSpaces,
+                TotalArea = estate.TotalArea,
+                LivingArea = estate.LivingArea,
+                KitchenArea = estate.KitchenArea,
+                Price = estate.Price,
+                Currency = estate.Currency,
+                CreatedDate = estate.CreatedDate,
+                CategoryId = estate.CategoryId,
+                AgentUserId = estate.AgentUserId,
+                BuildingPlanId = estate.BuildingPlanId,
+                BuildingTypeId = estate.BuildingTypeId,
+                ZoneId = estate.ZoneId,
+                EstateConditionId = estate.EstateConditionId
+            };
+        }
+
+        public static EstateDetailsViewModel ToDetailsViewModel(this Estate estate)
+        {
+            return new EstateDetailsViewModel
+            {
+                Id = estate.Id,
+                EstateName = estate.EstateName,
+                Description = estate.Description,
+                Address = estate.Address,
+                Tags = estate.Tags,
+                Rooms = estate.Rooms,
+                BathRooms = estate.BathRooms,
+                Balconies = estate.Balconies,
+                ParkingSpaces = estate.ParkingSpaces,
+                TotalArea = estate.TotalArea,
+                LivingArea = estate.LivingArea,
+                KitchenArea = estate.KitchenArea,
+                Price = estate.Price,
+                Currency = estate.Currency,
+                CreatedDate = estate.CreatedDate,
+                CategoryName = estate.Category.CategoryName,
+                AgentUserName = estate.AgentUser.UserName,
+                BuildingPlanName = estate.BuildingPlan.BuildingPlanName,
+                BuildingTypeName = estate.BuildingType.BuildingTypeName,
+                ZoneName = estate.Zone.ZoneName,
+                EstateConditionName = estate.EstateCondition.EstateConditionName
+            };
+        }
+
+        public static EstateViewModel ToViewModel(this Estate estate)
+        {
+            return new EstateViewModel
+            {
+                Id = estate.Id,
+                EstateName = estate.EstateName,
+                Address = estate.Address,
+                Agent = estate.AgentUser.UserName
+            };
         }
     }
 }

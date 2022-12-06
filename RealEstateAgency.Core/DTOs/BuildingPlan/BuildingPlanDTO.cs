@@ -2,7 +2,7 @@
 {
     public class BuildingPlanDTO
     {
-        public Guid BuildingPlanId { get; set; }
+        public Guid Id { get; set; }
         public string BuildingPlanName { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var estateCondition = await _estateConditionService.GetByIdAsync(estateConditionDTO.EstateConditionId);
+                var estateCondition = await _estateConditionService.GetByIdAsync(estateConditionDTO.Id);
                 if (estateCondition != null)
                 {
                     estateCondition.SetValues(estateConditionDTO);
@@ -78,11 +78,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/EstateConditions/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<IActionResult> DeleteEstateCondition([FromForm] Guid estateConditionId)
+        public async Task<IActionResult> DeleteEstateCondition([FromForm] Guid id)
         {
             try
             {
-                await _estateConditionService.DeleteAsync(estateConditionId);
+                await _estateConditionService.DeleteAsync(id);
                 return Json(new { Result = "OK" });
             }
             catch (Exception ex)

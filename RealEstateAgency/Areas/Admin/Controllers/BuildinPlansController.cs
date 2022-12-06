@@ -57,7 +57,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var buildingPlan = await _buildingPlanService.GetByIdAsync(buildingPlanDTO.BuildingPlanId);
+                var buildingPlan = await _buildingPlanService.GetByIdAsync(buildingPlanDTO.Id);
                 if (buildingPlan != null)
                 {
                     buildingPlan.SetValues(buildingPlanDTO);
@@ -76,11 +76,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/BuildingPlans/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<IActionResult> DeleteBuildingPlan([FromForm] Guid buildingPlanId)
+        public async Task<IActionResult> DeleteBuildingPlan([FromForm] Guid id)
         {
             try
             {
-                await _buildingPlanService.DeleteAsync(buildingPlanId);
+                await _buildingPlanService.DeleteAsync(id);
                 return Json(new { Result = "OK" });
             }
             catch (Exception ex)

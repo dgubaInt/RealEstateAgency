@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
+using RealEstateAgency.Core.Interfaces;
+using RealEstateAgency.Core.Models;
 using RealEstateAgency.Infrastructure.Data;
+using RealEstateAgencyMVC.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -14,54 +13,54 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     public class EstatesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUserService _userService;
+        private readonly IBuildingPlanService _buildingPlanService;
+        private readonly IBuildingTypeService _buildingTypeService;
+        private readonly ICategoryService _categoryService;
+        private readonly IEstateConditionService _estateConditionService;
+        private readonly IZoneService _zoneService;
+        private readonly IEstateService _estateService;
 
-        public EstatesController(ApplicationDbContext context)
+        public EstatesController(ApplicationDbContext context, IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService)
         {
             _context = context;
+            _userService = userService;
+            _estateService = estateService;
+            _buildingPlanService = buildingPlanService;
+            _buildingTypeService = buildingTypeService;
+            _categoryService = categoryService;
+            _estateConditionService = estateConditionService;
+            _zoneService = zoneService;
         }
 
         // GET: Admin/Estates
         public async Task<IActionResult> Index()
         {
-            var realEstateAgencyMVCContext = _context.Estates.Include(e => e.AgentUser).Include(e => e.BuildingPlan).Include(e => e.BuildingType).Include(e => e.Category).Include(e => e.EstateCondition).Include(e => e.Map).Include(e => e.Zone);
-            return View(await realEstateAgencyMVCContext.ToListAsync());
+            var estates = (await _estateService.GetAllAsync()).Select(e => e.ToViewModel());
+            return View(estates);
         }
 
         // GET: Admin/Estates/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            if (id == null || _context.Estates == null)
-            {
-                return NotFound();
-            }
-
-            var estate = await _context.Estates
-                .Include(e => e.AgentUser)
-                .Include(e => e.BuildingPlan)
-                .Include(e => e.BuildingType)
-                .Include(e => e.Category)
-                .Include(e => e.EstateCondition)
-                .Include(e => e.Map)
-                .Include(e => e.Zone)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estate = await _estateService.GetByIdAsync(id);
             if (estate == null)
             {
                 return NotFound();
             }
 
-            return View(estate);
+            return View(estate.ToDetailsViewModel());
         }
 
         // GET: Admin/Estates/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "FirstName");
-            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "BuildingPlanId", "BuildingPlanName");
-            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "BuildingTypeId", "BuildingTypeName");
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryName");
-            ViewData["EstateConditionId"] = new SelectList(_context.Set<EstateCondition>(), "EstateConditionId", "EstateConditionName");
-            ViewData["MapId"] = new SelectList(_context.Set<Map>(), "MapId", "Description");
-            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "ZoneId", "ZoneName");
+            ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
+            ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
+            ViewData["BuildingTypeId"] = new SelectList(await _buildingTypeService.GetAllAsync(), "Id", "BuildingTypeName");
+            ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
+            ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
+            ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
             return View();
         }
 
@@ -70,46 +69,40 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EstateId,EstateName,Description,Address,Tags,Rooms,BathRooms,Balconies,ParkingSpaces,TotalArea,LivingArea,KitchenArea,Price,Currency,CreatedDate,CategoryId,AgentUserId,BuildingPlanId,BuildingTypeId,ZoneId,MapId,EstateConditionId")] Estate estate)
+        public async Task<IActionResult> Create(AddEstateViewModel estate)
         {
             if (ModelState.IsValid)
             {
-                estate.Id = Guid.NewGuid();
-                _context.Add(estate);
+                _context.Add(estate.ToEntity());
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "FirstName", estate.AgentUserId);
-            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "BuildingPlanId", "BuildingPlanName", estate.BuildingPlanId);
-            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "BuildingTypeId", "BuildingTypeName", estate.BuildingTypeId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryName", estate.CategoryId);
-            ViewData["EstateConditionId"] = new SelectList(_context.Set<EstateCondition>(), "EstateConditionId", "EstateConditionName", estate.EstateConditionId);
-            ViewData["MapId"] = new SelectList(_context.Set<Map>(), "MapId", "Description", estate.MapId);
-            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "ZoneId", "ZoneName", estate.ZoneId);
+            ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
+            ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
+            ViewData["BuildingTypeId"] = new SelectList(await _buildingTypeService.GetAllAsync(), "Id", "BuildingTypeName");
+            ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
+            ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
+            ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
             return View(estate);
         }
 
         // GET: Admin/Estates/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null || _context.Estates == null)
-            {
-                return NotFound();
-            }
-
-            var estate = await _context.Estates.FindAsync(id);
+            var estate = await _estateService.GetByIdAsync(id);
             if (estate == null)
             {
                 return NotFound();
             }
-            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "FirstName", estate.AgentUserId);
-            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "BuildingPlanId", "BuildingPlanName", estate.BuildingPlanId);
-            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "BuildingTypeId", "BuildingTypeName", estate.BuildingTypeId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryName", estate.CategoryId);
-            ViewData["EstateConditionId"] = new SelectList(_context.Set<EstateCondition>(), "EstateConditionId", "EstateConditionName", estate.EstateConditionId);
-            ViewData["MapId"] = new SelectList(_context.Set<Map>(), "MapId", "Description", estate.MapId);
-            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "ZoneId", "ZoneName", estate.ZoneId);
-            return View(estate);
+            var x = nameof(estate.AgentUserId);
+
+            ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
+            ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
+            ViewData["BuildingTypeId"] = new SelectList(await _buildingTypeService.GetAllAsync(), "Id", "BuildingTypeName");
+            ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
+            ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
+            ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
+            return View(estate.ToEditViewModel());
         }
 
         // POST: Admin/Estates/Edit/5
@@ -117,7 +110,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EstateId,EstateName,Description,Address,Tags,Rooms,BathRooms,Balconies,ParkingSpaces,TotalArea,LivingArea,KitchenArea,Price,Currency,CreatedDate,CategoryId,AgentUserId,BuildingPlanId,BuildingTypeId,ZoneId,MapId,EstateConditionId")] Estate estate)
+        public async Task<IActionResult> Edit(Guid id, EditEstateViewModel estate)
         {
             if (id != estate.Id)
             {
@@ -128,55 +121,33 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(estate);
-                    await _context.SaveChangesAsync();
+                    await _estateService.UpdateAsync(estate.ToEntity());
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EstateExists(estate.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "FirstName", estate.AgentUserId);
-            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "BuildingPlanId", "BuildingPlanName", estate.BuildingPlanId);
-            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "BuildingTypeId", "BuildingTypeName", estate.BuildingTypeId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryName", estate.CategoryId);
+            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "UserName", estate.AgentUserId);
+            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "Id", "BuildingPlanName", estate.BuildingPlanId);
+            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "Id", "BuildingTypeName", estate.BuildingTypeId);
+            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "CategoryName", estate.CategoryId);
             ViewData["EstateConditionId"] = new SelectList(_context.Set<EstateCondition>(), "EstateConditionId", "EstateConditionName", estate.EstateConditionId);
-            ViewData["MapId"] = new SelectList(_context.Set<Map>(), "MapId", "Description", estate.MapId);
-            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "ZoneId", "ZoneName", estate.ZoneId);
+            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "Id", "ZoneName", estate.ZoneId);
             return View(estate);
         }
 
         // GET: Admin/Estates/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null || _context.Estates == null)
-            {
-                return NotFound();
-            }
-
-            var estate = await _context.Estates
-                .Include(e => e.AgentUser)
-                .Include(e => e.BuildingPlan)
-                .Include(e => e.BuildingType)
-                .Include(e => e.Category)
-                .Include(e => e.EstateCondition)
-                .Include(e => e.Map)
-                .Include(e => e.Zone)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var estate = await _estateService.GetByIdAsync(id);
             if (estate == null)
             {
                 return NotFound();
             }
 
-            return View(estate);
+            return View(estate.ToDetailsViewModel());
         }
 
         // POST: Admin/Estates/Delete/5
@@ -184,23 +155,16 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (_context.Estates == null)
+            try
             {
-                return Problem("Entity set 'RealEstateAgencyMVCContext.Estate'  is null.");
-            }
-            var estate = await _context.Estates.FindAsync(id);
-            if (estate != null)
-            {
-                _context.Estates.Remove(estate);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+                await _estateService.DeleteAsync(id);
 
-        private bool EstateExists(Guid id)
-        {
-          return _context.Estates.Any(e => e.Id == id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
         }
     }
 }

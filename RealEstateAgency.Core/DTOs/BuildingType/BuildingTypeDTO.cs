@@ -2,7 +2,7 @@
 {
     public class BuildingTypeDTO
     {
-        public Guid BuildingTypeId { get; set; }
+        public Guid Id { get; set; }
         public string BuildingTypeName { get; set; }
     }
 }

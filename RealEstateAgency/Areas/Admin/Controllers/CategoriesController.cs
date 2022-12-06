@@ -75,11 +75,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/Categories/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<JsonResult> DeleteCategory([FromForm] Guid categoryId)
+        public async Task<JsonResult> DeleteCategory([FromForm] Guid id)
         {
             try
             {
-                await _categoryService.DeleteAsync(categoryId);
+                await _categoryService.DeleteAsync(id);
                 return Json(new { Result = "OK" });
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
 {
     public class EstateConditionDTO
     {
-        public Guid EstateConditionId { get; set; }
+        public Guid Id { get; set; }
         public string EstateConditionName { get; set; }
     }
 }

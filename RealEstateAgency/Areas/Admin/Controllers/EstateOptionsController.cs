@@ -58,7 +58,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             try
             {
-                var estateOption = await _estateOptionService.GetByIdAsync(estateOptionDTO.EstateOptionId);
+                var estateOption = await _estateOptionService.GetByIdAsync(estateOptionDTO.Id);
                 if (estateOption != null)
                 {
                     estateOption.SetValues(estateOptionDTO);
@@ -77,11 +77,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/EstateOptions/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<IActionResult> DeleteEstateOption([FromForm] Guid estateOptionId)
+        public async Task<IActionResult> DeleteEstateOption([FromForm] Guid id)
         {
             try
             {
-                await _estateOptionService.DeleteAsync(estateOptionId);
+                await _estateOptionService.DeleteAsync(id);
                 return Json(new { Result = "OK" });
             }
             catch (Exception ex)

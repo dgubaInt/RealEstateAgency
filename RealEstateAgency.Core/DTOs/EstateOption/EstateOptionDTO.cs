@@ -2,7 +2,7 @@
 {
     public class EstateOptionDTO
     {
-        public Guid EstateOptionId { get; set; }
+        public Guid Id { get; set; }
         public string EstateOptionName { get; set; }
     }
 }
