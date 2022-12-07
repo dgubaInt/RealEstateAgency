@@ -34,4 +34,15 @@
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\fancy-file-uploader\cors\jquery.postmessage-transport.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\cors\jquery.xdr-transport.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\jquery.fancy-fileupload.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\jquery.fileupload.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\jquery.iframe-transport.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\jquery.ui.widget.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\lang\de.js" />
+    <None Include="wwwroot\lib\fancy-file-uploader\lang\fr.js" />
+  </ItemGroup>
+
 </Project>

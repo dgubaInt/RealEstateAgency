@@ -72,13 +72,16 @@ namespace RealEstateAgencyMVC.Mappers
             return new ZoneDTO
             {
                 Id = zone.Id,
-                ZoneName = zone.ZoneName
+                ZoneName = zone.ZoneName,
+                ParentZoneId = zone.ParentZoneId
+
             };
         }
 
         public static void SetValues(this Zone zone, ZoneDTO zoneDTO)
         {
             zone.ZoneName = zoneDTO.ZoneName;
+            zone.ParentZoneId = zoneDTO.ParentZoneId;
         }
 
         public static CategoryDTO ToDTO(this Category category)

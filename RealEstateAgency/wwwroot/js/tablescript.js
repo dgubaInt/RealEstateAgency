@@ -1,5 +1,6 @@
 ﻿//category jtable
 var cachedCategoryOptions = null;
+var cachedZoneOptions = null;
 
 $(document).ready(function () {
     $('#CategoryTableContainer').jtable({
@@ -177,7 +178,43 @@ $(document).ready(function () {
             },
             zoneName: {
                 title: 'Name',
-                width: '90%'
+                width: '45%'
+            },
+            parentZoneId: {
+                title: 'Parent zone',
+                width: '45%',
+                options: function (data) {
+
+                    if (!cachedZoneOptions) {
+                        //debugger;
+                        var options = [];
+
+                        $.ajax({ //Not found in cache, get from server
+                            url: '/api/Zones/GetZones',
+                            type: 'POST',
+                            dataType: 'json',
+                            async: false,
+                            success: function (data_success) {
+                                if (data_success.result != 'OK') {
+                                    alert(data_success.message);
+                                    return;
+                                }
+                                debugger;
+                                options = data_success.records.map((zone) => ({ DisplayText: zone.zoneName, Value: zone.id }));
+                                options.push({ DisplayText: "", Value: "" });
+                            }
+                        });
+                        return cachedZoneOptions = options;
+                    }
+                    else {
+                        if (data.source == "edit") {
+                            return cachedZoneOptions.filter(zone => zone.Value != data.record.id);
+                        }
+                        else {
+                            return cachedZoneOptions;
+                        }
+                    }
+                }
             }
         }
     });

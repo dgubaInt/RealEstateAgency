@@ -27,7 +27,7 @@ namespace RealEstateAgency.Service.CategoryService
         {
             try
             {
-                var parentCategory = await _categoryRepository.GetByIdAsync(postCategoryDTO.ParentCategoryId);
+                var parentCategory = await GetByIdAsync(postCategoryDTO.ParentCategoryId);
 
                 var category = new Category
                 {
@@ -36,7 +36,7 @@ namespace RealEstateAgency.Service.CategoryService
                     ParentCategory = parentCategory,
                     Position = postCategoryDTO.Position,
                     CreatedDate = DateTime.Now
-                }; 
+                };
                 await _categoryRepository.AddAsync(category);
                 return category;
             }

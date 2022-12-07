@@ -27,10 +27,13 @@ namespace RealEstateAgency.Service.ZoneService
         {
             try
             {
+                var parentZone = await GetByIdAsync(postZoneDTO.ParentZoneId);
+
                 var zone = new Zone
                 {
                     Id = Guid.NewGuid(),
                     ZoneName = postZoneDTO.ZoneName,
+                    ParentZone = parentZone,
                     CreatedDate = DateTime.Now
                 };
                 await _zoneRepository.AddAsync(zone);
