@@ -13,11 +13,11 @@ namespace RealEstateAgency.Core.Entities
         [Required]
         [StringLength(30)]
         public string LastName { get; set; }
-        public virtual HashSet<Estate> Estates { get; set; }
+        public virtual List<Estate> Estates { get; set; }
 
         public AgentUser()
         {
-            Estates = new HashSet<Estate>();
+            Estates = new List<Estate>();
         }
     }
 }

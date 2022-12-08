@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstateAgency.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using RealEstateAgency.Infrastructure.Data;
 namespace RealEstateAgency.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208111557_UpdateEstateOptionRelationship")]
+    partial class UpdateEstateOptionRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +240,9 @@ namespace RealEstateAgency.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENBiD2bFqd5MtgzP1OWkbiG4Ssq2qgTJoqFdq/zwQ/QXZhI4i4aZZpLYspunNcs02w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGl+VTO9cz+v3gENuWJjAdJGrTNZIt2n1AJeCdcGOGQMpcDg5jb14IFXdzPQr44nzg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b8d33647-c645-4555-be00-cebd926f2bef",
+                            SecurityStamp = "f1b82c95-68ad-462e-b7c2-aa27411f5999",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -313,16 +315,16 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("10532962-2fe3-4e57-9b5d-b9d31ff12b89"),
+                            Id = new Guid("4a2d1a21-14a6-4e2c-9669-9b3af4390486"),
                             CategoryName = "Rent",
-                            CreatedDate = new DateTime(2022, 12, 8, 13, 23, 21, 487, DateTimeKind.Local).AddTicks(5795),
+                            CreatedDate = new DateTime(2022, 12, 8, 13, 15, 56, 601, DateTimeKind.Local).AddTicks(368),
                             Position = 0
                         },
                         new
                         {
-                            Id = new Guid("8fd2c18a-8a33-436f-8013-3fe14912c842"),
+                            Id = new Guid("bc051ec4-8d62-42cc-88f9-7df64b58e7a7"),
                             CategoryName = "Buy",
-                            CreatedDate = new DateTime(2022, 12, 8, 13, 23, 21, 487, DateTimeKind.Local).AddTicks(5841),
+                            CreatedDate = new DateTime(2022, 12, 8, 13, 15, 56, 601, DateTimeKind.Local).AddTicks(411),
                             Position = 0
                         });
                 });

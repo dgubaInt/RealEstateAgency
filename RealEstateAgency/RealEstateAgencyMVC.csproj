@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <Content Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <EmbeddedResource Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <None Remove="wwwroot\lib\fancy-file-uploader\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\jquery.jtable.js" />
     <Content Remove="wwwroot\jquery.jtable.min.js" />
     <Content Remove="wwwroot\jtable.2.4.0.zip" />
@@ -15,7 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="jTable" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNet.WebHelpers" Version="3.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
@@ -32,17 +38,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\lib\fancy-file-uploader\cors\jquery.postmessage-transport.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\cors\jquery.xdr-transport.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\jquery.fancy-fileupload.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\jquery.fileupload.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\jquery.iframe-transport.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\jquery.ui.widget.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\lang\de.js" />
-    <None Include="wwwroot\lib\fancy-file-uploader\lang\fr.js" />
   </ItemGroup>
 
 </Project>

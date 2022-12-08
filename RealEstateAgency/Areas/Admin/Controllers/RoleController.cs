@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
-using RealEstateAgencyMVC.Mappers.UserRoleMapper;
+using RealEstateAgency.Service.Mappers.UserRoleMapper;
 using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
@@ -34,7 +33,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(roleViewModels);
         }
 
-        
+
         public async Task<IActionResult> AddRole()
         {
             var addRoleViewModel = new AddEditRoleViewModel();

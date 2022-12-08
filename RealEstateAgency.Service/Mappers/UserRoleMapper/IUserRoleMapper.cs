@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RealEstateAgency.Core.Entities;
+﻿using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 
-namespace RealEstateAgencyMVC.Mappers.UserRoleMapper
+namespace RealEstateAgency.Service.Mappers.UserRoleMapper
 {
     public interface IUserRoleMapper
     {

@@ -19,11 +19,11 @@ namespace RealEstateAgency.Core.Entities
 
         [ForeignKey("ParentZoneId")]
         public Zone ParentZone { get; set; }
-        public HashSet<Estate> Estates { get; set; }
+        public List<Estate> Estates { get; set; }
 
         public Zone()
         {
-            Estates = new HashSet<Estate>();
+            Estates = new List<Estate>();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.BuildingType;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {

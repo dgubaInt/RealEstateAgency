@@ -51,5 +51,8 @@ namespace RealEstateAgency.Core.Models
 
         [Display(Name = "Estate Condition")]
         public string EstateConditionName { get; set; }
+
+        [Display(Name = "Estate Options")]
+        public string EstateOptions { get; set; }
     }
 }

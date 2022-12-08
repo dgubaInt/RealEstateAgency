@@ -79,10 +79,14 @@ namespace RealEstateAgency.Infrastructure.Data
                 CategoryName = "Buy",
                 CreatedDate = DateTime.Now,
                 ParentCategory = null,
-                Position= 0
+                Position = 0
             };
 
             builder.Entity<Category>().HasData(rentCategory, buyCategory);
+
+            builder.Entity<Estate>()
+                .HasMany(e => e.EstateOptions)
+                .WithMany(o => o.Estates);
         }
 
         public DbSet<Category> Categories { get; set; }

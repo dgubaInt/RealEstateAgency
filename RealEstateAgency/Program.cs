@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
@@ -10,11 +9,11 @@ using RealEstateAgency.Service.BuildingTypeService;
 using RealEstateAgency.Service.CategoryService;
 using RealEstateAgency.Service.EstateConditionService;
 using RealEstateAgency.Service.EstateOptionService;
+using RealEstateAgency.Service.EstateService;
+using RealEstateAgency.Service.Mappers.UserRoleMapper;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
 using RealEstateAgency.Service.ZoneService;
-using RealEstateAgencyMVC.Mappers.UserRoleMapper;
-using RealEstateAgency.Service.EstateService;
 
 var builder = WebApplication.CreateBuilder(args);
 

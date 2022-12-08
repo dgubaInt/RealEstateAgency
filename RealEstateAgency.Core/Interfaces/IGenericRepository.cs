@@ -1,5 +1,4 @@
-﻿using RealEstateAgency.Core.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace RealEstateAgency.Core.Interfaces
 {
@@ -11,5 +10,6 @@ namespace RealEstateAgency.Core.Interfaces
         Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> DeleteAsync(T entity);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includes);
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
-using RealEstateAgencyMVC.Mappers.UserRoleMapper;
+using RealEstateAgency.Service.Mappers.UserRoleMapper;
 using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
@@ -27,7 +27,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             var userRoles = await _roleService.GetAllUserRoleAsync();
 
             var userViewModels = _eVMMapper.MapToUserVMAll(users, userRoles);
-                
+
             return View(userViewModels);
         }
 

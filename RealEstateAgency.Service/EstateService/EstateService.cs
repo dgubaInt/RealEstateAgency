@@ -1,14 +1,18 @@
 ﻿using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgency.Core.Models;
+using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgency.Service.EstateService
 {
     public class EstateService : IEstateService
     {
         private readonly IGenericRepository<Estate> _estateRepository;
-        public EstateService(IGenericRepository<Estate> estateRepository)
+        private readonly IGenericRepository<EstateOption> _estateOptionRepository;
+        public EstateService(IGenericRepository<Estate> estateRepository, IGenericRepository<EstateOption> estateOptionRepository)
         {
             _estateRepository = estateRepository;
+            _estateOptionRepository = estateOptionRepository;
         }
         public async Task<IEnumerable<Estate>> GetAllAsync()
         {
@@ -18,6 +22,7 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.BuildingType,
                 e => e.Category,
                 e => e.EstateCondition,
+                e => e.EstateOptions,
                 e => e.Zone);
         }
 
@@ -29,11 +34,22 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.BuildingType,
                 e => e.Category,
                 e => e.EstateCondition,
+                e => e.EstateOptions,
                 e => e.Zone);
         }
 
-        public async Task<bool> UpdateAsync(Estate estate)
+        public async Task<bool> AddAsync(Estate estate)
         {
+            return await _estateRepository.AddAsync(estate);
+        }
+
+        public async Task<bool> UpdateAsync(EditEstateViewModel editEstateViewModel)
+        {
+            var setIds = editEstateViewModel.EstateOptionViewModels.Where(eo => eo.IsSet == true).Select(eo => eo.Id);
+
+            var estate = await GetByIdAsync(editEstateViewModel.Id);
+            estate.EstateOptions = (List<EstateOption>)await _estateOptionRepository.GetAllAsync(o => setIds.Contains(o.Id));
+            estate.SetValues(editEstateViewModel);
             return await _estateRepository.UpdateAsync(estate);
         }
 

@@ -14,11 +14,11 @@ namespace RealEstateAgency.Core.Entities
 
         [Required]
         public DateTime CreatedDate { get; set; }
-        public virtual HashSet<Estate> Estates { get; set; }
+        public virtual List<Estate> Estates { get; set; }
 
         public BuildingType()
         {
-            Estates = new HashSet<Estate>();
+            Estates = new List<Estate>();
         }
     }
 }

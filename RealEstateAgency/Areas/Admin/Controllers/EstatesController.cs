@@ -5,7 +5,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
 using RealEstateAgency.Infrastructure.Data;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -18,10 +18,11 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IBuildingTypeService _buildingTypeService;
         private readonly ICategoryService _categoryService;
         private readonly IEstateConditionService _estateConditionService;
+        private readonly IEstateOptionService _estateOptionService;
         private readonly IZoneService _zoneService;
         private readonly IEstateService _estateService;
 
-        public EstatesController(ApplicationDbContext context, IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService)
+        public EstatesController(ApplicationDbContext context, IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService)
         {
             _context = context;
             _userService = userService;
@@ -31,6 +32,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _categoryService = categoryService;
             _estateConditionService = estateConditionService;
             _zoneService = zoneService;
+            _estateOptionService = estateOptionService;
         }
 
         // GET: Admin/Estates
@@ -55,13 +57,17 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         // GET: Admin/Estates/Create
         public async Task<IActionResult> Create()
         {
+            var addEstateViewModel = new AddEstateViewModel();
+            var options = await _estateOptionService.GetAllAsync();
+            addEstateViewModel.SetValues(options);
+
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
             ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
             ViewData["BuildingTypeId"] = new SelectList(await _buildingTypeService.GetAllAsync(), "Id", "BuildingTypeName");
             ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
             ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
             ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
-            return View();
+            return View(addEstateViewModel);
         }
 
         // POST: Admin/Estates/Create
@@ -73,8 +79,18 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(estate.ToEntity());
-                await _context.SaveChangesAsync();
+                var options = new List<EstateOption>();
+
+                foreach (var option in estate.EstateOptionViewModels)
+                {
+                    if (option.IsSet)
+                    {
+                        options.Add(await _estateOptionService.GetByIdAsync(option.Id));
+                    }
+                }
+                await _estateService.AddAsync(estate.ToEntity(options));
+                //_context.Add(estate.ToEntity());
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
@@ -94,7 +110,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var x = nameof(estate.AgentUserId);
+            var options = await _estateOptionService.GetAllAsync();
 
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
             ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
@@ -102,7 +118,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
             ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
             ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
-            return View(estate.ToEditViewModel());
+            return View(estate.ToEditViewModel(options));
         }
 
         // POST: Admin/Estates/Edit/5
@@ -121,7 +137,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 try
                 {
-                    await _estateService.UpdateAsync(estate.ToEntity());
+                    await _estateService.UpdateAsync(estate);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

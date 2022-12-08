@@ -52,8 +52,8 @@ namespace RealEstateAgency.Core.Entities
 
         [Required]
         public DateTime CreatedDate { get; set; }
-        public virtual HashSet<EstateOption> EstateOptions { get; set; }
-        public HashSet<Photo> Photos { get; set; }
+        public virtual List<EstateOption> EstateOptions { get; set; }
+        public List<Photo> Photos { get; set; }
         public Guid CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -81,8 +81,8 @@ namespace RealEstateAgency.Core.Entities
 
         public Estate()
         {
-            EstateOptions = new HashSet<EstateOption>();
-            Photos = new HashSet<Photo>();
+            EstateOptions = new List<EstateOption>();
+            Photos = new List<Photo>();
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.EstateOption;
-using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {

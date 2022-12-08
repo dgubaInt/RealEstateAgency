@@ -3,7 +3,7 @@ using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 using System.Data;
 
-namespace RealEstateAgencyMVC.Mappers.UserRoleMapper
+namespace RealEstateAgency.Service.Mappers.UserRoleMapper
 {
     public class UserRoleMapper : IUserRoleMapper
     {

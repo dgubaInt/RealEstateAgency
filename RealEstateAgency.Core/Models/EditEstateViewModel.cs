@@ -68,5 +68,6 @@ namespace RealEstateAgency.Core.Models
 
         [Required, Display(Name = "Estate Condition")]
         public Guid EstateConditionId { get; set; }
+        public List<EstateOptionViewModel> EstateOptionViewModels { get; set; } = new List<EstateOptionViewModel>();
     }
 }

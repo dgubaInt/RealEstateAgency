@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.EstateCondition;
-using RealEstateAgency.Core.DTOs.EstateOption;
-using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
-using RealEstateAgencyMVC.Mappers;
+using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -29,7 +27,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 var estateConditions = (await _estateConditionService.GetAllAsync())
                     .Select(estateCondition => estateCondition.ToDTO()).ToList();
-                
+
                 return Json(new { Result = "OK", Records = estateConditions, TotalRecordCount = estateConditions.Count });
             }
             catch (Exception ex)

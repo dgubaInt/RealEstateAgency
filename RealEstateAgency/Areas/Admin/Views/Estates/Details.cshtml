@@ -129,6 +129,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EstateConditionName)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EstateOptions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EstateOptions)
+        </dd>
     </dl>
     <div class="row col-md-4 p-2">
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary col m-1">Edit</a>

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Infrastructure.Data;
 using System.Linq.Expressions;
@@ -61,6 +60,19 @@ namespace RealEstateAgency.Infrastructure.Repositories
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dbSet.AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query,
+                          (current, include) => current.Include(include));
+            }
+
+            return await query.Where(filter).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)

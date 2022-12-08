@@ -7,7 +7,7 @@ using RealEstateAgency.Core.DTOs.Zone;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Models;
 
-namespace RealEstateAgencyMVC.Mappers
+namespace RealEstateAgency.Service.Mappers
 {
     public static class Mapper
     {
@@ -102,7 +102,7 @@ namespace RealEstateAgencyMVC.Mappers
             category.Position = categoryDTO.Position;
         }
 
-        public static Estate ToEntity(this AddEstateViewModel addEstateViewModel)
+        public static Estate ToEntity(this AddEstateViewModel addEstateViewModel, IEnumerable<EstateOption> options)
         {
             var estate = new Estate
             {
@@ -129,42 +129,55 @@ namespace RealEstateAgencyMVC.Mappers
                 EstateConditionId = addEstateViewModel.EstateConditionId
             };
 
-            return estate;
-        }
-
-        public static Estate ToEntity(this EditEstateViewModel editEstateViewModel)
-        {
-            var estate = new Estate
+            foreach (var option in options)
             {
-                Id = editEstateViewModel.Id,
-                EstateName = editEstateViewModel.EstateName,
-                Description = editEstateViewModel.Description,
-                Address = editEstateViewModel.Address,
-                Tags = editEstateViewModel.Tags,
-                Rooms = editEstateViewModel.Rooms,
-                BathRooms = editEstateViewModel.BathRooms,
-                Balconies = editEstateViewModel.Balconies,
-                ParkingSpaces = editEstateViewModel.ParkingSpaces,
-                TotalArea = editEstateViewModel.TotalArea,
-                LivingArea = editEstateViewModel.LivingArea,
-                KitchenArea = editEstateViewModel.KitchenArea,
-                Price = editEstateViewModel.Price,
-                Currency = editEstateViewModel.Currency,
-                CreatedDate = editEstateViewModel.CreatedDate,
-                CategoryId = editEstateViewModel.CategoryId,
-                AgentUserId = editEstateViewModel.AgentUserId,
-                BuildingPlanId = editEstateViewModel.BuildingPlanId,
-                BuildingTypeId = editEstateViewModel.BuildingTypeId,
-                ZoneId = editEstateViewModel.ZoneId,
-                EstateConditionId = editEstateViewModel.EstateConditionId
-            };
+                estate.EstateOptions.Add(option);
+            }
 
             return estate;
         }
 
-        public static EditEstateViewModel ToEditViewModel(this Estate estate)
+        public static void SetValues(this AddEstateViewModel addEstateViewModel, IEnumerable<EstateOption> estateOptions)
         {
-            return new EditEstateViewModel
+            foreach (var option in estateOptions)
+            {
+                addEstateViewModel.EstateOptionViewModels.Add(new EstateOptionViewModel
+                {
+                    Id = option.Id,
+                    EstateOptionName = option.EstateOptionName,
+                    IsSet = false
+                });
+            }
+        }
+
+        public static void SetValues(this Estate estate, EditEstateViewModel editEstateViewModel)
+        {
+            estate.Id = editEstateViewModel.Id;
+            estate.EstateName = editEstateViewModel.EstateName;
+            estate.Description = editEstateViewModel.Description;
+            estate.Address = editEstateViewModel.Address;
+            estate.Tags = editEstateViewModel.Tags;
+            estate.Rooms = editEstateViewModel.Rooms;
+            estate.BathRooms = editEstateViewModel.BathRooms;
+            estate.Balconies = editEstateViewModel.Balconies;
+            estate.ParkingSpaces = editEstateViewModel.ParkingSpaces;
+            estate.TotalArea = editEstateViewModel.TotalArea;
+            estate.LivingArea = editEstateViewModel.LivingArea;
+            estate.KitchenArea = editEstateViewModel.KitchenArea;
+            estate.Price = editEstateViewModel.Price;
+            estate.Currency = editEstateViewModel.Currency;
+            estate.CreatedDate = editEstateViewModel.CreatedDate;
+            estate.CategoryId = editEstateViewModel.CategoryId;
+            estate.AgentUserId = editEstateViewModel.AgentUserId;
+            estate.BuildingPlanId = editEstateViewModel.BuildingPlanId;
+            estate.BuildingTypeId = editEstateViewModel.BuildingTypeId;
+            estate.ZoneId = editEstateViewModel.ZoneId;
+            estate.EstateConditionId = editEstateViewModel.EstateConditionId;
+        }
+
+        public static EditEstateViewModel ToEditViewModel(this Estate estate, IEnumerable<EstateOption> options)
+        {
+            var editEstateViewModel = new EditEstateViewModel
             {
                 Id = estate.Id,
                 EstateName = estate.EstateName,
@@ -188,11 +201,23 @@ namespace RealEstateAgencyMVC.Mappers
                 ZoneId = estate.ZoneId,
                 EstateConditionId = estate.EstateConditionId
             };
+
+            foreach (var option in options)
+            {
+                editEstateViewModel.EstateOptionViewModels.Add(new EstateOptionViewModel
+                {
+                    Id = option.Id,
+                    EstateOptionName = option.EstateOptionName,
+                    IsSet = estate.EstateOptions.Where(o => o.Id == option.Id).Count() > 0,
+                });
+            }
+
+            return editEstateViewModel;
         }
 
         public static EstateDetailsViewModel ToDetailsViewModel(this Estate estate)
         {
-            return new EstateDetailsViewModel
+            var estateDetailsViewModel = new EstateDetailsViewModel
             {
                 Id = estate.Id,
                 EstateName = estate.EstateName,
@@ -216,6 +241,20 @@ namespace RealEstateAgencyMVC.Mappers
                 ZoneName = estate.Zone.ZoneName,
                 EstateConditionName = estate.EstateCondition.EstateConditionName
             };
+
+            foreach (var option in estate.EstateOptions)
+            {
+                if (estate.EstateOptions.Last() == option)
+                {
+                    estateDetailsViewModel.EstateOptions += option.EstateOptionName;
+                }
+                else
+                {
+                    estateDetailsViewModel.EstateOptions += option.EstateOptionName + ", ";
+                }
+            }
+
+            return estateDetailsViewModel;
         }
 
         public static EstateViewModel ToViewModel(this Estate estate)
