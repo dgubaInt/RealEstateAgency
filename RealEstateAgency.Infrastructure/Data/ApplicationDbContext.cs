@@ -87,6 +87,36 @@ namespace RealEstateAgency.Infrastructure.Data
             builder.Entity<Estate>()
                 .HasMany(e => e.EstateOptions)
                 .WithMany(o => o.Estates);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.AgentUser)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.Zone)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.EstateCondition)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.BuildingPlan)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<Estate>()
+                .HasOne(e => e.BuildingType)
+                .WithMany(c => c.Estates)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         public DbSet<Category> Categories { get; set; }

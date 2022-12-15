@@ -10,6 +10,7 @@ using RealEstateAgency.Service.CategoryService;
 using RealEstateAgency.Service.EstateConditionService;
 using RealEstateAgency.Service.EstateOptionService;
 using RealEstateAgency.Service.EstateService;
+using RealEstateAgency.Service.ImageService;
 using RealEstateAgency.Service.Mappers.UserRoleMapper;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
@@ -41,6 +42,7 @@ builder.Services.AddScoped<IEstateConditionService, EstateConditionService>();
 builder.Services.AddScoped<IEstateOptionService, EstateOptionService>();
 builder.Services.AddScoped<IZoneService, ZoneService>();
 builder.Services.AddScoped<IEstateService, EstateService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserRoleMapper, UserRoleMapper>();
 
 builder.Services.AddControllersWithViews();

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
-using RealEstateAgency.Infrastructure.Data;
 using RealEstateAgency.Service.Mappers;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
@@ -12,7 +11,6 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
     [Area("Admin")]
     public class EstatesController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IUserService _userService;
         private readonly IBuildingPlanService _buildingPlanService;
         private readonly IBuildingTypeService _buildingTypeService;
@@ -21,10 +19,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IEstateOptionService _estateOptionService;
         private readonly IZoneService _zoneService;
         private readonly IEstateService _estateService;
+        private readonly IImageService _imageService;
 
-        public EstatesController(ApplicationDbContext context, IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService)
+        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService)
         {
-            _context = context;
             _userService = userService;
             _estateService = estateService;
             _buildingPlanService = buildingPlanService;
@@ -33,16 +31,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _estateConditionService = estateConditionService;
             _zoneService = zoneService;
             _estateOptionService = estateOptionService;
+            _imageService = imageService;
         }
 
-        // GET: Admin/Estates
         public async Task<IActionResult> Index()
         {
             var estates = (await _estateService.GetAllAsync()).Select(e => e.ToViewModel());
             return View(estates);
         }
 
-        // GET: Admin/Estates/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
             var estate = await _estateService.GetByIdAsync(id);
@@ -51,10 +48,18 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(estate.ToDetailsViewModel());
+            var photoNames = (await _imageService.GetAllAsync()).Where(p => p.EstateId == id).Select(p => p.FileTitle);
+
+            List<string> photos = new List<string>();
+
+            foreach (var photo in photoNames)
+            {
+                photos.Add(_imageService.DownloadImage(photo));
+            }
+
+            return View(estate.ToDetailsViewModel(photos));
         }
 
-        // GET: Admin/Estates/Create
         public async Task<IActionResult> Create()
         {
             var addEstateViewModel = new AddEstateViewModel();
@@ -70,9 +75,6 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(addEstateViewModel);
         }
 
-        // POST: Admin/Estates/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddEstateViewModel estate)
@@ -88,9 +90,17 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                         options.Add(await _estateOptionService.GetByIdAsync(option.Id));
                     }
                 }
-                await _estateService.AddAsync(estate.ToEntity(options));
-                //_context.Add(estate.ToEntity());
-                //await _context.SaveChangesAsync();
+
+                var estateToEntity = estate.ToEntity(options);
+                await _estateService.AddAsync(estateToEntity);
+
+                foreach (var image in estate.File)
+                {
+                    if (_imageService.UploadImage(image))
+                    {
+                        await _imageService.AddAsync(image.ToEntity(estateToEntity));
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
@@ -102,7 +112,6 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(estate);
         }
 
-        // GET: Admin/Estates/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
             var estate = await _estateService.GetByIdAsync(id);
@@ -111,6 +120,14 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 return NotFound();
             }
             var options = await _estateOptionService.GetAllAsync();
+            var photoNames = (await _imageService.GetAllAsync()).Where(p => p.EstateId == id).Select(p => p.FileTitle);
+
+            List<string> photos = new List<string>();
+
+            foreach (var photo in photoNames)
+            {
+                photos.Add(_imageService.DownloadImage(photo));
+            }
 
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
             ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName");
@@ -118,12 +135,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName");
             ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "Id", "EstateConditionName");
             ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName");
-            return View(estate.ToEditViewModel(options));
+            return View(estate.ToEditViewModel(options, photos, photoNames));
         }
 
-        // POST: Admin/Estates/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditEstateViewModel estate)
@@ -137,7 +151,21 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             {
                 try
                 {
+                    var photosToDelete = (await _imageService.GetAllAsync()).Where(i => (!estate.PhotoNames.Contains(i.FileTitle)) && i.EstateId == id).Select(i => i.FileTitle);
+                    foreach (var image in photosToDelete)
+                    {
+                        _imageService.DeleteImage(image);
+                    }
                     await _estateService.UpdateAsync(estate);
+
+                    var estateEntity = await _estateService.GetByIdAsync(id);
+                    foreach (var image in estate.File)
+                    {
+                        if (_imageService.UploadImage(image))
+                        {
+                            await _imageService.AddAsync(image.ToEntity(estateEntity));
+                        }
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -145,16 +173,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AgentUserId"] = new SelectList(_context.Set<AgentUser>(), "Id", "UserName", estate.AgentUserId);
-            ViewData["BuildingPlanId"] = new SelectList(_context.Set<BuildingPlan>(), "Id", "BuildingPlanName", estate.BuildingPlanId);
-            ViewData["BuildingTypeId"] = new SelectList(_context.Set<BuildingType>(), "Id", "BuildingTypeName", estate.BuildingTypeId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "CategoryName", estate.CategoryId);
-            ViewData["EstateConditionId"] = new SelectList(_context.Set<EstateCondition>(), "EstateConditionId", "EstateConditionName", estate.EstateConditionId);
-            ViewData["ZoneId"] = new SelectList(_context.Set<Zone>(), "Id", "ZoneName", estate.ZoneId);
+            ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName", estate.AgentUserId);
+            ViewData["BuildingPlanId"] = new SelectList(await _buildingPlanService.GetAllAsync(), "Id", "BuildingPlanName", estate.BuildingPlanId);
+            ViewData["BuildingTypeId"] = new SelectList(await _buildingTypeService.GetAllAsync(), "Id", "BuildingTypeName", estate.BuildingTypeId);
+            ViewData["CategoryId"] = new SelectList(await _categoryService.GetAllAsync(), "Id", "CategoryName", estate.CategoryId);
+            ViewData["EstateConditionId"] = new SelectList(await _estateConditionService.GetAllAsync(), "EstateConditionId", "EstateConditionName", estate.EstateConditionId);
+            ViewData["ZoneId"] = new SelectList(await _zoneService.GetAllAsync(), "Id", "ZoneName", estate.ZoneId);
             return View(estate);
         }
 
-        // GET: Admin/Estates/Delete/5
         public async Task<IActionResult> Delete(Guid id)
         {
             var estate = await _estateService.GetByIdAsync(id);
@@ -163,10 +190,18 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(estate.ToDetailsViewModel());
+            var photoNames = (await _imageService.GetAllAsync()).Where(p => p.EstateId == id).Select(p => p.FileTitle);
+
+            List<string> photos = new List<string>();
+
+            foreach (var photo in photoNames)
+            {
+                photos.Add(_imageService.DownloadImage(photo));
+            }
+
+            return View(estate.ToDetailsViewModel(photos));
         }
 
-        // POST: Admin/Estates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

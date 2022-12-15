@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Models
 {
@@ -52,22 +53,25 @@ namespace RealEstateAgency.Core.Models
         public DateTime CreatedDate { get; set; }
 
         [Required, Display(Name = "Category")]
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         [Required, Display(Name = "Agent")]
-        public Guid AgentUserId { get; set; }
+        public Guid? AgentUserId { get; set; }
 
         [Required, Display(Name = "Building Plan")]
-        public Guid BuildingPlanId { get; set; }
+        public Guid? BuildingPlanId { get; set; }
 
         [Required, Display(Name = "Building Type")]
-        public Guid BuildingTypeId { get; set; }
+        public Guid? BuildingTypeId { get; set; }
 
         [Required, Display(Name = "Zone")]
-        public Guid ZoneId { get; set; }
+        public Guid? ZoneId { get; set; }
 
         [Required, Display(Name = "Estate Condition")]
-        public Guid EstateConditionId { get; set; }
+        public Guid? EstateConditionId { get; set; }
         public List<EstateOptionViewModel> EstateOptionViewModels { get; set; } = new List<EstateOptionViewModel>();
+        public List<string> Photos { get; set; } = new List<string>();
+        public List<string> PhotoNames { get; set; } = new List<string>();
+        public List<IFormFile> File { get; set; } = new List<IFormFile>();
     }
 }

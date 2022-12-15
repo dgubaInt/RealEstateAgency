@@ -1,4 +1,5 @@
-﻿using RealEstateAgency.Core.DTOs.BuildingPlan;
+﻿using Microsoft.AspNetCore.Http;
+using RealEstateAgency.Core.DTOs.BuildingPlan;
 using RealEstateAgency.Core.DTOs.BuildingType;
 using RealEstateAgency.Core.DTOs.Category;
 using RealEstateAgency.Core.DTOs.EstateCondition;
@@ -175,7 +176,8 @@ namespace RealEstateAgency.Service.Mappers
             estate.EstateConditionId = editEstateViewModel.EstateConditionId;
         }
 
-        public static EditEstateViewModel ToEditViewModel(this Estate estate, IEnumerable<EstateOption> options)
+        public static EditEstateViewModel ToEditViewModel(this Estate estate, IEnumerable<EstateOption> options,
+            IEnumerable<string> photos, IEnumerable<string> photoNames)
         {
             var editEstateViewModel = new EditEstateViewModel
             {
@@ -211,11 +213,19 @@ namespace RealEstateAgency.Service.Mappers
                     IsSet = estate.EstateOptions.Where(o => o.Id == option.Id).Count() > 0,
                 });
             }
+            foreach (var photo in photos)
+            {
+                editEstateViewModel.Photos.Add(photo);
+            }
+            foreach (var name in photoNames)
+            {
+                editEstateViewModel.PhotoNames.Add(name);
+            }
 
             return editEstateViewModel;
         }
 
-        public static EstateDetailsViewModel ToDetailsViewModel(this Estate estate)
+        public static EstateDetailsViewModel ToDetailsViewModel(this Estate estate, IEnumerable<string> photos)
         {
             var estateDetailsViewModel = new EstateDetailsViewModel
             {
@@ -234,12 +244,12 @@ namespace RealEstateAgency.Service.Mappers
                 Price = estate.Price,
                 Currency = estate.Currency,
                 CreatedDate = estate.CreatedDate,
-                CategoryName = estate.Category.CategoryName,
-                AgentUserName = estate.AgentUser.UserName,
-                BuildingPlanName = estate.BuildingPlan.BuildingPlanName,
-                BuildingTypeName = estate.BuildingType.BuildingTypeName,
-                ZoneName = estate.Zone.ZoneName,
-                EstateConditionName = estate.EstateCondition.EstateConditionName
+                CategoryName = estate.Category?.CategoryName ?? string.Empty,
+                AgentUserName = estate.AgentUser?.UserName ?? string.Empty,
+                BuildingPlanName = estate.BuildingPlan?.BuildingPlanName ?? string.Empty,
+                BuildingTypeName = estate.BuildingType?.BuildingTypeName ?? string.Empty,
+                ZoneName = estate.Zone?.ZoneName ?? string.Empty,
+                EstateConditionName = estate.EstateCondition?.EstateConditionName ?? string.Empty
             };
 
             foreach (var option in estate.EstateOptions)
@@ -253,6 +263,10 @@ namespace RealEstateAgency.Service.Mappers
                     estateDetailsViewModel.EstateOptions += option.EstateOptionName + ", ";
                 }
             }
+            foreach (var photo in photos)
+            {
+                estateDetailsViewModel.Photos.Add(photo);
+            }
 
             return estateDetailsViewModel;
         }
@@ -265,6 +279,16 @@ namespace RealEstateAgency.Service.Mappers
                 EstateName = estate.EstateName,
                 Address = estate.Address,
                 Agent = estate.AgentUser.UserName
+            };
+        }
+
+        public static Photo ToEntity(this IFormFile image, Estate estate)
+        {
+            return new Photo
+            {
+                Id = Guid.NewGuid(),
+                FileTitle = image.FileName,
+                Estate = estate
             };
         }
     }

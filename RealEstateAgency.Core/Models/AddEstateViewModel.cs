@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Models
 {
@@ -67,5 +68,6 @@ namespace RealEstateAgency.Core.Models
         public Guid EstateConditionId { get; set; }
 
         public List<EstateOptionViewModel> EstateOptionViewModels { get; set; } = new List<EstateOptionViewModel>();
+        public List<IFormFile> File { get; set; } = new List<IFormFile>();
     }
 }

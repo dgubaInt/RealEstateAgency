@@ -136,6 +136,18 @@
             @Html.DisplayFor(model => model.EstateOptions)
         </dd>
     </dl>
+    <div class="card">
+        <div class="mt-2">
+            <div class="image_container" id="existingImages">
+                @for (var i = 0; i < Model.Photos.Count(); i++)
+                {
+                    <div class="image">
+                        <img src="@Model.Photos[i]" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
     <div class="row col-md-4 p-2">
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary col m-1">Edit</a>
         <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>

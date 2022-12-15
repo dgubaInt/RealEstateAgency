@@ -6,7 +6,7 @@
         content: "<strong>Name:</strong> " + title + "<br><strong>Address:</strong> " + address
             
     });
-    debugger;
+    //debugger;
     if (address != "") {
         geocoder = new google.maps.Geocoder();
         geocoder.geocode({ 'address': address }, function (results, status) {

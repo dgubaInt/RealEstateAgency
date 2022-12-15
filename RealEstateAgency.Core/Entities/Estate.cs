@@ -54,30 +54,30 @@ namespace RealEstateAgency.Core.Entities
         public DateTime CreatedDate { get; set; }
         public virtual List<EstateOption> EstateOptions { get; set; }
         public List<Photo> Photos { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
-        public Guid AgentUserId { get; set; }
+        public virtual Category? Category { get; set; }
+        public Guid? AgentUserId { get; set; }
 
         [ForeignKey("AgentUserId")]
-        public virtual AgentUser AgentUser { get; set; }
-        public Guid BuildingPlanId { get; set; }
+        public virtual AgentUser? AgentUser { get; set; }
+        public Guid? BuildingPlanId { get; set; }
 
         [ForeignKey("BuildingPlanId")]
-        public virtual BuildingPlan BuildingPlan { get; set; }
-        public Guid BuildingTypeId { get; set; }
+        public virtual BuildingPlan? BuildingPlan { get; set; }
+        public Guid? BuildingTypeId { get; set; }
 
         [ForeignKey("BuildingTypeId")]
-        public virtual BuildingType BuildingType { get; set; }
-        public Guid ZoneId { get; set; }
+        public virtual BuildingType? BuildingType { get; set; }
+        public Guid? ZoneId { get; set; }
 
         [ForeignKey("ZoneId")]
-        public virtual Zone Zone { get; set; }
-        public Guid EstateConditionId { get; set; }
+        public virtual Zone? Zone { get; set; }
+        public Guid? EstateConditionId { get; set; }
 
         [ForeignKey("EstateConditionId")]
-        public virtual EstateCondition EstateCondition { get; set; }
+        public virtual EstateCondition? EstateCondition { get; set; }
 
         public Estate()
         {

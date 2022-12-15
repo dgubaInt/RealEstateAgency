@@ -9,10 +9,12 @@ namespace RealEstateAgency.Service.EstateService
     {
         private readonly IGenericRepository<Estate> _estateRepository;
         private readonly IGenericRepository<EstateOption> _estateOptionRepository;
-        public EstateService(IGenericRepository<Estate> estateRepository, IGenericRepository<EstateOption> estateOptionRepository)
+        private readonly IGenericRepository<Photo> _imageRepository;
+        public EstateService(IGenericRepository<Estate> estateRepository, IGenericRepository<EstateOption> estateOptionRepository, IGenericRepository<Photo> imageRepository)
         {
             _estateRepository = estateRepository;
             _estateOptionRepository = estateOptionRepository;
+            _imageRepository = imageRepository;
         }
         public async Task<IEnumerable<Estate>> GetAllAsync()
         {
@@ -23,6 +25,7 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.Category,
                 e => e.EstateCondition,
                 e => e.EstateOptions,
+                e => e.Photos,
                 e => e.Zone);
         }
 
@@ -35,6 +38,7 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.Category,
                 e => e.EstateCondition,
                 e => e.EstateOptions,
+                e => e.Photos,
                 e => e.Zone);
         }
 
@@ -49,7 +53,9 @@ namespace RealEstateAgency.Service.EstateService
 
             var estate = await GetByIdAsync(editEstateViewModel.Id);
             estate.EstateOptions = (List<EstateOption>)await _estateOptionRepository.GetAllAsync(o => setIds.Contains(o.Id));
+            estate.Photos = (List<Photo>)await _imageRepository.GetAllAsync(i => editEstateViewModel.PhotoNames.Contains(i.FileTitle));
             estate.SetValues(editEstateViewModel);
+
             return await _estateRepository.UpdateAsync(estate);
         }
 

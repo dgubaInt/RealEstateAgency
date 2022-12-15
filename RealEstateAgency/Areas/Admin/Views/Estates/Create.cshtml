@@ -7,7 +7,7 @@
 
 <h4>Create Estate</h4>
 <hr />
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
@@ -133,6 +133,21 @@
             </div>
         </div>
     </div>
+    <div class="card">
+        <div class="top">
+            <p>Photos</p>
+        </div>
+        <div class="drag-area">
+            <span class="visible">
+                Drag & drop image here or
+                <span class="select" role="button">Browse</span>
+            </span>
+            <span class="on-drop">Drop images here</span>
+            <input asp-for="@Model.File" name="file" type="file" class="file" multiple />
+        </div>
+
+        <div id="image_container" class="image_container"></div>
+    </div>
 </form>
 
 <div id="estate_map" class="estate-map">
@@ -144,4 +159,5 @@
     }
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
     <script src="~/js/mapscript.js" asp-append-version="true"></script>
+    <script src="~/js/dragarea.js" asp-append-version="true"></script>
 }

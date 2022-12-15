@@ -54,5 +54,6 @@ namespace RealEstateAgency.Core.Models
 
         [Display(Name = "Estate Options")]
         public string EstateOptions { get; set; }
+        public List<string> Photos { get; set; } = new List<string>();
     }
 }
