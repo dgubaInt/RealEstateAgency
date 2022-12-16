@@ -8,7 +8,6 @@ using System.Data;
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -21,6 +20,13 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _eVMMapper = eVMMapper;
             _roleService = roleService;
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> ManageUsers()
         {
             var users = await _userService.GetAllAsync();
@@ -31,6 +37,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(userViewModels);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> EditUser(Guid id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -43,6 +50,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(editUserViewModel);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> EditUser(EditUserViewModel editUserViewModel)
         {
@@ -85,6 +93,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(ManageUsers));
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddUser()
         {
             var addUserViewModel = new AddUserViewModel();
@@ -95,6 +104,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(addUserViewModel);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserViewModel addUserViewModel)
         {
@@ -116,6 +126,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(ManageUsers));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> UserLockout([FromForm] Guid id)
         {
@@ -128,6 +139,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(ManageUsers));
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> RemoveLockout([FromForm] Guid id)
         {

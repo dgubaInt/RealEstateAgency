@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
 using RealEstateAgency.Service.Mappers;
+using System.Data;
 
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
@@ -20,8 +23,9 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IZoneService _zoneService;
         private readonly IEstateService _estateService;
         private readonly IImageService _imageService;
+        private readonly UserManager<AgentUser> _userManager;
 
-        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService)
+        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService, UserManager<AgentUser> userManager)
         {
             _userService = userService;
             _estateService = estateService;
@@ -32,11 +36,26 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _zoneService = zoneService;
             _estateOptionService = estateOptionService;
             _imageService = imageService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var estates = (await _estateService.GetAllAsync()).Select(e => e.ToViewModel());
+            var user = await _userManager.GetUserAsync(User);
+            IEnumerable<EstateViewModel> estates = new List<EstateViewModel>();
+
+            if (user != null)
+            {
+                if (user.UserName != "admin")
+                {
+                    estates = (await _estateService.GetAllAsync()).Where(e => e.AgentUserId == user.Id).Select(e => e.ToViewModel());
+                }
+                else
+                {
+                    estates = (await _estateService.GetAllAsync()).Select(e => e.ToViewModel());
+                }
+            }
+
             return View(estates);
         }
 
@@ -60,6 +79,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(estate.ToDetailsViewModel(photos));
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create()
         {
             var addEstateViewModel = new AddEstateViewModel();
@@ -75,6 +95,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             return View(addEstateViewModel);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddEstateViewModel estate)
