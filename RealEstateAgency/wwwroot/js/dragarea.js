@@ -6,27 +6,34 @@
 	container = document.querySelector('#image_container');
 
 /** CLICK LISTENER */
-select.addEventListener('click', () => input.click());
+if (select) {
+	debugger;
+	select.addEventListener('click', () => input.click());
+}
 
 /* INPUT CHANGE EVENT */
-input.addEventListener('change', () => {
-	let file = input.files;
-	// if user select no image
-	if (file.length == 0) return;
+if (input) {
+	debugger;
+	input.addEventListener('change', () => {
+		let file = input.files;
+		// if user select no image
+		if (file.length == 0) return;
 
-	for (let i = 0; i < file.length; i++) {
-		if (file[i].type.split("/")[0] != 'image') continue;
-		if (!files.some(e => e.name == file[i].name)) files.push(file[i])
-	}
+		for (let i = 0; i < file.length; i++) {
+			if (file[i].type.split("/")[0] != 'image') continue;
+			if (!files.some(e => e.name == file[i].name)) files.push(file[i])
+		}
 
-	const dt = new DataTransfer()
-	for (let i = 0; i < files.length; i++) {
-		dt.items.add(files[i])
-	}
-	input.files = dt.files
+		const dt = new DataTransfer()
+		for (let i = 0; i < files.length; i++) {
+			dt.items.add(files[i])
+		}
+		input.files = dt.files
 
-	showImages();
-});
+		showImages();
+	});
+}
+
 
 /** SHOW IMAGES */
 function showImages() {
@@ -64,29 +71,31 @@ function removeFileFromFileList(index) {
 	input.files = dt.files // Assign the updates list
 }
 
-/* DRAG & DROP */
-dragArea.addEventListener('dragover', e => {
-	e.preventDefault()
-	dragArea.classList.add('dragover')
-})
+if (dragArea) {
+	/* DRAG & DROP */
+	dragArea.addEventListener('dragover', e => {
+		e.preventDefault()
+		dragArea.classList.add('dragover')
+	})
 
-/* DRAG LEAVE */
-dragArea.addEventListener('dragleave', e => {
-	e.preventDefault()
-	dragArea.classList.remove('dragover')
-});
+	/* DRAG LEAVE */
+	dragArea.addEventListener('dragleave', e => {
+		e.preventDefault()
+		dragArea.classList.remove('dragover')
+	});
 
-/* DROP EVENT */
-dragArea.addEventListener('drop', e => {
-	e.preventDefault()
-	dragArea.classList.remove('dragover');
+	/* DROP EVENT */
+	dragArea.addEventListener('drop', e => {
+		e.preventDefault()
+		dragArea.classList.remove('dragover');
 
-	let file = e.dataTransfer.files;
-	for (let i = 0; i < file.length; i++) {
-		/** Check selected file is image */
-		if (file[i].type.split("/")[0] != 'image') continue;
+		let file = e.dataTransfer.files;
+		for (let i = 0; i < file.length; i++) {
+			/** Check selected file is image */
+			if (file[i].type.split("/")[0] != 'image') continue;
 
-		if (!files.some(e => e.name == file[i].name)) files.push(file[i])
-	}
-	showImages();
-});
+			if (!files.some(e => e.name == file[i].name)) files.push(file[i])
+		}
+		showImages();
+	});
+}

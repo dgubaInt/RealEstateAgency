@@ -208,23 +208,6 @@ body {
     border-radius: 5px;
 }
 
-/*.card .image_container .image span {
-    width: 25px;
-    line-height: 18px;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 18px;
-    border: 3px solid #d5d5e100;
-    color: #d5d5e1;
-    background: #5256ad;
-    position: absolute;
-    transition: 0.4s;
-    padding-bottom: 2px;
-}
-
-.card .image_container .image span:hover {
-    border: 3px solid #d5d5e1;
-}*/
 .card .image_container .image span {
     position: absolute;
     top: 2px;
@@ -288,3 +271,45 @@ body {
 .card .drag-area.dragover .visible {
     display: none;
 }
+
+fieldset.group {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 1.25em;
+    padding: .125em;
+}
+
+fieldset.group legend {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    margin-left: 20px;
+    font-size: 100%;
+    color: black;
+}
+
+
+ul.checkbox {
+    margin: 0;
+    padding: 0;
+    margin-left: 20px;
+    list-style: none;
+}
+
+ul.checkbox li input {
+    margin-right: .25em;
+}
+
+ul.checkbox li {
+    border: 1px transparent solid;
+    display: inline-block;
+    width: 18em;
+}
+
+ul.checkbox li:hover,
+ul.checkbox li.focus {
+    background-color: #dfe3f259;
+    border: 1px gray solid;
+    width: 18em;
+} 
+

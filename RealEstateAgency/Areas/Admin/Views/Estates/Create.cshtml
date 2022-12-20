@@ -17,22 +17,9 @@
                 <span asp-validation-for="EstateName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea rows="4" asp-for="Description" placeholder="Description..." class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <div class="row p-2">
-                    <input asp-for="Address" id="address" class="form-control" style="width: 80%" />
-                    <a class="btn btn-primary" style="width: 20%" role="button" onclick="initMap()">Map it!</a>
-                </div>
+                <input asp-for="Address" id="address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Rooms" class="control-label"></label>
@@ -44,8 +31,6 @@
                 <input asp-for="BathRooms" class="form-control" />
                 <span asp-validation-for="BathRooms" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Balconies" class="control-label"></label>
                 <input asp-for="Balconies" class="form-control" />
@@ -56,6 +41,8 @@
                 <input asp-for="ParkingSpaces" class="form-control" />
                 <span asp-validation-for="ParkingSpaces" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="TotalArea" class="control-label"></label>
                 <input asp-for="TotalArea" class="form-control" />
@@ -81,13 +68,13 @@
                 <input asp-for="Currency" class="form-control" />
                 <span asp-validation-for="Currency" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="CreatedDate" class="control-label"></label>
                 <input asp-for="CreatedDate" class="form-control" />
                 <span asp-validation-for="CreatedDate" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId"></select>
@@ -118,20 +105,29 @@
                 <select asp-for="EstateConditionId" class="form-select" asp-items="ViewBag.EstateConditionId"></select>
                 <span asp-validation-for="EstateConditionId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Tags" class="control-label"></label>
+        <input asp-for="Tags" class="form-control" />
+        <span asp-validation-for="Tags" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <textarea rows="4" asp-for="Description" placeholder="Description..." class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <fieldset class="group">
+            <ul class="checkbox">
                 @for (int i = 0; i < Model.EstateOptionViewModels.Count(); i++)
                 {
-                    <input type="hidden" asp-for="@Model.EstateOptionViewModels[i].Id" />
+                    <li><input type="hidden" asp-for="@Model.EstateOptionViewModels[i].Id" />
                     <input type="hidden" asp-for="@Model.EstateOptionViewModels[i].EstateOptionName" />
                     <input type="checkbox" asp-for="@Model.EstateOptionViewModels[i].IsSet" />
-                    <label asp-for="@Model.EstateOptionViewModels[i].IsSet">@Model.EstateOptionViewModels[i].EstateOptionName</label>
+                    <label asp-for="@Model.EstateOptionViewModels[i].IsSet">@Model.EstateOptionViewModels[i].EstateOptionName</label></li>
                 }
-            </div>
-            <div class="form-group row p-2">
-                <input type="submit" value="Save" class="btn btn-primary col m-1" />
-                <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>
-            </div>
-        </div>
+            </ul> 
+        </fieldset> 
     </div>
     <div class="card">
         <div class="top">
@@ -148,16 +144,22 @@
 
         <div id="image_container" class="image_container"></div>
     </div>
+    <div id="estate_map" class="estate-map">
+    </div>
+    <a class="btn btn-primary" role="button" onclick="initMap()">Show map</a>
+    <div class="form-group row p-2">
+        <input type="submit" value="Save" class="btn btn-primary col m-1" />
+        <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>
+    </div>
 </form>
 
-<div id="estate_map" class="estate-map">
-</div>
+
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
-    <script src="~/js/mapscript.js" asp-append-version="true"></script>
-    <script src="~/js/dragarea.js" asp-append-version="true"></script>
+    <script async defer src="~/js/mapscript.js" asp-append-version="true"></script>
+    <script async defer src="~/js/dragarea.js" asp-append-version="true"></script>
 }
