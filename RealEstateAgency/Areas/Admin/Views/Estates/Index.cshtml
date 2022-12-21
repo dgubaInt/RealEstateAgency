@@ -1,8 +1,10 @@
-﻿@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
+﻿@using RealEstateAgency.Service.Helpers
+@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    SortHelper? sortHelper = (SortHelper?)ViewData["sortHelper"];
 }
 <div class="div-flex-center">
     <p>Here you can manage estates:</p>
@@ -15,14 +17,23 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EstateName)
+                <i class="@sortHelper?.GetColumn("estatename").SortIcon" aria-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("estatename").SortExpression">
+                    @Html.DisplayNameFor(model => model.EstateName)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                <i class="@sortHelper?.GetColumn("address").SortIcon" aria-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("address").SortExpression">
+                    @Html.DisplayNameFor(model => model.Address)
+                </a>
             </th>
             
             <th>
-                @Html.DisplayNameFor(model => model.Agent)
+                <i class="@sortHelper?.GetColumn("agent").SortIcon" aria-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("agent").SortExpression">
+                    @Html.DisplayNameFor(model => model.Agent)
+                </a>
             </th>
             
             <th></th>
@@ -41,8 +52,8 @@
                 @Html.DisplayFor(modelItem => item.Agent)
             </td>
             <td>
-                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
-                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-info" aria-hidden="true"></i> Details</a>
+                <a class="btn btn-secondary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Details</a>
                 <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
             </td>
         </tr>

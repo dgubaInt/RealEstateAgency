@@ -27,6 +27,8 @@
                     map.setCenter(marker.getPosition());
                     infowindow.open(map, marker);
                 });
+
+                document.getElementById("estate_map").style.height = "400px";
             } else {
                 alert("Geocode was not successful for the following reason: " + status);
             }

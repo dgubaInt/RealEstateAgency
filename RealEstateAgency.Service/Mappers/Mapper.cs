@@ -149,6 +149,7 @@ namespace RealEstateAgency.Service.Mappers
                     IsSet = false
                 });
             }
+            addEstateViewModel.CreatedDate = DateTime.Parse(DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"));
         }
 
         public static void SetValues(this Estate estate, EditEstateViewModel editEstateViewModel)
@@ -282,12 +283,12 @@ namespace RealEstateAgency.Service.Mappers
             };
         }
 
-        public static Photo ToEntity(this IFormFile image, Estate estate)
+        public static Photo ToEntity(this IFormFile image, Estate estate, string fileName)
         {
             return new Photo
             {
                 Id = Guid.NewGuid(),
-                FileTitle = image.FileName,
+                FileTitle = fileName,
                 Estate = estate
             };
         }

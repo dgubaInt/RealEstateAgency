@@ -14,11 +14,11 @@ namespace RealEstateAgency.Service.ImageService
             _photoRepository = photoRepository;
         }
 
-        public bool UploadImage(IFormFile file)
+        public bool UploadImage(IFormFile file, string fileName)
         {
             try
             {
-                var request = (FtpWebRequest)WebRequest.Create("" + file.FileName);
+                var request = (FtpWebRequest)WebRequest.Create("" + fileName);
                 request.Method = WebRequestMethods.Ftp.UploadFile;
                 request.Credentials = new NetworkCredential("RealEstate", "RealEstate");
 

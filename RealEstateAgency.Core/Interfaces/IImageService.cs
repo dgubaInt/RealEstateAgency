@@ -9,6 +9,6 @@ namespace RealEstateAgency.Core.Interfaces
         bool DeleteImage(string imageName);
         string DownloadImage(string imageName);
         Task<IEnumerable<Photo>> GetAllAsync();
-        bool UploadImage(IFormFile file);
+        bool UploadImage(IFormFile file, string fileName);
     }
 }

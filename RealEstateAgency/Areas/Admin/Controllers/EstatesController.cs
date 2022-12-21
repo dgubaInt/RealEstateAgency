@@ -23,9 +23,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IZoneService _zoneService;
         private readonly IEstateService _estateService;
         private readonly IImageService _imageService;
+        private readonly ISortHelper _sortHelper;
         private readonly UserManager<AgentUser> _userManager;
 
-        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService, UserManager<AgentUser> userManager)
+        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService, UserManager<AgentUser> userManager, ISortHelper sortHelper)
         {
             _userService = userService;
             _estateService = estateService;
@@ -37,22 +38,29 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _estateOptionService = estateOptionService;
             _imageService = imageService;
             _userManager = userManager;
+            _sortHelper = sortHelper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortExpression = "")
         {
-            var user = await _userManager.GetUserAsync(User);
+            _sortHelper.AddColumn("estatename", isDefault: true);
+            _sortHelper.AddColumn("address");
+            _sortHelper.AddColumn("agent");
+            _sortHelper.SetSortOptions(sortExpression);
+            ViewData["sortHelper"] = _sortHelper;
+            //ApplySort(sortExpression);
+
             IEnumerable<EstateViewModel> estates = new List<EstateViewModel>();
 
-            if (user != null)
+            if (User?.Identity?.Name != null)
             {
-                if (user.UserName != "admin")
+                if (User.Identity.Name != "admin")
                 {
-                    estates = (await _estateService.GetAllAsync()).Where(e => e.AgentUserId == user.Id).Select(e => e.ToViewModel());
+                    estates = (await _estateService.GetAllAsync(e => e.AgentUserId == Guid.Parse(User.Claims.First().Value))).Select(e => e.ToViewModel());
                 }
                 else
                 {
-                    estates = (await _estateService.GetAllAsync()).Select(e => e.ToViewModel());
+                    estates = (await _estateService.GetAllAsync(_sortHelper.SortOption, _sortHelper.SortOrder)).Select(e => e.ToViewModel());
                 }
             }
 
@@ -117,9 +125,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
                 foreach (var image in estate.File)
                 {
-                    if (_imageService.UploadImage(image))
+                    var fileName = Path.GetFileNameWithoutExtension(image.FileName) + DateTime.Now.ToString("-MM-dd-yyyy-hh.mm.ss-tt") + Path.GetExtension(image.FileName);
+                    if (_imageService.UploadImage(image, fileName))
                     {
-                        await _imageService.AddAsync(image.ToEntity(estateToEntity));
+                        await _imageService.AddAsync(image.ToEntity(estateToEntity, fileName));
                     }
                 }
                 return RedirectToAction(nameof(Index));
@@ -182,9 +191,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     var estateEntity = await _estateService.GetByIdAsync(id);
                     foreach (var image in estate.File)
                     {
-                        if (_imageService.UploadImage(image))
+                        var fileName = Path.GetFileNameWithoutExtension(image.FileName) + DateTime.Now.ToString("-MM-dd-yyyy-hh.mm.ss-tt.") + Path.GetExtension(image.FileName);
+                        if (_imageService.UploadImage(image, fileName))
                         {
-                            await _imageService.AddAsync(image.ToEntity(estateEntity));
+                            await _imageService.AddAsync(image.ToEntity(estateEntity, fileName));
                         }
                     }
                 }
@@ -236,6 +246,44 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        public void ApplySort(string sortExpression)
+        {
+            ViewData["SortByName"] = "estatename";
+            ViewData["SortByAddress"] = "address";
+            ViewData["SortByAgent"] = "agent";
+            ViewData["SortIconName"] = "";
+            ViewData["SortIconAddress"] = "";
+            ViewData["SortIconAgent"] = "";
+
+            switch (sortExpression)
+            {
+                case "estatename_desc":
+                    ViewData["SortByName"] = "estatename";
+                    ViewData["SortIconName"] = "fas fa-arrow-up";
+                    break;
+                case "address_desc":
+                    ViewData["SortByAddress"] = "address";
+                    ViewData["SortIconAddress"] = "fas fa-arrow-up";
+                    break;
+                case "agent_desc":
+                    ViewData["SortByAgent"] = "agent";
+                    ViewData["SortIconAgent"] = "fas fa-arrow-up";
+                    break;
+                case "address":
+                    ViewData["SortByAddress"] = "address_desc";
+                    ViewData["SortIconAddress"] = "fas fa-arrow-down";
+                    break;
+                case "agent":
+                    ViewData["SortByAgent"] = "agent_desc";
+                    ViewData["SortIconAgent"] = "fas fa-arrow-down";
+                    break;
+                default:
+                    ViewData["SortByName"] = "estatename_desc";
+                    ViewData["SortIconName"] = "fas fa-arrow-down";
+                    break;
             }
         }
     }

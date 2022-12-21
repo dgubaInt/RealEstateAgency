@@ -144,12 +144,18 @@
 
         <div id="image_container" class="image_container"></div>
     </div>
-    <div id="estate_map" class="estate-map">
+    <div id="estate_map" class="estate-map" style="margin-top: 1em;">
     </div>
-    <a class="btn btn-primary" role="button" onclick="initMap()">Show map</a>
-    <div class="form-group row p-2">
-        <input type="submit" value="Save" class="btn btn-primary col m-1" />
-        <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>
+    <div class="col-md-4 col-right">
+        <div class="form-group row-right">
+            <a class="btn btn-primary col m-1" role="button" onclick="initMap()"><i class="fas fa-map"></i> Map</a>
+        </div>
+    </div>
+    <div class="col-md-4 col-right">
+        <div class="form-group row-right">
+            <input type="submit" value="Save" class="btn btn-primary col m-1" />
+            <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>
+        </div>
     </div>
 </form>
 
