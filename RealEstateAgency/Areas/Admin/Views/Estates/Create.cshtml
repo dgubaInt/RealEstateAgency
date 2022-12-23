@@ -100,17 +100,12 @@
                 <select asp-for="ZoneId" class="form-select" asp-items="ViewBag.ZoneId"></select>
                 <span asp-validation-for="ZoneId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="EstateConditionId" class="control-label"></label>
                 <select asp-for="EstateConditionId" class="form-select" asp-items="ViewBag.EstateConditionId"></select>
                 <span asp-validation-for="EstateConditionId" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Tags" class="control-label"></label>
-        <input asp-for="Tags" class="form-control" />
-        <span asp-validation-for="Tags" class="text-danger"></span>
     </div>
     <div class="form-group mb-3">
         <textarea rows="4" asp-for="Description" placeholder="Description..." class="form-control"></textarea>
@@ -128,6 +123,19 @@
                 }
             </ul> 
         </fieldset> 
+    </div>
+    <div class="tag-wrapper mb-3">
+        <div class="tag-title">
+            <p>Tags</p>
+        </div>
+        <div class="tag-content">
+            <p>Press space or add a comma after each tag</p>
+            <ul id="ul-tag">
+                <input type="text" autocomplete="off" id="input-tag" />
+                <input asp-for="Tags" class="form-control" hidden id="input-to-send"/>
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </ul>
+        </div>
     </div>
     <div class="card">
         <div class="top">
@@ -168,4 +176,5 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
     <script async defer src="~/js/mapscript.js" asp-append-version="true"></script>
     <script async defer src="~/js/dragarea.js" asp-append-version="true"></script>
+    <script async defer src="~/js/tags.js" asp-append-version="true"></script>
 }

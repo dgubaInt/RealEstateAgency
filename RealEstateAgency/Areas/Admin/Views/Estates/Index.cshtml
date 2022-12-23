@@ -1,62 +1,56 @@
-﻿@using RealEstateAgency.Service.Helpers
-@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
+﻿@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    SortHelper? sortHelper = (SortHelper?)ViewData["sortHelper"];
 }
 <div class="div-flex-center">
     <p>Here you can manage estates:</p>
 </div>
 
-<p>
-    <a class="btn btn-success" asp-action="Create"><i class="fas fa-plus"></i> Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <i class="@sortHelper?.GetColumn("estatename").SortIcon" aria-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("estatename").SortExpression">
+<a class="btn btn-table" asp-action="Create"><i class="fas fa-plus"></i> Create New</a>
+<div class="table-card">
+    <table class="table table-bordered table-hover table-sm" id="estateTable">
+        <thead>
+            <tr>
+                <th>
                     @Html.DisplayNameFor(model => model.EstateName)
-                </a>
-            </th>
-            <th>
-                <i class="@sortHelper?.GetColumn("address").SortIcon" aria-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("address").SortExpression">
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Address)
-                </a>
-            </th>
-            
-            <th>
-                <i class="@sortHelper?.GetColumn("agent").SortIcon" aria-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@sortHelper?.GetColumn("agent").SortExpression">
+                </th>
+
+                <th>
                     @Html.DisplayNameFor(model => model.Agent)
-                </a>
-            </th>
-            
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstateName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Agent)
-            </td>
-            <td>
-                <a class="btn btn-secondary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
-                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Details</a>
-                <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
-            </td>
-        </tr>
+                </th>
+                <th style="width: 25%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstateName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Agent)
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                        <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Details</a>
+                        <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jqc-1.12.4/dt-1.13.1/b-2.3.3/fc-4.2.1/sc-2.0.7/sb-1.4.0/sp-2.1.0/sl-1.5.0/datatables.min.js"></script>
+    <script src="~/js/datatables.js" asp-append-version="true"></script>
 }
-    </tbody>
-</table>

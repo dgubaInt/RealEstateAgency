@@ -7,13 +7,11 @@
 
 /** CLICK LISTENER */
 if (select) {
-	debugger;
 	select.addEventListener('click', () => input.click());
 }
 
 /* INPUT CHANGE EVENT */
 if (input) {
-	debugger;
 	input.addEventListener('change', () => {
 		let file = input.files;
 		// if user select no image

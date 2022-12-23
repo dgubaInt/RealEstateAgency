@@ -8,18 +8,18 @@
 <div class="div-flex-center">
     <p>Here you can manage users:</p>
 </div>
-<a class="btn btn-success" role="button" asp-area="Admin" asp-controller="User" asp-action="AddUser">
+<a class="btn btn-table" role="button" asp-area="Admin" asp-controller="User" asp-action="AddUser">
     <i class="fas fa-user-plus"></i>
     Add user
 </a>
 <div class="div-flex-center">
-    <table class="table">
+    <table class="table table-bordered table-hover table-sm">
         <thead>
             <tr>
                 <th scope="col">User Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">In role</th>
-                <th scope="col"></th>
+                <th scope="col" style="width: 20%"></th>
             </tr>
         </thead>
         <tbody>

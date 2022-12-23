@@ -18,9 +18,7 @@ namespace RealEstateAgency.Core.Models
         [Required]
         [StringLength(100)]
         public string Address { get; set; }
-
-        [Required]
-        public string Tags { get; set; }
+        public string? Tags { get; set; }
 
         [Required]
         public int Rooms { get; set; }

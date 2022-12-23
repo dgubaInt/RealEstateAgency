@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using RealEstateAgency.Core.Entities;
+﻿using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Core.Models;
 using RealEstateAgency.Service.Mappers;
@@ -18,9 +17,9 @@ namespace RealEstateAgency.Service.EstateService
             _estateOptionRepository = estateOptionRepository;
             _imageRepository = imageRepository;
         }
-        public async Task<IEnumerable<Estate>> GetAllAsync(string sortOption, SortOrder sortOrder)
+        public async Task<IEnumerable<Estate>> GetAllAsync()
         {
-            var estates = await _estateRepository.GetAllAsync(
+            return await _estateRepository.GetAllAsync(
                 e => e.AgentUser,
                 e => e.BuildingPlan,
                 e => e.BuildingType,
@@ -29,42 +28,6 @@ namespace RealEstateAgency.Service.EstateService
                 e => e.EstateOptions,
                 e => e.Photos,
                 e => e.Zone);
-
-            if (sortOption.ToLower() == "estatename")
-            {
-                if (sortOrder == SortOrder.Ascending)
-                {
-                    estates = estates.OrderBy(e => e.EstateName);
-                }
-                else
-                {
-                    estates = estates.OrderByDescending(e => e.EstateName);
-                }
-            }
-            else if (sortOption.ToLower() == "address")
-            {
-                if (sortOrder == SortOrder.Ascending)
-                {
-                    estates = estates.OrderBy(e => e.Address);
-                }
-                else
-                {
-                    estates = estates.OrderByDescending(e => e.Address);
-                }
-            }
-            else if (sortOption.ToLower() == "agent")
-            {
-                if (sortOrder == SortOrder.Ascending)
-                {
-                    estates = estates.OrderBy(e => e.AgentUser?.UserName);
-                }
-                else
-                {
-                    estates = estates.OrderByDescending(e => e.AgentUser?.UserName);
-                }
-            }
-
-            return estates;
         }
         public async Task<IEnumerable<Estate>> GetAllAsync(Expression<Func<Estate, bool>> filter)
         {
