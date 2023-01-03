@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
+using RealEstateAgency.Core.Resources;
 using RealEstateAgency.Infrastructure.Data;
 using RealEstateAgency.Infrastructure.Repositories;
 using RealEstateAgency.Service.BuildingPlanService;
@@ -15,8 +19,44 @@ using RealEstateAgency.Service.Mappers.UserRoleMapper;
 using RealEstateAgency.Service.RoleService;
 using RealEstateAgency.Service.UserService;
 using RealEstateAgency.Service.ZoneService;
+using System.Globalization;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+        {
+            var assemblyName = new AssemblyName(typeof(UILabel).GetTypeInfo().Assembly.FullName);
+            return factory.Create(nameof(UILabel), assemblyName.Name);
+        };
+    });
+
+builder.Services.Configure<RequestLocalizationOptions>(
+    options =>
+    {
+        var supportedCultures = new List<CultureInfo>
+        {
+            new CultureInfo("en-US"),
+            new CultureInfo("ro-RO"),
+            new CultureInfo("ru-RU")
+        };
+
+        options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+        options.SupportedCultures = supportedCultures;
+        options.SupportedUICultures = supportedCultures;
+        foreach (var culture in options.SupportedUICultures)
+        {
+            culture.NumberFormat = NumberFormatInfo.InvariantInfo;
+        }
+
+        options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+    });
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -45,9 +85,10 @@ builder.Services.AddScoped<IEstateService, EstateService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUserRoleMapper, UserRoleMapper>();
 
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
+
+var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(locOptions.Value);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

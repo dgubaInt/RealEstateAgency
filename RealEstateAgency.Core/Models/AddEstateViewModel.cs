@@ -1,69 +1,91 @@
 ﻿using Microsoft.AspNetCore.Http;
+using RealEstateAgency.Core.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Models
 {
     public class AddEstateViewModel
     {
-        [Required, Display(Name = "Estate Name")]
-        [StringLength(50)]
+        [Display(Name = "EstateName")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(50, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
         public string EstateName { get; set; }
 
-        [Required]
+        [Display(Name = "Description")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public string Description { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Display(Name = "Address")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(100, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
         public string Address { get; set; }
 
         public string? Tags { get; set; }
 
-        [Required]
+        [Display(Name = "Rooms")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public int Rooms { get; set; }
 
-        [Required, Display(Name = "Bath Rooms")]
+        [Display(Name = "BathRooms")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public int BathRooms { get; set; }
 
-        [Required]
+        [Display(Name = "Balconies")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public int Balconies { get; set; }
 
-        [Required, Display(Name = "Parking Spaces")]
+        [Display(Name = "ParkingSpaces")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public int ParkingSpaces { get; set; }
 
-        [Required, Display(Name = "Total Area")]
+        [Display(Name = "TotalArea")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public double TotalArea { get; set; }
 
-        [Required, Display(Name = "Living Area")]
+        [Display(Name = "LivingArea")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public double LivingArea { get; set; }
 
-        [Required, Display(Name = "Kitchen Area")]
+        [Display(Name = "KitchenArea")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public double KitchenArea { get; set; }
 
-        [Required]
+        [RegularExpression("[0-9]+([.,][0-9]{1,3})?", ErrorMessage = nameof(UILabel.NumberError))]
+        [Display(Name = "Price")]
+        [DisplayFormat(DataFormatString = "{0:0.##}")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public decimal Price { get; set; }
 
-        [Required]
+        [Display(Name = "Currency")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public string Currency { get; set; }
 
-        [Required, Display(Name = "Created Date")]
+        [Display(Name = "CreatedDate")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public DateTime CreatedDate { get; set; }
 
-        [Required, Display(Name = "Category")]
+        [Display(Name = "Category")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid CategoryId { get; set; }
 
-        [Required, Display(Name = "Agent")]
+        [Display(Name = "AgentUser")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid AgentUserId { get; set; }
 
-        [Required, Display(Name = "Building Plan")]
+        [Display(Name = "BuildingPlan")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid BuildingPlanId { get; set; }
 
-        [Required, Display(Name = "Building Type")]
+        [Display(Name = "BuildingType")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid BuildingTypeId { get; set; }
 
-        [Required, Display(Name = "Zone")]
+        [Display(Name = "Zone")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid ZoneId { get; set; }
 
-        [Required, Display(Name = "Estate Condition")]
+        [Display(Name = "EstateCondition")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
         public Guid EstateConditionId { get; set; }
 
         public List<EstateOptionViewModel> EstateOptionViewModels { get; set; } = new List<EstateOptionViewModel>();

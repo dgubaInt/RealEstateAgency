@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-RealEstateAgency-6D2C51BE-24AE-4D06-80ED-3D2592EA30A6</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <Content Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <EmbeddedResource Remove="wwwroot\lib\fancy-file-uploader\**" />
+    <None Remove="wwwroot\lib\fancy-file-uploader\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\jquery.jtable.js" />
+    <Content Remove="wwwroot\jquery.jtable.min.js" />
+    <Content Remove="wwwroot\jtable.2.4.0.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jTable" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateAgency.Core\RealEstateAgency.Core.csproj" />
+    <ProjectReference Include="..\RealEstateAgency.Infrastructure\RealEstateAgency.Infrastructure.csproj" />
+    <ProjectReference Include="..\RealEstateAgency.Service\RealEstateAgency.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\UITool.cs">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\UILabel.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UILabel.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UILabel.RO.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UILabel.RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UILabel.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

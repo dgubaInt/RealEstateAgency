@@ -1,12 +1,13 @@
-﻿@model RealEstateAgency.Core.Models.EstateDetailsViewModel
+﻿@using RealEstateAgency.Core.Resources
+@model RealEstateAgency.Core.Models.EstateDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = UILabel.Details;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div>
-    <h4>Details</h4>
+    <h4>@UILabel.Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -152,7 +153,7 @@
         </div>
     }
     <div class="row col-md-4 p-2">
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary col m-1">Edit</a>
-        <a class="btn btn-primary col m-1" role="button" asp-action="Index">Back to List</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary col m-1">@UILabel.Edit</a>
+        <a class="btn btn-primary col m-1" role="button" asp-action="Index">@UILabel.BackToList</a>
     </div>
 </div>

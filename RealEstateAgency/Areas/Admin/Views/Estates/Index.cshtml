@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<RealEstateAgency.Core.Models.EstateViewModel>
+@using RealEstateAgency.Core.Resources
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = UILabel.Estates;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="div-flex-center">
-    <p>Here you can manage estates:</p>
+    <p>@UILabel.ManageEstates</p>
 </div>
 
-<a class="btn btn-table" asp-action="Create"><i class="fas fa-plus"></i> Create New</a>
+<a class="btn btn-table" asp-action="Create"><i class="fas fa-plus"></i> @UILabel.CreateNew</a>
 <div class="table-card">
     <table class="table table-bordered table-hover table-sm" id="estateTable">
         <thead>
@@ -23,7 +24,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Agent)
                 </th>
-                <th style="width: 25%"></th>
+                <th style="width: 15%"></th>
             </tr>
         </thead>
         <tbody>
@@ -40,9 +41,11 @@
                         @Html.DisplayFor(modelItem => item.Agent)
                     </td>
                     <td>
-                        <a class="btn btn-secondary" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
-                        <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Details</a>
-                        <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                        <div class="">
+                            <a class="btn btn-primary d-block mb-1" role="button" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-angle-double-right" aria-hidden="true"></i> @UILabel.Details</a>
+                            <a class="btn btn-secondary d-block mb-1" role="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> @UILabel.Edit</a>
+                            <a class="btn btn-danger d-block mb-1" role="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash" aria-hidden="true"></i> @UILabel.Delete</a>
+                        </div>
                     </td>
                 </tr>
             }

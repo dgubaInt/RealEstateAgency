@@ -1,11 +1,12 @@
-﻿@model RealEstateAgency.Core.Models.AddUserViewModel
+﻿@using RealEstateAgency.Core.Resources
+@model RealEstateAgency.Core.Models.AddUserViewModel
 
 @{
-    ViewData["Title"] = "AddUser";
+    ViewData["Title"] = UILabel.AddUser;
 }
 
 <div class="div-flex-center">
-    <h1>AddUser</h1>
+    <h1>@UILabel.AddUser</h1>
     <hr />
 </div>
 <div class="div-flex-center">
@@ -52,8 +53,8 @@
                 }
             </div>
             <div class="d-block">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="ManageUsers" class="btn btn-primary">Back to List</a>
+                <input type="submit" value="@UILabel.Save" class="btn btn-primary" />
+                <a asp-action="ManageUsers" class="btn btn-primary">@UILabel.BackToList</a>
             </div>
         </form>
     </div>

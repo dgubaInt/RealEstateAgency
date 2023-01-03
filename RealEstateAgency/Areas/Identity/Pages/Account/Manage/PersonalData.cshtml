@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RealEstateAgency.Core.Resources
+@model PersonalDataModel
+@{
+    ViewData["Title"] = @UILabel.PersonalData;
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>@UILabel.YourAccountContainsPersonalDataDetails @UILabel.DownloadOrDeleteData</p>
+        <p>
+            <strong>@UILabel.DeletingDataPermanently</strong>
+        </p>
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <button class="btn btn-primary" type="submit">@UILabel.Download</button>
+        </form>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">@UILabel.Delete</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

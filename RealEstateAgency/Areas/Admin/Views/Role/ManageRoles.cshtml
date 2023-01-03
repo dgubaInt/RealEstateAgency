@@ -1,25 +1,26 @@
 ﻿@using RealEstateAgency.Core.Models
+@using RealEstateAgency.Core.Resources
 @model List<RoleViewModel>
 
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = UILabel.Roles;
 }
 
 <div class="div-flex-center">
-    <p>Here you can manage roles:</p>
+    <p>@UILabel.ManageRoles</p>
 </div>
 <div class="div-flex-center">
-    <div style="width: 90%">
+    <div style="width: 100%">
         <a class="btn btn-table" role="button" asp-area="Admin" asp-controller="Role" asp-action="AddRole">
             <i class="fas fa-plus"></i>
-            Add role
+            @UILabel.AddRole
         </a>
         <table class="table table-bordered table-hover table-sm">
             <thead>
                 <tr>
-                    <th scope="col">Role Name</th>
-                    <th scope="col">Is set</th>
-                    <th scope="col" style="width: 10%"></th>
+                    <th scope="col">@UILabel.RoleName</th>
+                    <th scope="col">@UILabel.IsSet</th>
+                    <th scope="col" style="width: 15%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -29,16 +30,16 @@
                         <td>@role.RoleName</td>
                         @if (role.IsSet)
                         {
-                            <td>Yes</td>
+                            <td>@UILabel.Yes</td>
                         }
                         else
                         {
-                            <td>No</td>
+                            <td>@UILabel.No</td>
                         }
                         <td>
                             <a class="btn btn-primary" role="button" asp-area="Admin" asp-controller="Role" asp-action="EditRole" asp-route-id="@role.RoleId">
                                 <i class="fas fa-edit"></i>
-                                Edit
+                                @UILabel.Edit
                             </a>
                         </td>
                     </tr>

@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+@using RealEstateAgency.Core.Resources
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var region = requestCulture.RequestCulture.UICulture.Name.Substring(0, 2).ToLower();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = UILabel.ResourceManager.GetString(c.Name) })
+        .ToList();
+}
+
+<div class="lang-menu">
+    <div class="select-lang @region">
+    </div>
+    <ul>
+        <li><a asp-area="" asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="en-US" asp-for="@requestCulture.RequestCulture.UICulture.Name" class="en">@UILabel.English</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="ro-RO" asp-for="@requestCulture.RequestCulture.UICulture.Name" class="ro">@UILabel.Română</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="ChangeLanguage" asp-route-culture="ru-RU" asp-for="@requestCulture.RequestCulture.UICulture.Name" class="ru">@UILabel.Русский</a></li>
+        <li><input id="cultureinfo" value="@requestCulture.RequestCulture.UICulture.Name" hidden/></li>
+    </ul>
+</div>

@@ -24,7 +24,7 @@
                 methods._saveOptions(form, options);
 
                 // bind all formError elements to close on click
-                $(".formError").live("click", function() {
+                $(document).on("click", ".formError", function() {
                     $(this).fadeOut(150, function() {
 
                         // remove prompt once invisible
@@ -51,26 +51,26 @@
 			var validateAttribute = (form.find("[data-validation-engine*=validate]")) ? "data-validation-engine" : "class";
 			
             if (!options.binded) {
-					if (options.bindMethod == "bind"){
+				if (options.bindMethod == "bind"){
 						
-						// bind fields
-                        form.find("[class*=validate]").not("[type=checkbox]").not("[type=radio]").not(".datepicker").bind(options.validationEventTrigger, methods._onFieldEvent);
-                        form.find("[class*=validate][type=checkbox],[class*=validate][type=radio]").bind("click", methods._onFieldEvent);
+					// bind fields
+                    form.find("[class*=validate]").not("[type=checkbox]").not("[type=radio]").not(".datepicker").bind(options.validationEventTrigger, methods._onFieldEvent);
+                    form.find("[class*=validate][type=checkbox],[class*=validate][type=radio]").bind("click", methods._onFieldEvent);
 						
-						form.find("[class*=validate][class*=datepicker]").bind(options.validationEventTrigger,{"delay": 300}, methods._onFieldEvent);
+					form.find("[class*=validate][class*=datepicker]").bind(options.validationEventTrigger,{"delay": 300}, methods._onFieldEvent);
 
-                        // bind form.submit
-                        form.bind("submit", methods._onSubmitEvent);
-					} else if (options.bindMethod == "live") {
-                        // bind fields with LIVE (for persistant state)
-                        form.find("[class*=validate]").not("[type=checkbox]").not(".datepicker").live(options.validationEventTrigger, methods._onFieldEvent);
-                        form.find("[class*=validate][type=checkbox]").live("click", methods._onFieldEvent);
+                    // bind form.submit
+                    form.bind("submit", methods._onSubmitEvent);
+				} else if (options.bindMethod == "live") {
+                    // bind fields with LIVE (for persistant state)
+                    form.find("[class*=validate]").not("[type=checkbox]").not(".datepicker").live(options.validationEventTrigger, methods._onFieldEvent);
+                    form.find("[class*=validate][type=checkbox]").live("click", methods._onFieldEvent);
 
-						form.find("[class*=validate][class*=datepicker]").live(options.validationEventTrigger,{"delay": 300}, methods._onFieldEvent);
+					form.find("[class*=validate][class*=datepicker]").live(options.validationEventTrigger,{"delay": 300}, methods._onFieldEvent);
 
-                        // bind form.submit
-                        form.live("submit", methods._onSubmitEvent);
-					}
+                    // bind form.submit
+                    form.live("submit", methods._onSubmitEvent);
+				}
 
                 options.binded = true;
             }
@@ -79,7 +79,7 @@
         /**
          * Unregisters any bindings that may point to jQuery.validaitonEngine
          */
-        detach: function() {
+        detach: function () {
             var form = this;
             var options = form.data('jqv');
             if (options.binded) {
@@ -93,14 +93,14 @@
                 
                
                 // unbind live fields (kill)
-                form.find("[class*=validate]").not("[type=checkbox]").die(options.validationEventTrigger, methods._onFieldEvent);
-                form.find("[class*=validate][type=checkbox]").die("click", methods._onFieldEvent);
+                form.find("[class*=validate]").not("[type=checkbox]").off(options.validationEventTrigger, methods._onFieldEvent);
+                form.find("[class*=validate][type=checkbox]").off("click", methods._onFieldEvent);
                 // unbind form.submit
 
 				
 
 
-                form.die("submit", methods.onAjaxFormComplete);
+                form.off("submit", methods.onAjaxFormComplete);
                 
                 form.removeData('jqv');
             }
@@ -204,7 +204,7 @@
          * Typically called when user exists a field using tab or a mouse click, triggers a field
          * validation
          */
-        _onFieldEvent: function(event) {
+        /*_onFieldEvent: function(event) {
             var field = $(this);
             var form = field.closest('form');
             var options = form.data('jqv');
@@ -213,7 +213,7 @@
 			    methods._validateField(field, options);
 			}, (event.data) ? event.data.delay : 0);
             
-        },
+        },*/
         /**
          * Called when the form is submited, shows prompts accordingly
          *
@@ -439,7 +439,7 @@
             var isAjaxValidator = false;
             var fieldName = field.attr("name");
             var promptText = "";
-			var required = false;
+            var required = false;
             options.isError = false;
             options.showArrow = true;
 
@@ -455,18 +455,20 @@
                     case "custom":
                         errorMsg = methods._customRegex(field, rules, i, options);
                         break;
-					case "groupRequired":
-						// Check is its the first of group, if not, reload validation with first field
-						// AND continue normal validation on present field
-						var classGroup = "[class*=" +rules[i + 1] +"]";	
-						var firstOfGroup = field.closest("form").find(classGroup).eq(0);
-						if(firstOfGroup[0] != field[0]){
-							methods._validateField(firstOfGroup, options, skipAjaxValidation)
-							options.showArrow = true;
-							continue;
-						};
+                    case "groupRequired":
+                        // Check is its the first of group, if not, reload validation with first field
+                        // AND continue normal validation on present field
+                        var classGroup = "[class*=" + rules[i + 1] + "]";
+                        var firstOfGroup = field.closest("form").find(classGroup).eq(0);
+                        if (firstOfGroup[0] != field[0]) {
+                            methods._validateField(firstOfGroup, options, skipAjaxValidation)
+                            options.showArrow = true;
+                            continue;
+                        };
                         errorMsg = methods._groupRequired(field, rules, i, options);
-						if(errorMsg) required = true;
+                        if (errorMsg) {
+                            required = true;
+                        }
 						options.showArrow = false;
                         break;
                     case "ajax":
@@ -509,7 +511,9 @@
                         if (firstOfGroup[0].value || secondOfGroup[0].value) {
                             errorMsg = methods._dateRange(firstOfGroup, secondOfGroup, rules, i, options);
                         }
-                        if (errorMsg) required = true;
+                        if (errorMsg) {
+                            required = true;
+                        }
                         options.showArrow = false;
                         break;
 
@@ -528,7 +532,9 @@
                         if (firstOfGroup[0].value || secondOfGroup[0].value) {
                             errorMsg = methods._dateTimeRange(firstOfGroup, secondOfGroup, rules, i, options);
                         }
-                        if (errorMsg) required = true;
+                        if (errorMsg) {
+                            required = true;
+                        }
                         options.showArrow = false;
                         break;
                     case "maxCheckbox":
@@ -557,10 +563,10 @@
 
             }
             // If the rules required is not added, an empty field is not validated
-            if(!required){
+            if (!required) {
+                debugger;
             	if(field.val() == "") options.isError = false;
-            }			
-			
+            }
             // Hack for radio/checkbox group button, the validation go into the
             // first radio/checkbox of the group
             var fieldType = field.attr("type");

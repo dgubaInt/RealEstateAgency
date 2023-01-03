@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Models
 {
@@ -7,35 +8,37 @@ namespace RealEstateAgency.Core.Models
         [Key]
         public Guid UserId { get; set; }
 
-        [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "First name")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(30, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
+        [Display(Name = "FirstName")]
         public string FirstName { get; set; }
 
-        [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Last name")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(30, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
+        [Display(Name = "LastName")]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name ="User name")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(20, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         public List<string> UserRoles { get; set; } = new List<string>();
 
         public List<RoleViewModel> RoleViewModels { get; set; } = new List<RoleViewModel>();
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Password")]
+        [StringLength(100, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "ConfirmPassword")]
+        [Compare("Password", ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = "PasswordConfirmationError")]
         [DataType(DataType.Password)]
         public string? ConfirmPassword { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RealEstateAgency.Core.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateAgency.Core.Models
 {
@@ -6,9 +7,9 @@ namespace RealEstateAgency.Core.Models
     {
         [Required]
         public Guid RoleId { get; set; }
-        [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-        [Display(Name = "Role name")]
+        [Required(ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.FieldRequired))]
+        [StringLength(20, ErrorMessageResourceType = typeof(UILabel), ErrorMessageResourceName = nameof(UILabel.LengthError), MinimumLength = 3)]
+        [Display(Name = "RoleName")]
         public string RoleName { get; set; }
 
         public List<UserToRoleViewModel> UsersToRole { get; set; } = new List<UserToRoleViewModel>();

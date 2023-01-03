@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using RealEstateAgency.Core.Resources
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,11 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="sidebarToggle" href="#!" onclick="toggleNav()"><span class="navbar-toggler-icon"></span></a>
                         </li>
-                        @*<li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
                     </ul>
                     <partial name="_LoginPartial" />
+                    <partial name="_LocalizationPartial" />
                 </div>
             </div>
         </nav>
@@ -40,24 +40,24 @@
     <div id="mySidenav" class="sidenav navbar-dark bg-dark">
         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
             <div class="sidenav-icon"><i class="fa fa-home"></i></div>
-            Home
+            @UILabel.Home
         </a>
         <br />
         <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="ManageUsers">
             <div class="sidenav-icon"><i class="fa fa-users"></i></div>
-            Users
+            @UILabel.Users
         </a>
         <a class="nav-link" asp-area="Admin" asp-controller="Role" asp-action="ManageRoles">
             <div class="sidenav-icon"><i class="fas fa-shield-alt"></i></div>
-            Roles
+            @UILabel.Roles
         </a>
         <a class="nav-link" asp-area="Admin" asp-controller="Estates" asp-action="Index">
             <div class="sidenav-icon"><i class="fa fa-building"></i></div>
-            Estates
+            @UILabel.Estates
         </a>
         <a class="nav-link" asp-area="Admin" asp-controller="EstateDetails" asp-action="Index">
             <div class="sidenav-icon"><i class="fas fa-tools"></i></div>
-            Estate details
+            @UILabel.EstateDetails
         </a>
     </div>
     <div id="main">
@@ -70,7 +70,7 @@
         <footer class="border-top footer text-muted">
             <div class="container">
                 <div class="div-flex-center">
-                    &copy; 2022 - RealEstateAgency - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    &copy; 2022 - RealEstateAgency - <a asp-area="" asp-controller="Home" asp-action="Privacy">@UILabel.Privacy</a>
                 </div>
             </div>
         </footer>
@@ -81,7 +81,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin='anonymous'></script>
     <script src="~/jtable/jquery.jtable.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="~/js/jquery.validationEngine.js"></script>
-    <script type="text/javascript" src="~/js/jquery.validationEngine-en.js"></script>
+    @*<script type="text/javascript" src="~/js/jquery.validationEngine-en.js"></script>*@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

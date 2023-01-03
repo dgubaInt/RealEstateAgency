@@ -9,10 +9,14 @@ if (edit_input_tag) {
     tags = edit_input_tag.value.split(' ');
     console.log(tags);
     tags.forEach(function (item) {
-        if (item != '' && item != ' ') {
-            createTag();
+        if (item == '' || item == ' ') {
+            let index = tags.indexOf(item);
+            console.log(index);
+            tags.splice(index, index);
+            console.log(tags);
         }
     });
+    createTag();
 }
 
 function createTag() {
@@ -23,7 +27,6 @@ function createTag() {
     });
 }
 function remove(element, tag) {
-    debugger;
     let index = tags.indexOf(tag);
     tags = [...tags.slice(0, index), ...tags.slice(index + 1)];
     element.parentElement.remove();

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateAgencyMVC.Models;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace RealEstateAgencyMVC.Controllers
 {
@@ -16,6 +18,16 @@ namespace RealEstateAgencyMVC.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult ChangeLanguage(string culture)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions() { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(culture);
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         public IActionResult Privacy()

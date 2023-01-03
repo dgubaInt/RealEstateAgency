@@ -1,0 +1,73 @@
+﻿@page
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Mvc.Localization
+@using RealEstateAgency.Core.Resources
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = @UILabel.TwoFactorAuthentication2FA;
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h3>@ViewData["Title"]</h3>
+@{
+    var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+    @if (consentFeature?.CanTrack ?? true)
+    {
+        @if (Model.Is2faEnabled)
+        {
+            if (Model.RecoveryCodesLeft == 0)
+            {
+                <div class="alert alert-danger">
+                    <strong>@UILabel.YouHave0</strong>
+                    <p>@UILabel.YouMust <a asp-page="./GenerateRecoveryCodes">@UILabel.NewRecoveryCodes</a> @UILabel.LogInRecoveryCode</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft == 1)
+            {
+                <div class="alert alert-danger">
+                    <strong>@UILabel.YouHave1</strong>
+                    <p>@UILabel.YouCan <a asp-page="./GenerateRecoveryCodes">@UILabel.NewRecoveryCodes</a>.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft <= 3)
+            {
+                <div class="alert alert-warning">
+                    <strong>@UILabel.YouHave @Model.RecoveryCodesLeft @UILabel.RecoveryCodesLeft</strong>
+                    <p>@UILabel.YouShould <a asp-page="./GenerateRecoveryCodes">@UILabel.NewRecoveryCodes</a>.</p>
+                </div>
+            }
+
+            if (Model.IsMachineRemembered)
+            {
+                <form method="post" style="display: inline-block">
+                    <button type="submit" class="btn btn-primary">@UILabel.ForgetThisBrowser</button>
+                </form>
+            }
+            <a asp-page="./Disable2fa" class="btn btn-primary">@UILabel.Disable2FA</a>
+            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">@UILabel.ResetRecoveryCodes</a>
+        }
+
+        <h4>@UILabel.AuthenticatorApp</h4>
+        @if (!Model.HasAuthenticator)
+        {
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">@UILabel.AddAuthenticatorApp</a>
+        }
+        else
+        {
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">@UILabel.SetupAuthenticatorApp</a>
+            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">@UILabel.ResetAuthenticatorApp</a>
+        }
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>@UILabel.PrivacyAccepted</strong>
+            <p>@UILabel.YouMustAcceptPolicy</p>
+        </div>
+    }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

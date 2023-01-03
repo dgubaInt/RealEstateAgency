@@ -1,11 +1,12 @@
-﻿@model RealEstateAgency.Core.Models.AddEditRoleViewModel
+﻿@using RealEstateAgency.Core.Resources
+@model RealEstateAgency.Core.Models.AddEditRoleViewModel
 
 @{
-    ViewData["Title"] = "AddRole";
+    ViewData["Title"] = UILabel.AddRole;
 }
 
 <div class="div-flex-center">
-    <h1>AddRole</h1>
+    <h1>@UILabel.AddRole</h1>
     <hr />
 </div>
 <div class="div-flex-center">
@@ -32,8 +33,8 @@
                 }
             </div>
             <div class="d-block">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="ManageRoles" class="btn btn-primary">Back to List</a>
+                <input type="submit" value="@UILabel.Save" class="btn btn-primary" />
+                <a asp-action="ManageRoles" class="btn btn-primary">@UILabel.BackToList</a>
             </div>
         </form>
     </div>

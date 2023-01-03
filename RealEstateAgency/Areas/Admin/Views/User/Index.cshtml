@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using RealEstateAgency.Core.Resources
 
 @if (User.Identity?.Name != null)
 {
     <div class="text-center">
-        <h1 class="display-4">Welcome @User.Identity?.Name.Split('@')[0]!</h1>
+        <h1 class="display-4">@UILabel.Welcome @User.Identity?.Name.Split('@')[0]!</h1>
     </div>
 }

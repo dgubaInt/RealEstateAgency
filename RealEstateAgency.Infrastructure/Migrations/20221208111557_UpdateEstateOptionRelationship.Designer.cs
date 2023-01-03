@@ -63,7 +63,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -110,7 +110,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -128,10 +128,10 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
                     b.ToTable("AspNetUserRoles", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AgentUserRole<Guid>");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -548,7 +548,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
 
             modelBuilder.Entity("RealEstateAgency.Core.Entities.UserRole", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.AgentUserRole<System.Guid>");
 
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -588,7 +588,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("RealEstateAgency.Core.Entities.AgentUser", null)
                         .WithMany()
@@ -597,7 +597,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("RealEstateAgency.Core.Entities.AgentUser", null)
                         .WithMany()
@@ -606,7 +606,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserRole<System.Guid>", b =>
                 {
                     b.HasOne("RealEstateAgency.Core.Entities.Role", null)
                         .WithMany()
@@ -621,7 +621,7 @@ namespace RealEstateAgency.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.AgentUserToken<System.Guid>", b =>
                 {
                     b.HasOne("RealEstateAgency.Core.Entities.AgentUser", null)
                         .WithMany()

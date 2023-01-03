@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddAuthenticatorApp" xml:space="preserve">
+    <value>Adăugați aplicația Authenticator</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>și</value>
+  </data>
+  <data name="AuthenticatorApp" xml:space="preserve">
+    <value>Aplicație de autentificare</value>
+  </data>
+  <data name="LogInRecoveryCode" xml:space="preserve">
+    <value>Înainte de a vă conecta cu un cod de recuperare.</value>
+  </data>
+  <data name="ChangEmail" xml:space="preserve">
+    <value>Schimbă e-mail</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Schimbaţi parola</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>Schimbați setările contului</value>
+  </data>
+  <data name="ClickingHere" xml:space="preserve">
+    <value>făcând clic aici</value>
+  </data>
+  <data name="ConfigureAuthenticatorApp" xml:space="preserve">
+    <value>Configurați aplicația Authenticator</value>
+  </data>
+  <data name="ConfirmYourEmail" xml:space="preserve">
+    <value>confirmati emailul dumneavoastra</value>
+  </data>
+  <data name="ConfirmationLinkToChangeEmail" xml:space="preserve">
+    <value>Link de confirmare pentru a schimba e -mailul trimis. Vă rugăm să verificați email-ul.</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Tablou de bord</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Șterge</value>
+  </data>
+  <data name="DeletingDataPermanently" xml:space="preserve">
+    <value>Ștergerea acestor date va elimina permanent contul dvs., iar acest lucru nu poate fi recuperat.</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Descarca</value>
+  </data>
+  <data name="DownloadTwoFactorAuthenticator" xml:space="preserve">
+    <value>Descărcați o aplicație de autentificare cu doi factori precum Microsoft Authenticator pentru</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="EnableQRCodeGeneration" xml:space="preserve">
+    <value>Activați generarea codului QR</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="EnterTheCodeInTheConfirmationBox" xml:space="preserve">
+    <value>Introduceți codul în caseta de confirmare de mai jos.</value>
+  </data>
+  <data name="EnterYourEmail." xml:space="preserve">
+    <value>Introduceți adresa de e-mail.</value>
+  </data>
+  <data name="ExternalLogins" xml:space="preserve">
+    <value>Autentiuni externe</value>
+  </data>
+  <data name="FieldRequired" xml:space="preserve">
+    <value>Câmpul {0} este obligatoriu.</value>
+  </data>
+  <data name="ForgetThisBrowser" xml:space="preserve">
+    <value>Uitați acest browser</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>Ați uitat parola?</value>
+  </data>
+  <data name="NewRecoveryCodes" xml:space="preserve">
+    <value>Generați un nou set de coduri de recuperare</value>
+  </data>
+  <data name="GoogleAuthenticator" xml:space="preserve">
+    <value>Google Authenticator pentru</value>
+  </data>
+  <data name="AutentificatorAppConfirmation" xml:space="preserve">
+    <value>Dacă nu completați configurația aplicației de autentificare, puteți pierde accesul la contul dvs.</value>
+  </data>
+  <data name="AuthenticatorKey" xml:space="preserve">
+    <value>Dacă resetați cheia de autentificare, aplicația dvs. de autentificare nu va funcționa până nu o reconfigurezi.</value>
+  </data>
+  <data name="TwoFactorAuthenticatorApp" xml:space="preserve">
+    <value>în aplicația dvs. cu doi factori de autentificare.</value>
+  </data>
+  <data name="LearnHowTo" xml:space="preserve">
+    <value>Aflați cum să</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Autentificare</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Deconectare</value>
+  </data>
+  <data name="ManageEmail" xml:space="preserve">
+    <value>Gestionați e -mailul</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>Administreaza-ti contul</value>
+  </data>
+  <data name="UniqueCode" xml:space="preserve">
+    <value>După ce ați scanat codul QR sau introduceți cheia de mai sus, aplicația dvs. de autentificare cu doi factori vă va oferi
+ cu un cod unic.</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>sau</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Parolă</value>
+  </data>
+  <data name="PersonalData" xml:space="preserve">
+    <value>Date personale</value>
+  </data>
+  <data name="PleaseConfirmYourAccount" xml:space="preserve">
+    <value>Vă rugăm să vă confirmați contul până la</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Confidențialitate</value>
+  </data>
+  <data name="PrivacyAccepted" xml:space="preserve">
+    <value>Politica de confidențialitate și cookie nu au fost acceptate.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="RecoveryCodesLeft" xml:space="preserve">
+    <value>Coduri de recuperare rămase.</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Ține-mă minte?</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Retrimite</value>
+  </data>
+  <data name="ResendEmailConfirmation" xml:space="preserve">
+    <value>Retrimite email de confirmare</value>
+  </data>
+  <data name="ResetAuthenticatorApp" xml:space="preserve">
+    <value>Resetați aplicația de autentificare</value>
+  </data>
+  <data name="ResetAuthenticatorKey" xml:space="preserve">
+    <value>Resetați cheia de autentificare</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Resetare parolă</value>
+  </data>
+  <data name="ResetRecoveryCodes" xml:space="preserve">
+    <value>Resetați codurile de recuperare</value>
+  </data>
+  <data name="ro-RO" xml:space="preserve">
+    <value>Română</value>
+  </data>
+  <data name="Română" xml:space="preserve">
+    <value>Română</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvază</value>
+  </data>
+  <data name="ScanDetails" xml:space="preserve">
+    <value>Scanați codul QR sau introduceți această cheie</value>
+  </data>
+  <data name="SendVerificationEmail" xml:space="preserve">
+    <value>Trimite emailul de verificare</value>
+  </data>
+  <data name="SetupAuthenticatorApp" xml:space="preserve">
+    <value>Configurați aplicația Authenticator</value>
+  </data>
+  <data name="SpacesAndCasingDoNotMatter" xml:space="preserve">
+    <value>Spațiile și carcasa nu contează.</value>
+  </data>
+  <data name="BrowserHasBeenForgottenDetails" xml:space="preserve">
+    <value>Browserul actual a fost uitat. Când vă autentificați din nou din acest browser, vi se va solicita codul 2FA.</value>
+  </data>
+  <data name="ExternalAuthenticationDetails" xml:space="preserve">
+    <value>Momentan nu sunt disponibile alte servicii de logare.</value>
+  </data>
+  <data name="DownloadOrDeleteData" xml:space="preserve">
+    <value>Această pagină vă permite să descărcați sau să ștergeți aceste date.</value>
+  </data>
+  <data name="Disables2FA" xml:space="preserve">
+    <value>Acest proces dezactivează 2FA până când verificați aplicația de autentificare.</value>
+  </data>
+  <data name="AuthenticatorAppSteps" xml:space="preserve">
+    <value>Pentru a utiliza o aplicație de autentificare parcurgeți următorii pași:</value>
+  </data>
+  <data name="TwoFactorAuthentication" xml:space="preserve">
+    <value>Autentificare cu doi factori</value>
+  </data>
+  <data name="TwoFactorAuthentication2FA" xml:space="preserve">
+    <value>Autentificare cu doi factori (2FA)</value>
+  </data>
+  <data name="UnableToLoadUserWithID" xml:space="preserve">
+    <value>Imposibil de încărcat utilizatorul cu ID</value>
+  </data>
+  <data name="PhoneNumberError" xml:space="preserve">
+    <value>Eroare neașteptată atunci când încercați să setați numărul de telefon.</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Actualizați parola</value>
+  </data>
+  <data name="LogInWithALocalAccount" xml:space="preserve">
+    <value>Utilizați un cont local pentru a vă loga.</value>
+  </data>
+  <data name="UseAnotherServiceToLogIn" xml:space="preserve">
+    <value>Utilizați un alt serviciu pentru a vă loga.</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Nume utilizator</value>
+  </data>
+  <data name="VerificationCode" xml:space="preserve">
+    <value>Cod de verificare</value>
+  </data>
+  <data name="VerificationCodeIsInvalid" xml:space="preserve">
+    <value>Codul de verificare este nevalid.</value>
+  </data>
+  <data name="VerificationEmailMessage" xml:space="preserve">
+    <value>Email de verificare trimis. Vă rugăm să verificați email-ul.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verifica</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bine ați venit</value>
+  </data>
+  <data name="YouHave" xml:space="preserve">
+    <value>Tu ai</value>
+  </data>
+  <data name="YouHave1" xml:space="preserve">
+    <value>Mai aveți 1 cod de recuperare.</value>
+  </data>
+  <data name="YouHave0" xml:space="preserve">
+    <value>Nu mai aveți coduri de recuperare.</value>
+  </data>
+  <data name="YouMust" xml:space="preserve">
+    <value>Trebuie</value>
+  </data>
+  <data name="YouMustAcceptPolicy" xml:space="preserve">
+    <value>Trebuie să acceptați politica înainte de a putea activa autentificarea cu doi factori.</value>
+  </data>
+  <data name="YouShould" xml:space="preserve">
+    <value>Ar trebui</value>
+  </data>
+  <data name="YourAccountContainsPersonalDataDetails" xml:space="preserve">
+    <value>Contul dvs. conține date personale pe care ni le -ați oferit.</value>
+  </data>
+  <data name="AuthenticatorAppVerified" xml:space="preserve">
+    <value>Aplicația dvs. de autentificare a fost verificată.</value>
+  </data>
+  <data name="AuthenticatorAppKeyReset" xml:space="preserve">
+    <value>Cheia dvs. de aplicație Authenticator a fost resetată, va trebui să configurați aplicația dvs. Authenticator folosind noua cheie.</value>
+  </data>
+  <data name="EmailUnchanged" xml:space="preserve">
+    <value>E -mailul dvs. este neschimbat.</value>
+  </data>
+  <data name="ProfileUpdated" xml:space="preserve">
+    <value>Profilul dvs. a fost actualizat</value>
+  </data>
+  <data name="Русский" xml:space="preserve">
+    <value>Русский</value>
+  </data>
+  <data name="en-US" xml:space="preserve">
+    <value>Engleza</value>
+  </data>
+  <data name="ru-RU" xml:space="preserve">
+    <value>Rua</value>
+  </data>
+  <data name="ManageYourAccount" xml:space="preserve">
+    <value>Gestionați contul</value>
+  </data>
+  <data name="Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Disable2FA" xml:space="preserve">
+    <value>Dezactivați 2FA</value>
+  </data>
+  <data name="IOS" xml:space="preserve">
+    <value>iOS</value>
+  </data>
+  <data name="YouCan" xml:space="preserve">
+    <value>Poţi</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirmă noua parolă</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Parola actuală</value>
+  </data>
+  <data name="NewEmail" xml:space="preserve">
+    <value>Email nou</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Parolă Nouă</value>
+  </data>
+  <data name="PasswordConfirmationError" xml:space="preserve">
+    <value>Noua parolă și parola de confirmare nu se potrivesc.</value>
+  </data>
+  <data name="PasswordHasBeenChanged" xml:space="preserve">
+    <value>Parola dvs. a fost schimbată.</value>
+  </data>
+  <data name="LengthError" xml:space="preserve">
+    <value>{0} trebuie să fie cel puțin {2} și la maximum {1} caractere.</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Numar de telefon</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresă</value>
+  </data>
+  <data name="AddRole" xml:space="preserve">
+    <value>Adăugați rol</value>
+  </data>
+  <data name="AddUser" xml:space="preserve">
+    <value>Adăugați utilizator</value>
+  </data>
+  <data name="Agent" xml:space="preserve">
+    <value>Agent imobiliar</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Înapoi la listă</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirmă parola</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Adaugă</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalii</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editați</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Editează utilizator</value>
+  </data>
+  <data name="entries" xml:space="preserve">
+    <value>intrări</value>
+  </data>
+  <data name="EstateDetails" xml:space="preserve">
+    <value>Imobiliare (instrumente)</value>
+  </data>
+  <data name="EstateName" xml:space="preserve">
+    <value>Nume imobil</value>
+  </data>
+  <data name="Estates" xml:space="preserve">
+    <value>Imobiliare</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="InRole" xml:space="preserve">
+    <value>În rol</value>
+  </data>
+  <data name="IsSet" xml:space="preserve">
+    <value>Setat?</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Prenume</value>
+  </data>
+  <data name="LockOut" xml:space="preserve">
+    <value>Blocați</value>
+  </data>
+  <data name="ManageEstates" xml:space="preserve">
+    <value>Aici puteți gestiona imobiliarele:</value>
+  </data>
+  <data name="ManageRoles" xml:space="preserve">
+    <value>Aici puteți gestiona roluri:</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Aici puteți gestiona utilizatorii:</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Următorul</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nu</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="RemoveLockOut" xml:space="preserve">
+    <value>Deblocați</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>Nume rol</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roluri</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Căutare</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Arată</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Utilizatori</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>da</value>
+  </data>
+  <data name="ActionToAddTag" xml:space="preserve">
+    <value>Apăsați spațiul sau adăugați o virgulă după fiecare tag</value>
+  </data>
+  <data name="AgentUser" xml:space="preserve">
+    <value>Utilizator agent</value>
+  </data>
+  <data name="Balconies" xml:space="preserve">
+    <value>Balcoane</value>
+  </data>
+  <data name="BathRooms" xml:space="preserve">
+    <value>Camere de baie</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Navigează</value>
+  </data>
+  <data name="BuildingPlan" xml:space="preserve">
+    <value>Plan de construcție</value>
+  </data>
+  <data name="BuildingType" xml:space="preserve">
+    <value>Tip de clădire</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Categorie</value>
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>data creata</value>
+  </data>
+  <data name="CreateEstate" xml:space="preserve">
+    <value>Creați imobil</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Valută</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Ești sigur că vrei să ștergi asta?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descriere</value>
+  </data>
+  <data name="DescriptionPlaceHolder" xml:space="preserve">
+    <value>Descriere...</value>
+  </data>
+  <data name="DragImageText" xml:space="preserve">
+    <value>Aruncați imagini aici sau</value>
+  </data>
+  <data name="DropHere" xml:space="preserve">
+    <value>Aruncați imagini aici</value>
+  </data>
+  <data name="EditEstate" xml:space="preserve">
+    <value>Editați proprietatea</value>
+  </data>
+  <data name="EditRole" xml:space="preserve">
+    <value>Editează rol</value>
+  </data>
+  <data name="Estate" xml:space="preserve">
+    <value>Imobiliar</value>
+  </data>
+  <data name="EstateCondition" xml:space="preserve">
+    <value>Stare imobiliară</value>
+  </data>
+  <data name="EstateOptions" xml:space="preserve">
+    <value>Opțiuni de proprietate</value>
+  </data>
+  <data name="KitchenArea" xml:space="preserve">
+    <value>Zona de bucătărie</value>
+  </data>
+  <data name="LivingArea" xml:space="preserve">
+    <value>Zona de locuit</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Hartă</value>
+  </data>
+  <data name="NumberError" xml:space="preserve">
+    <value>Câmpul {0} trebuie să fie un număr.</value>
+  </data>
+  <data name="ParkingSpaces" xml:space="preserve">
+    <value>Locuri de parcare</value>
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value>Fotografii</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Preț</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Camere</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tag-uri</value>
+  </data>
+  <data name="TotalArea" xml:space="preserve">
+    <value>Suprafață totală</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Zona</value>
+  </data>
+</root>
