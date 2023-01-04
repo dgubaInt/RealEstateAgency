@@ -144,7 +144,7 @@
                 <div class="image_container" id="existingImages">
                     @for (var i = 0; i < Model.Photos.Count(); i++)
                     {
-                        <div class="image">
+                        <div class="image image_preview">
                             <img src="@Model.Photos[i]" />
                         </div>
                     }
@@ -157,3 +157,7 @@
         <a class="btn btn-primary col m-1" role="button" asp-action="Index">@UILabel.BackToList</a>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/image-preview.js" asp-append-version="true"></script>
+}

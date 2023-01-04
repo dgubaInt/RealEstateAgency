@@ -37,7 +37,7 @@ if (input) {
 function showImages() {
 	container.innerHTML = files.reduce((prev, curr, index) => {
 		return `${prev}
-		    <div class="image" draggable="true">
+		    <div class="image image_preview" draggable="true">
 			    <span onclick="delImage(${index})"></span>
 			    <img draggable="false" src="${URL.createObjectURL(curr)}" />
 			</div>`

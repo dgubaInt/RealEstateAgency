@@ -160,7 +160,7 @@
             <div class="image_container" id="existingImages">
                 @for (var i = 0; i < Model.Photos.Count(); i++)
                 {
-                    <div class="image" draggable="true">
+                    <div class="image image_preview" draggable="true">
                         <span onclick="delExistingImage()"></span>
                         <img draggable="false" src="@Model.Photos[i]" />
                         <input type="hidden" asp-for="@Model.PhotoNames" value="@Model.PhotoNames[i]">
@@ -187,5 +187,6 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
     <script src="~/js/mapscript.js" asp-append-version="true"></script>
     <script src="~/js/dragarea.js" asp-append-version="true"></script>
+    <script src="~/js/image-preview.js" asp-append-version="true"></script>
     <script async defer src="~/js/tags.js" asp-append-version="true"></script>
 }
