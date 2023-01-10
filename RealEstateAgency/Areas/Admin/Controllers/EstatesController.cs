@@ -23,9 +23,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
         private readonly IZoneService _zoneService;
         private readonly IEstateService _estateService;
         private readonly IImageService _imageService;
+        private readonly IImageHelper _imageHelper;
         private readonly UserManager<AgentUser> _userManager;
 
-        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService, UserManager<AgentUser> userManager)
+        public EstatesController(IUserService userService, IEstateService estateService, IBuildingPlanService buildingPlanService, IBuildingTypeService buildingTypeService, ICategoryService categoryService, IEstateConditionService estateConditionService, IZoneService zoneService, IEstateOptionService estateOptionService, IImageService imageService, UserManager<AgentUser> userManager, IImageHelper imageHelper)
         {
             _userService = userService;
             _estateService = estateService;
@@ -37,6 +38,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             _estateOptionService = estateOptionService;
             _imageService = imageService;
             _userManager = userManager;
+            _imageHelper = imageHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -72,7 +74,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
             foreach (var photo in photoNames)
             {
-                photos.Add(_imageService.DownloadImage(photo));
+                photos.Add(_imageHelper.DownloadImage(photo));
             }
 
             return View(estate.ToDetailsViewModel(photos));
@@ -117,7 +119,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 foreach (var image in estate.File)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(image.FileName) + DateTime.Now.ToString("-MM-dd-yyyy-hh.mm.ss-tt") + Path.GetExtension(image.FileName);
-                    if (_imageService.UploadImage(image, fileName))
+                    if (_imageHelper.UploadImage(image, fileName))
                     {
                         await _imageService.AddAsync(image.ToEntity(estateToEntity, fileName));
                     }
@@ -147,7 +149,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
             foreach (var photo in photoNames)
             {
-                photos.Add(_imageService.DownloadImage(photo));
+                photos.Add(_imageHelper.DownloadImage(photo));
             }
 
             ViewData["AgentUserId"] = new SelectList(await _userService.GetAllAsync(), "Id", "UserName");
@@ -175,7 +177,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     var photosToDelete = (await _imageService.GetAllAsync()).Where(i => (!estate.PhotoNames.Contains(i.FileTitle)) && i.EstateId == id).Select(i => i.FileTitle);
                     foreach (var image in photosToDelete)
                     {
-                        _imageService.DeleteImage(image);
+                        _imageHelper.DeleteImage(image);
                     }
                     await _estateService.UpdateAsync(estate);
 
@@ -183,7 +185,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                     foreach (var image in estate.File)
                     {
                         var fileName = Path.GetFileNameWithoutExtension(image.FileName) + DateTime.Now.ToString("-MM-dd-yyyy-hh.mm.ss-tt.") + Path.GetExtension(image.FileName);
-                        if (_imageService.UploadImage(image, fileName))
+                        if (_imageHelper.UploadImage(image, fileName))
                         {
                             await _imageService.AddAsync(image.ToEntity(estateEntity, fileName));
                         }
@@ -218,7 +220,7 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
             foreach (var photo in photoNames)
             {
-                photos.Add(_imageService.DownloadImage(photo));
+                photos.Add(_imageHelper.DownloadImage(photo));
             }
 
             return View(estate.ToDetailsViewModel(photos));

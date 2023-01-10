@@ -33,8 +33,9 @@ namespace RealEstateAgency.Service.EstateConditionService
                     EstateConditionName = postEstateConditionDTO.EstateConditionName,
                     CreatedDate = DateTime.Now
                 };
-                await _estateConditionRepository.AddAsync(estateCondition);
-                return estateCondition;
+                if (await _estateConditionRepository.AddAsync(estateCondition))
+                    return estateCondition;
+                return default;
             }
             catch (Exception ex)
             {

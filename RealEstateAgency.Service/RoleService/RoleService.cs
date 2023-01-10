@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RealEstateAgency.Core.Entities;
+﻿using RealEstateAgency.Core.Entities;
 using RealEstateAgency.Core.Interfaces;
 using System.Data;
 
@@ -67,14 +66,12 @@ namespace RealEstateAgency.Service.RoleService
                     UserId = userId
                 };
 
-                await _userRoleRepository.AddAsync(userRole);
-
-                return true;
+                return await _userRoleRepository.AddAsync(userRole);
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
-                return false;
+                throw;
             }
         }
 
@@ -82,41 +79,29 @@ namespace RealEstateAgency.Service.RoleService
         {
             try
             {
-                await _userRoleRepository.DeleteAsync(userRole);
-
-                return true;
+                return await _userRoleRepository.DeleteAsync(userRole);
             }
             catch (Exception ex)
             {
 
-                return false;
+                throw;
             }
         }
 
-        public async Task<bool> SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet)
+        public async Task SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet)
         {
-            try
+            foreach (var role in rolesToSet)
             {
-                foreach (var role in rolesToSet)
+                if (role.Value)
                 {
-                    if (role.Value)
+                    var userRole = new UserRole
                     {
-                        var userRole = new UserRole
-                        {
-                            RoleId = role.Key,
-                            UserId = user.Id
-                        };
+                        RoleId = role.Key,
+                        UserId = user.Id
+                    };
 
-                        await _userRoleRepository.AddAsync(userRole);
-                        //await _signInManager.UserManager.AddToRoleAsync(user, role.Key);
-                    }
-
+                    await _userRoleRepository.AddAsync(userRole);
                 }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
             }
         }
     }

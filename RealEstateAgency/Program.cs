@@ -83,6 +83,7 @@ builder.Services.AddScoped<IEstateOptionService, EstateOptionService>();
 builder.Services.AddScoped<IZoneService, ZoneService>();
 builder.Services.AddScoped<IEstateService, EstateService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IImageHelper, ImageHelper>();
 builder.Services.AddScoped<IUserRoleMapper, UserRoleMapper>();
 
 var app = builder.Build();

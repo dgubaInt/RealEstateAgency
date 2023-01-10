@@ -33,8 +33,9 @@ namespace RealEstateAgency.Service.EstateOptionService
                     EstateOptionName = postEstateOptionDTO.EstateOptionName,
                     CreatedDate = DateTime.Now
                 };
-                await _estateOptionRepository.AddAsync(estateOption);
-                return estateOption;
+                if (await _estateOptionRepository.AddAsync(estateOption))
+                    return estateOption;
+                return default;
             }
             catch (Exception ex)
             {

@@ -36,8 +36,9 @@ namespace RealEstateAgency.Service.ZoneService
                     ParentZone = parentZone,
                     CreatedDate = DateTime.Now
                 };
-                await _zoneRepository.AddAsync(zone);
-                return zone;
+                if (await _zoneRepository.AddAsync(zone))
+                    return zone;
+                return default;
             }
             catch (Exception ex)
             {

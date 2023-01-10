@@ -32,9 +32,10 @@ namespace RealEstateAgency.Service.BuildingPlanService
                     Id = Guid.NewGuid(),
                     BuildingPlanName = postBuildingPlanDTO.BuildingPlanName,
                     CreatedDate = DateTime.Now
-                }; 
-                await _buildingPlanRepository.AddAsync(buildingPlan);
-                return buildingPlan;
+                };
+                if (await _buildingPlanRepository.AddAsync(buildingPlan))
+                    return buildingPlan;
+                return default;
             }
             catch (Exception ex)
             {

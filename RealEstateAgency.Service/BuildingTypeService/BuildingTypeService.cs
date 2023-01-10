@@ -32,9 +32,10 @@ namespace RealEstateAgency.Service.BuildingTypeService
                     Id = Guid.NewGuid(),
                     BuildingTypeName = postBuildingTypeDTO.BuildingTypeName,
                     CreatedDate = DateTime.Now
-                }; 
-                await _buildingTypeRepository.AddAsync(buildingType);
-                return buildingType;
+                };
+                if (await _buildingTypeRepository.AddAsync(buildingType))
+                    return buildingType;
+                return default;
             }
             catch (Exception ex)
             {

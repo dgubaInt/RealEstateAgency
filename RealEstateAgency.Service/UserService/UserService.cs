@@ -1,7 +1,6 @@
-﻿using RealEstateAgency.Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using RealEstateAgency.Core.Entities;
+using RealEstateAgency.Core.Interfaces;
 using System.Data;
-using RealEstateAgency.Core.Entities;
 
 namespace RealEstateAgency.Service.UserService
 {

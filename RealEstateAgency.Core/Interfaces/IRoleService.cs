@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RealEstateAgency.Core.Entities;
+﻿using RealEstateAgency.Core.Entities;
 
 namespace RealEstateAgency.Core.Interfaces
 {
     public interface IRoleService
     {
         Task<bool> AddAsync(Role role);
-        Task<bool> SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet);
+        Task SetRolesAsync(AgentUser user, Dictionary<Guid, bool> rolesToSet);
         Task<bool> AddRoleAsync(Guid userId, Guid roleId);
         Task<IEnumerable<Role>> GetAllAsync();
         Task<IEnumerable<UserRole>> GetAllUserRoleAsync();

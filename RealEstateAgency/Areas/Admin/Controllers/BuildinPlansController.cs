@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateAgency.Core.DTOs.BuildingPlan;
 using RealEstateAgency.Core.Interfaces;
 using RealEstateAgency.Service.Mappers;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("RealEstateAgency.UnitTests")]
 namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
@@ -43,7 +45,15 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
             try
             {
                 var buildingPlan = await _buildingPlanService.AddAsync(postBuildingPlanDTO);
-                return Json(new { Result = "OK", Record = buildingPlan });
+
+                if (buildingPlan is not null)
+                {
+                    return Json(new { Result = "OK", Message = "OK" });
+                }
+                else
+                {
+                    return Json(new { Result = "ERROR", Message = "ERROR" });
+                }
             }
             catch (Exception ex)
             {
@@ -62,10 +72,10 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
                 {
                     buildingPlan.SetValues(buildingPlanDTO);
                     await _buildingPlanService.UpdateAsync(buildingPlan);
-
+                    return Json(new { Result = "OK" });
                 }
+                return Json(new { Result = "ERROR", Message = "ERROR" });
 
-                return Json(new { Result = "OK" });
             }
             catch (Exception ex)
             {
@@ -76,12 +86,13 @@ namespace RealEstateAgencyMVC.Areas.Admin.Controllers
 
         // DELETE: api/BuildingPlans/{id}
         [HttpDelete("{id}"), Route("[action]")]
-        public async Task<IActionResult> DeleteBuildingPlan([FromForm] Guid id)
+        public async Task<JsonResult> DeleteBuildingPlan([FromForm] Guid id)
         {
             try
             {
-                await _buildingPlanService.DeleteAsync(id);
-                return Json(new { Result = "OK" });
+                if (await _buildingPlanService.DeleteAsync(id))
+                    return Json(new { Result = "OK" });
+                return Json(new { Result = "ERROR", Message = "ERROR" });
             }
             catch (Exception ex)
             {

@@ -37,8 +37,9 @@ namespace RealEstateAgency.Service.CategoryService
                     Position = postCategoryDTO.Position,
                     CreatedDate = DateTime.Now
                 };
-                await _categoryRepository.AddAsync(category);
-                return category;
+                if (await _categoryRepository.AddAsync(category))
+                    return category;
+                return default;
             }
             catch (Exception ex)
             {
